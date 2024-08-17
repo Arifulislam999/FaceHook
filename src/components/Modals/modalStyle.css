@@ -1,0 +1,18 @@
+.modalcss {
+  max-height: 80vh; /* Set a max height for the modal */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* For WebKit browsers (Chrome, Safari) */
+.modalcss::-webkit-scrollbar {
+  width: 5px; /* Width of the scrollbar */
+}
+.modalcss::-webkit-scrollbar-track {
+  /* Background of the scrollbar track */
+  background: #888;
+}
+
+.modalcss::-webkit-scrollbar-thumb {
+  background: #f1f1f1; /* Color of the scrollbar thumb */
+  border-radius: 4px; /* Rounded corners */
+}
