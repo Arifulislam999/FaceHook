@@ -1,18 +1,26 @@
-import { useDispatch } from "react-redux";
-import avatar from "../../assets/images/avatars/user2.webp";
+import { useDispatch, useSelector } from "react-redux";
 import TimeIcon from "../../assets/icons/time.svg";
-import Poster from "../../assets/images/poster.png";
 import Close from "../../assets/icons/close.svg";
+import openBox from "../../assets/icons/openBox.svg";
+
 import { allCommentShowInActive } from "../../Redux/Features/Post/PostSlice";
 import "./modalStyle.css";
 import ModalInputBox from "../Feed/ModalInputBox";
+import { timeDifference } from "../utils/timeDirrerence";
 import SingleComment from "../Feed/SingleComment";
 const AllCommentModal = () => {
   const dispatch = useDispatch();
-
+  const { modalPost } = useSelector((state) => state.mindStatus);
+  const { description, createdAt, comments, poster, creatorId, _id } =
+    modalPost || {};
+  const { firstName, lastName, profile } = creatorId || {};
   const handlerClick = () => {
     dispatch(allCommentShowInActive());
   };
+  const sortedComment = [];
+  for (let i = comments.length - 1; i >= 0; i--) {
+    sortedComment.push(comments[i]);
+  }
   return (
     <div
       onClick={handlerClick}
@@ -26,7 +34,8 @@ const AllCommentModal = () => {
           <div>
             <div className="relative ">
               <h2 className="text-xl text-center pb-2 font-semibold">
-                Siam`s Post
+                {firstName}
+                {`'`}s Post
               </h2>
               <div className="absolute -top-1 right-2">
                 <img
@@ -43,15 +52,17 @@ const AllCommentModal = () => {
             <div className="flex items-center gap-3">
               <img
                 className="max-w-10 border border-blue-500 w-44 h-44 max-h-10 rounded-full lg:max-h-[58px] lg:max-w-[58px]"
-                src={avatar}
+                src={profile}
                 alt="avatar"
               />
               <div>
-                <h6 className="text-lg lg:text-xl">Sumit Saha</h6>
+                <h6 className="text-lg lg:text-xl">
+                  {firstName} {lastName} Saha
+                </h6>
                 <div className="flex items-center gap-1.5">
                   <img src={TimeIcon} alt="time" />
                   <span className="text-sm text-gray-400 lg:text-base">
-                    12 min ago
+                    {timeDifference(createdAt)}
                   </span>
                 </div>
               </div>
@@ -62,30 +73,43 @@ const AllCommentModal = () => {
           <div className="border-b border-[#3F3F3F] py-4 lg:py-5 lg:text-xl">
             {/* <!-- If Post has Image, Render this block --> */}
             <div className="flex items-center justify-center overflow-hidden">
-              <img className="max-w-full" src={Poster} alt="poster" />
+              <img
+                className="w-2/3 h-80 rounded-md border mb-3 "
+                src={poster}
+                alt="poster"
+              />
             </div>
-            <p className="mx-2 lg:mx-5 text-justify indent-5">
-              Grateful for the incredible experience of serving as the President
-              of the Grand Jury board for this year`s Digital Marketing Award
-              organized by Bangladesh Brand Forum. Judging the best digital
-              marketing campaigns was not just a responsibility but a journey of
-              appreciation for innovation and creativity. The judging process,
-              ensuring transparency, brought to light so many beautiful
-              campaigns. Cheers to the dynamic world of digital marketing!
-              sdfasd asdca sdfa sdca sdfa
-            </p>
+            <p className="mx-2 lg:mx-5 text-justify indent-5">{description}</p>
           </div>
           <div className="my-3 ">
-            <ModalInputBox />
+            <ModalInputBox id={_id} />
           </div>
           <div className="mt-4">
             <button className="text-gray-300 max-md:text-sm">
               Most relevant comment ▾
             </button>
-            <SingleComment />
-            <SingleComment />
-            <SingleComment />
-            <SingleComment />
+            <div className="space-y-4 divide-y divide-lighterDark pl-2 lg:pl-3">
+              {/* <!-- single comment --> */}
+              {sortedComment.length > 0 ? (
+                sortedComment?.map((cmn, i) => (
+                  <SingleComment key={i} comment={cmn} />
+                ))
+              ) : (
+                <div className="flex flex-col">
+                  <h2 className="text-center text-sm lg:text-xl capitalize  text-gray-300 mt-2">
+                    No one has posted yet, you are the first to post.
+                  </h2>
+                  <div className="text-center">
+                    <img
+                      width={50}
+                      src={openBox}
+                      alt="empty box"
+                      className="opacity-80 shadow-2xl block mx-auto mt-2"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

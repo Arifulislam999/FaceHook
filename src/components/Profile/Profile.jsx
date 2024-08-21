@@ -1,6 +1,7 @@
 import avatar from "../../assets/images/avatars/user1.jpeg";
 import edit from "../../assets/icons/edit.svg";
 import checkIcon from "../../assets/icons/tick.svg";
+import bellBlue from "../../assets/icons/bellBlue.svg";
 import FeedPost from "../Feed/FeedPost";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -233,17 +234,27 @@ export const Profile = () => {
                 {frontUser?.firstName} {frontUser?.lastName}
               </h3>
               <p className="leading-[231%] lg:text-lg">{frontUser?.email}</p>
+              <div className="flex">
+                <p className="leading-[231%] lg:text-lg text-blue-400">
+                  {frontUser?.followers?.length || 0} followers
+                </p>
+                <img width={15} src={bellBlue} alt="bell" className="ml-2" />
+              </div>
             </div>
 
             {/* <!-- bio --> */}
             <div className="mt-4 flex items-start gap-2 lg:mt-6">
               <div className="flex-1">
                 {!editMode ? (
-                  <p className="leading-[188%] text-justify capitalize text-gray-400 lg:text-lg text-center indent-5">
-                    {frontUser?.bio?.length === 0 || bio === undefined
-                      ? "Please Update Your Bio Information."
-                      : frontUser?.bio}
-                  </p>
+                  <div className="leading-[188%] text-justify capitalize text-gray-400 lg:text-lg  indent-5">
+                    {frontUser?.bio?.length === 0 || bio === undefined ? (
+                      <h2 className="text-center">
+                        Please Update Your Bio Information.
+                      </h2>
+                    ) : (
+                      frontUser?.bio
+                    )}
+                  </div>
                 ) : (
                   <div className="flex-1">
                     <textarea
@@ -292,7 +303,7 @@ export const Profile = () => {
           {/* <!-- post  --> */}
 
           {userPosts?.length === 0 ? (
-            <h2>Your Have No Post Yet.</h2>
+            <h2 className="text-center">Your Have No Post Yet.</h2>
           ) : (
             userPosts?.map((p, index) => <FeedPost key={index} post={p} />)
           )}

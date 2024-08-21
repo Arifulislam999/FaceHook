@@ -30,7 +30,7 @@ const authApi = apiSlice.injectEndpoints({
       query: (data) => ({
         url: `/api/user/single-user/${data}`,
       }),
-      providesTags: ["update", "update-image"],
+      providesTags: ["update", "update-image", "comment-post", "followers"],
     }),
   }),
 });

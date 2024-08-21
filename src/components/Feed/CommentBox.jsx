@@ -4,25 +4,26 @@ import {
   commentShowActive,
   commentShowInActive,
 } from "../../Redux/Features/Post/PostSlice";
-const CommentBox = () => {
+const CommentBox = ({ id, comments }) => {
   const dispatch = useDispatch();
   const { inputBoxShow } = useSelector((state) => state.mindStatus);
-  const handlerComments = (value) => {
+  const handlerComments = () => {
     if (inputBoxShow.boxStatus) {
       dispatch(commentShowInActive());
+      dispatch(commentShowActive(id));
     } else {
-      dispatch(commentShowActive(value));
+      dispatch(commentShowActive(id));
     }
   };
   // console.log(commentShow);
   return (
     <>
       <button
-        onClick={() => handlerComments(2)}
+        onClick={handlerComments}
         className="icon-btn space-x-2 px-6 py-3 text-xs lg:px-12 lg:text-sm z-40"
       >
         <img src={Coments} alt="Comment" />
-        <span>Comment(2)</span>
+        <span>Comment({comments?.length || 0})</span>
       </button>
     </>
   );

@@ -1,18 +1,28 @@
+/* eslint-disable react/prop-types */
 import avatar from "../../assets/images/avatars/user1.jpeg";
 import send from "../../assets/icons/send.svg";
 import greensend from "../../assets/icons/greenSend.svg";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { inputColorSend } from "../../Redux/Features/Post/PostSlice";
+import {
+  commentShowInActive,
+  inputColorSend,
+} from "../../Redux/Features/Post/PostSlice";
 import { useDebounce } from "../hooks/useDebounce";
 import { Link } from "react-router-dom";
+import { useCommentPostMutation } from "../../Redux/Features/Post/postAPI";
+import Toast from "../Toast/Toast";
 
-export const InputComment = () => {
+export const InputComment = ({ id }) => {
   const dispatch = useDispatch();
   const { inputText, inputBoxShow } = useSelector((state) => state.mindStatus);
+  const { user } = useSelector((state) => state.loginUser);
+  const [commentPost, { data: responsePostComment, isError, error }] =
+    useCommentPostMutation();
 
   const [text, setText] = useState("");
   const debounceSearch = useDebounce(text);
+  const [toastMessage, setTosatMessage] = useState(null);
 
   useEffect(() => {
     if (debounceSearch.length > 0) {
@@ -22,23 +32,41 @@ export const InputComment = () => {
     }
   }, [dispatch, debounceSearch]);
 
-  const handlerCommentsSubmit = () => {
-    console.log("click");
+  const handlerCommentsSubmit = async () => {
+    if (text.length > 0 && text !== "") {
+      dispatch(commentShowInActive());
+      setText("");
+    }
+    try {
+      const userName = user.firstName + " " + user?.lastName;
+      const userImg = user?.profile;
+      await commentPost({ id, text, userName, userImg });
+    } catch (error) {
+      console.log("error comment submit");
+    }
   };
+
+  useEffect(() => {
+    setTosatMessage(responsePostComment?.message);
+  }, [responsePostComment]);
+  useEffect(() => {
+    setTosatMessage(error?.data?.message);
+  }, [isError, error]);
 
   return (
     <div>
+      {toastMessage && <Toast message={toastMessage} />}
       <div
         className={`flex-center mb-3 gap-2 lg:gap-4 ${
-          inputBoxShow.boxStatus
+          inputBoxShow.boxStatus && inputBoxShow.commentId === id
             ? " duration-300 translate-y-0 opacity-100  "
             : "opacity-0 h-0 duration-300  -translate-y-5  "
         }`}
       >
-        <Link to="/me">
+        <Link to={`/profile/${user?._id}`}>
           <img
             className="max-w-7 w-36 h-36 border border-blue-500 max-h-7 rounded-full lg:max-h-[34px] lg:max-w-[34px]"
-            src={avatar}
+            src={user?.profile || avatar}
             alt="avatar"
           />
         </Link>

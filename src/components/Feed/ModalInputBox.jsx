@@ -1,18 +1,29 @@
-import avatar from "../../assets/images/avatars/user1.jpeg";
 import send from "../../assets/icons/send.svg";
 import greensend from "../../assets/icons/greenSend.svg";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { inputColorSend } from "../../Redux/Features/Post/PostSlice";
+import {
+  commentShowInActive,
+  inputColorSend,
+} from "../../Redux/Features/Post/PostSlice";
 import { useDebounce } from "../hooks/useDebounce";
-import { Link } from "react-router-dom";
-const ModalInputBox = () => {
+import { useCommentPostMutation } from "../../Redux/Features/Post/postAPI";
+import Toast from "../Toast/Toast";
+const ModalInputBox = ({ id }) => {
   const dispatch = useDispatch();
+  const ref = useRef();
   const { inputText } = useSelector((state) => state.mindStatus);
+  const { user } = useSelector((state) => state.loginUser);
+  const [commentPost, { data: responsePostComment, isError, error }] =
+    useCommentPostMutation();
 
   const [text, setText] = useState("");
   const debounceSearch = useDebounce(text);
+  const [toastMessage, setTosatMessage] = useState(null);
 
+  useEffect(() => {
+    ref.current.focus();
+  }, []);
   useEffect(() => {
     if (debounceSearch.length > 0) {
       dispatch(inputColorSend(true));
@@ -21,20 +32,37 @@ const ModalInputBox = () => {
     }
   }, [dispatch, debounceSearch]);
 
-  const handlerCommentsSubmit = () => {
-    console.log("click");
+  const handlerCommentsSubmit = async () => {
+    if (text.length > 0 && text !== "") {
+      dispatch(commentShowInActive());
+      setText("");
+    }
+    try {
+      const userName = user.firstName + " " + user?.lastName;
+      const userImg = user?.profile;
+      await commentPost({ id, text, userName, userImg });
+    } catch (error) {
+      console.log("error comment submit");
+    }
   };
+
+  useEffect(() => {
+    setTosatMessage(responsePostComment?.message);
+  }, [responsePostComment]);
+  useEffect(() => {
+    setTosatMessage(error?.data?.message);
+  }, [isError, error]);
 
   return (
     <div>
+      {toastMessage && <Toast message={toastMessage} />}
       <div className="flex-center mb-3 gap-2 lg:gap-4">
-        <Link to="/me">
-          <img
-            className="max-w-7 w-36 h-36 border border-blue-500 max-h-7 rounded-full lg:max-h-[34px] lg:max-w-[34px]"
-            src={avatar}
-            alt="avatar"
-          />
-        </Link>
+        <img
+          className="max-w-7 w-36 h-36 border border-blue-500 max-h-7 rounded-full lg:max-h-[34px] lg:max-w-[34px]"
+          src={user.profile}
+          alt="avatar"
+        />
+
         <div className="flex-1 relative">
           <label htmlFor="input-post">
             <img
@@ -44,6 +72,7 @@ const ModalInputBox = () => {
               onClick={handlerCommentsSubmit}
             />
             <input
+              ref={ref}
               type="text"
               className="h-8 w-full border-[0.2px] rounded-full focus:border-blue-400  bg-lighterDark px-4 text-xs focus:outline-none sm:h-[38px]"
               name="input-post"

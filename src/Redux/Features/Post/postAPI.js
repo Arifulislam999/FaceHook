@@ -14,8 +14,20 @@ const postApi = apiSlice.injectEndpoints({
       query: () => ({
         url: "/api/post/all-post",
       }),
-      providesTags: ["user-post"],
+      providesTags: ["user-post", "comment-post", "followers"],
+    }),
+    commentPost: builder.mutation({
+      query: ({ id, text, userName, userImg }) => ({
+        url: `/api/post/comment-post`,
+        method: "POST",
+        body: { id, text, userName, userImg },
+      }),
+      invalidatesTags: ["comment-post"],
     }),
   }),
 });
-export const { useUserPostMutation, useGetAllPostQuery } = postApi;
+export const {
+  useUserPostMutation,
+  useGetAllPostQuery,
+  useCommentPostMutation,
+} = postApi;

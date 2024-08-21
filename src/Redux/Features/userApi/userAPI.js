@@ -18,6 +18,18 @@ const userApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["update-image"],
     }),
+    userFollower: builder.mutation({
+      query: (data) => ({
+        url: "/api/user/followers",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["followers"],
+    }),
   }),
 });
-export const { useUpdateBioMutation, useUploadImageMutation } = userApi;
+export const {
+  useUpdateBioMutation,
+  useUploadImageMutation,
+  useUserFollowerMutation,
+} = userApi;

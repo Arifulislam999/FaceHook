@@ -22,6 +22,7 @@ const Registation = () => {
     confirmPassword: "",
     isValidEmail: false,
     bio: "",
+    followers: [],
     profile:
       "https://static.vecteezy.com/system/resources/previews/009/383/461/non_2x/man-face-clipart-design-illustration-free-png.png",
     dp: "https://st4.depositphotos.com/5934840/28236/v/450/depositphotos_282365260-stock-illustration-young-man-avatar-cartoon-character.jpg",

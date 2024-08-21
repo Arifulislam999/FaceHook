@@ -1,8 +1,11 @@
+/* eslint-disable react/prop-types */
 import TimeIcon from "../../assets/icons/time.svg";
 import TDots from "../../assets/icons/3dots.svg";
 import Edit from "../../assets/icons/edit.svg";
 import Delete from "../../assets/icons/delete.svg";
 import Like from "../../assets/icons/like.svg";
+import bellWhite from "../../assets/icons/bellWhite.svg";
+import bellBlue from "../../assets/icons/bellBlue.svg";
 import Share from "../../assets/icons/share.svg";
 import { useState } from "react";
 import FeedComments from "./FeedComments";
@@ -12,19 +15,36 @@ import { useDispatch, useSelector } from "react-redux";
 import { editModalActive } from "../../Redux/Features/Post/PostSlice";
 import EditModal from "../Modals/EditModal";
 import { timeDifference } from "../utils/timeDirrerence";
+import { useUserFollowerMutation } from "../../Redux/Features/userApi/userAPI";
 
 const FeedPost = ({ post }) => {
-  const { poster, description, createdAt } = post || {};
-  const { firstName, lastName, profile, _id: userId } = post?.creatorId || {};
-  const { user } = useSelector((state) => state.loginUser);
-
   const dispatch = useDispatch();
+  const { poster, description, createdAt, comments, _id } = post || {};
+  const {
+    firstName,
+    lastName,
+    profile,
+    _id: userId,
+    followers,
+  } = post?.creatorId || {};
+  const { user } = useSelector((state) => state.loginUser);
   const { editModal } = useSelector((state) => state.mindStatus);
-
+  const loginUserId = user._id;
+  const [userFollower] = useUserFollowerMutation();
+  const isExistsUserFollower = followers.some(
+    (follower) => follower.followerUserId === loginUserId
+  );
   const [dot, setDot] = useState(false);
   const handlerEditPost = () => {
     dispatch(editModalActive());
     setDot(false);
+  };
+  const handlerFollower = async (userId) => {
+    try {
+      await userFollower({ data: userId });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -40,18 +60,43 @@ const FeedPost = ({ post }) => {
               alt="avatar"
             />
           </Link>
-          <div>
-            <Link to={`/profile/${userId}`}>
-              <h6 className="text-lg lg:text-xl">
-                {firstName} {lastName}
-              </h6>
-            </Link>
-            <div className="flex items-center gap-1.5">
-              <img src={TimeIcon} alt="time" />
-              <span className="text-sm text-gray-400 lg:text-base">
-                {timeDifference(createdAt)}
-              </span>
+          <div className="flex">
+            <div>
+              <Link to={`/profile/${userId}`}>
+                <h6 className="text-lg lg:text-xl">
+                  {firstName} {lastName}{" "}
+                </h6>
+              </Link>
+
+              <div className="flex items-center gap-1.5">
+                <img src={TimeIcon} alt="time" />
+                <span className="text-sm text-gray-400 lg:text-base">
+                  {timeDifference(createdAt)}
+                </span>
+              </div>
             </div>
+
+            {user._id !== userId && (
+              <div className="ml-1.5 mt-[5px]">
+                <span
+                  className="flex cursor-pointer"
+                  onClick={() => handlerFollower(userId)}
+                >
+                  <img
+                    width={15}
+                    src={isExistsUserFollower ? bellBlue : bellWhite}
+                    alt="bell"
+                  />
+                  <span className="text-sm ml-1">
+                    {isExistsUserFollower ? (
+                      <p className="text-blue-400">following</p>
+                    ) : (
+                      "follow"
+                    )}
+                  </span>
+                </span>
+              </div>
+            )}
           </div>
         </div>
         {/* <!-- author info ends --> */}
@@ -92,6 +137,7 @@ const FeedPost = ({ post }) => {
         {/* <!-- If Post has Image, Render this block --> */}
         <div className="flex items-center justify-center overflow-hidden">
           <img
+            draggable={false}
             className="max-w-full w-[560px] shadow-2xl h-[350px] object-fill rounded-sm mb-2"
             src={poster}
             alt="poster"
@@ -110,7 +156,7 @@ const FeedPost = ({ post }) => {
         </button>
 
         {/* <!-- Comment Button --> */}
-        <CommentBox />
+        <CommentBox id={_id} comments={comments} />
         {/* <!-- Share Button --> */}
 
         {/* <!-- Like Button --> */}
@@ -121,7 +167,7 @@ const FeedPost = ({ post }) => {
       </div>
       {/* <!-- post actions  --> */}
 
-      <FeedComments />
+      <FeedComments post={post} id={_id} comments={comments} />
     </article>
   );
 };

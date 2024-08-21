@@ -1,19 +1,28 @@
+/* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from "react-redux";
 import { InputComment } from "./InputComment";
+import openBox from "../../assets/icons/openBox.svg";
 import SingleComment from "./SingleComment";
-import { allCommentShowActive } from "../../Redux/Features/Post/PostSlice";
+import {
+  allCommentShowActive,
+  singleModalPost,
+} from "../../Redux/Features/Post/PostSlice";
 import AllCommentModal from "../Modals/AllCommentModal";
-const FeedComments = () => {
+import { useEffect } from "react";
+const FeedComments = ({ id, comments, post }) => {
   const { inputBoxShow, allComment } = useSelector((state) => state.mindStatus);
-
   const dispatch = useDispatch();
-
-  const handlerComments = () => {
+  const handlerComments = (post) => {
     dispatch(allCommentShowActive());
+    dispatch(singleModalPost(post));
   };
+  useEffect(() => {
+    dispatch(singleModalPost(post));
+  }, [post, dispatch]);
+  const startIndex = Math.max(comments.length - 3, 0);
   return (
     <div>
-      <InputComment />
+      <InputComment id={id} />
       <div
         className={`${
           inputBoxShow.boxStatus
@@ -21,20 +30,38 @@ const FeedComments = () => {
             : "  duration-300  -translate-y-7  "
         }`}
       >
-        <div>
-          <button
-            className="text-gray-300 max-md:text-sm cursor-pointer hover:text-gray-400 duration-100 transition-all hover:opacity-70"
-            onClick={handlerComments}
-          >
-            All Comment ▾
-          </button>
-        </div>
+        {comments.length > 0 && (
+          <div>
+            <button
+              className="text-gray-300 max-md:text-sm cursor-pointer hover:text-gray-400 duration-100 transition-all hover:opacity-70"
+              onClick={() => handlerComments(post)}
+            >
+              All Comment ▾
+            </button>
+          </div>
+        )}
         {/* <!-- comments --> */}
         <div className="space-y-4 divide-y divide-lighterDark pl-2 lg:pl-3">
           {/* <!-- single comment --> */}
-          <SingleComment />
-          <SingleComment />
-          <SingleComment />
+          {comments.length > 0 ? (
+            comments
+              ?.slice(startIndex)
+              .map((cmn, i) => <SingleComment key={i} comment={cmn} />)
+          ) : (
+            <div className="flex flex-col">
+              <h2 className="text-center text-sm lg:text-xl capitalize  text-gray-300 mt-2">
+                No one has posted yet, you are the first to post.
+              </h2>
+              <div className="text-center">
+                <img
+                  width={50}
+                  src={openBox}
+                  alt="empty box"
+                  className="opacity-80 shadow-2xl block mx-auto mt-2"
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
       {/* <!-- comments ends --> */}
