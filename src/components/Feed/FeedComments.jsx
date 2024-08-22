@@ -26,8 +26,8 @@ const FeedComments = ({ id, comments, post }) => {
       <div
         className={`${
           inputBoxShow.boxStatus
-            ? "duration-300 translate-y-0  "
-            : "  duration-300  -translate-y-7  "
+            ? "duration-300 translate-y-0 "
+            : "  duration-300  -translate-y-7"
         }`}
       >
         {comments.length > 0 && (

@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 export const apiSlice = createApi({
   reducerPath: "FACEHOOKAPI",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:9000",
+    baseUrl: import.meta.env.VITE_API_URL,
     prepareHeaders: (headers) => {
       if (Cookies.get("token")) {
         headers.set("authorization", Cookies.get("token"));
@@ -19,6 +19,7 @@ export const apiSlice = createApi({
     "user-post",
     "comment-post",
     "followers",
+    "like",
   ],
   endpoints: (builder) => ({}),
 });

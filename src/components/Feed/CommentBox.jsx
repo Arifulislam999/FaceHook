@@ -8,6 +8,7 @@ const CommentBox = ({ id, comments }) => {
   const dispatch = useDispatch();
   const { inputBoxShow } = useSelector((state) => state.mindStatus);
   const handlerComments = () => {
+    console.log(inputBoxShow.boxStatus);
     if (inputBoxShow.boxStatus) {
       dispatch(commentShowInActive());
       dispatch(commentShowActive(id));

@@ -14,7 +14,13 @@ const postApi = apiSlice.injectEndpoints({
       query: () => ({
         url: "/api/post/all-post",
       }),
-      providesTags: ["user-post", "comment-post", "followers"],
+      providesTags: [
+        "user-post",
+        "comment-post",
+        "followers",
+        "like",
+        "update-image",
+      ],
     }),
     commentPost: builder.mutation({
       query: ({ id, text, userName, userImg }) => ({
@@ -24,10 +30,19 @@ const postApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["comment-post"],
     }),
+    postLike: builder.mutation({
+      query: (data) => ({
+        url: "/api/post/like",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["like"],
+    }),
   }),
 });
 export const {
   useUserPostMutation,
   useGetAllPostQuery,
   useCommentPostMutation,
+  usePostLikeMutation,
 } = postApi;

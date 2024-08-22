@@ -3,7 +3,6 @@ import TimeIcon from "../../assets/icons/time.svg";
 import TDots from "../../assets/icons/3dots.svg";
 import Edit from "../../assets/icons/edit.svg";
 import Delete from "../../assets/icons/delete.svg";
-import Like from "../../assets/icons/like.svg";
 import bellWhite from "../../assets/icons/bellWhite.svg";
 import bellBlue from "../../assets/icons/bellBlue.svg";
 import Share from "../../assets/icons/share.svg";
@@ -16,10 +15,11 @@ import { editModalActive } from "../../Redux/Features/Post/PostSlice";
 import EditModal from "../Modals/EditModal";
 import { timeDifference } from "../utils/timeDirrerence";
 import { useUserFollowerMutation } from "../../Redux/Features/userApi/userAPI";
+import Like from "./Like";
 
 const FeedPost = ({ post }) => {
   const dispatch = useDispatch();
-  const { poster, description, createdAt, comments, _id } = post || {};
+  const { poster, description, createdAt, comments, likes, _id } = post || {};
   const {
     firstName,
     lastName,
@@ -30,7 +30,7 @@ const FeedPost = ({ post }) => {
   const { user } = useSelector((state) => state.loginUser);
   const { editModal } = useSelector((state) => state.mindStatus);
   const loginUserId = user._id;
-  const [userFollower] = useUserFollowerMutation();
+  const [userFollower, { isLoading }] = useUserFollowerMutation();
   const isExistsUserFollower = followers.some(
     (follower) => follower.followerUserId === loginUserId
   );
@@ -78,7 +78,8 @@ const FeedPost = ({ post }) => {
 
             {user._id !== userId && (
               <div className="ml-1.5 mt-[5px]">
-                <span
+                <button
+                  disabled={isLoading}
                   className="flex cursor-pointer"
                   onClick={() => handlerFollower(userId)}
                 >
@@ -86,6 +87,7 @@ const FeedPost = ({ post }) => {
                     width={15}
                     src={isExistsUserFollower ? bellBlue : bellWhite}
                     alt="bell"
+                    className="mt-0.5"
                   />
                   <span className="text-sm ml-1">
                     {isExistsUserFollower ? (
@@ -94,7 +96,7 @@ const FeedPost = ({ post }) => {
                       "follow"
                     )}
                   </span>
-                </span>
+                </button>
               </div>
             )}
           </div>
@@ -150,10 +152,7 @@ const FeedPost = ({ post }) => {
       {/* <!-- post actions --> */}
       <div className="flex items-center justify-between py-4 lg:px-10">
         {/* <!-- Like Button --> */}
-        <button className="flex-center gap-2 z-50 text-xs font-bold text-[#B8BBBF] hover:text-white lg:text-sm">
-          <img src={Like} alt="Like" />
-          <span>Like(12)</span>
-        </button>
+        <Like Likes={likes} id={_id} />
 
         {/* <!-- Comment Button --> */}
         <CommentBox id={_id} comments={comments} />

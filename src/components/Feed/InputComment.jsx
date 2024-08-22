@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import avatar from "../../assets/images/avatars/user1.jpeg";
-import send from "../../assets/icons/send.svg";
+import cross from "../../assets/icons/cross.svg";
 import greensend from "../../assets/icons/greenSend.svg";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,17 +33,21 @@ export const InputComment = ({ id }) => {
   }, [dispatch, debounceSearch]);
 
   const handlerCommentsSubmit = async () => {
-    if (text.length > 0 && text !== "") {
-      dispatch(commentShowInActive());
-      setText("");
-    }
     try {
-      const userName = user.firstName + " " + user?.lastName;
-      const userImg = user?.profile;
-      await commentPost({ id, text, userName, userImg });
+      if (text.length > 0 && text !== "") {
+        dispatch(commentShowInActive());
+        setText("");
+
+        const userName = user.firstName + " " + user?.lastName;
+        const userImg = user?.profile;
+        await commentPost({ id, text, userName, userImg });
+      }
     } catch (error) {
       console.log("error comment submit");
     }
+  };
+  const handlerCross = () => {
+    dispatch(commentShowInActive());
   };
 
   useEffect(() => {
@@ -59,8 +63,8 @@ export const InputComment = ({ id }) => {
       <div
         className={`flex-center mb-3 gap-2 lg:gap-4 ${
           inputBoxShow.boxStatus && inputBoxShow.commentId === id
-            ? " duration-300 translate-y-0 opacity-100  "
-            : "opacity-0 h-0 duration-300  -translate-y-5  "
+            ? " duration-200 translate-y-0 opacity-100 "
+            : "opacity-0 h-0  duration-200  -translate-y-5 pointer-events-none"
         }`}
       >
         <Link to={`/profile/${user?._id}`}>
@@ -72,12 +76,23 @@ export const InputComment = ({ id }) => {
         </Link>
         <div className="flex-1 relative">
           <label htmlFor="input-post">
-            <img
-              className="w-5 absolute right-4 cursor-pointer top-2 "
-              src={inputText && text.length > 0 ? greensend : send}
-              alt="send"
-              onClick={handlerCommentsSubmit}
-            />
+            {inputText && text.length > 0 && (
+              <img
+                className="w-5 absolute right-4 cursor-pointer top-2 "
+                src={greensend}
+                alt="send"
+                onClick={handlerCommentsSubmit}
+              />
+            )}
+            {!inputText && text.length === 0 && (
+              <img
+                className="w-7 absolute right-4 cursor-pointer top-1.5 opacity-70"
+                src={cross}
+                alt="send"
+                onClick={handlerCross}
+              />
+            )}
+
             <input
               type="text"
               className="h-8 w-full border-[0.2px] rounded-full focus:border-blue-400  bg-lighterDark px-4 text-xs focus:outline-none sm:h-[38px]"
