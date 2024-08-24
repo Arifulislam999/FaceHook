@@ -137,15 +137,15 @@ const FeedPost = ({ post }) => {
       {/* <!-- post body --> */}
       <div className="border-b border-[#3F3F3F] py-4 lg:py-5 lg:text-xl">
         {/* <!-- If Post has Image, Render this block --> */}
-        <div className="flex items-center justify-center overflow-hidden">
+        <div className="flex items-center justify-center overflow-hidden ">
           <img
             draggable={false}
-            className="max-w-full w-[560px] shadow-2xl h-[350px] object-fill rounded-sm mb-2"
+            className="max-w-full w-[560px] h-80  shadow-2xl lg:h-[470px] object-fill rounded-sm mb-2"
             src={poster}
             alt="poster"
           />
         </div>
-        <p className="indent-5 text-justify mx-5">{description}</p>
+        <p className="indent-5 text-justify ">{description}</p>
       </div>
       {/* <!-- post body ends --> */}
 

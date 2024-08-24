@@ -18,15 +18,32 @@ const PostModal = () => {
   const [cross, setCross] = useState(mindPostModalStatus);
   const [status, setStatus] = useState("");
   const [poster, setPoster] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [err, setErr] = useState(null);
 
   const handlerPostSubmit = async () => {
     setErr(null);
-    if (poster && status.length > 1) {
+    if (status === null || status === "") {
+      setErr("Please add your status!");
+      const timer = setTimeout(() => {
+        setErr(null);
+      }, 4000);
+
+      return () => clearTimeout(timer);
+    } else if (poster?.size / 1024 > 1025) {
+      setErr("File size is too large. Maximum size is 1MB.");
+      const timer = setTimeout(() => {
+        setErr(null);
+      }, 4000);
+
+      return () => clearTimeout(timer);
+    } else if (poster) {
       const formData = new FormData();
       formData.append("image", poster);
       formData.append("post", status);
       await userPost(formData);
+      setStatus(null);
+      setPoster(null);
     } else {
       setErr("Fill all input box.");
       const timer = setTimeout(() => {
@@ -70,7 +87,7 @@ const PostModal = () => {
           <div className="h-screen z-9999 flex items-center justify-center ">
             <div
               onClick={(e) => e.stopPropagation()}
-              className="z-50 w-[40%] min-h-72 bg-mediumDark p-4 border-2 border-gray-500 rounded-md"
+              className="z-50 w-[90%] md:w-[60%] lg:w-[40%] min-h-72 bg-mediumDark p-4 border-2 border-gray-500 rounded-md"
             >
               <div className="relative">
                 <h2 className="text-xl text-center pb-2">Create a post</h2>
@@ -133,9 +150,23 @@ const PostModal = () => {
                     accept="image/*"
                     id="photo"
                     className="hidden"
-                    onChange={(e) => setPoster(e.target.files[0])}
+                    onChange={(e) =>
+                      setPoster(
+                        e.target.files[0],
+                        setImagePreview(URL.createObjectURL(e.target.files[0]))
+                      )
+                    }
                   />
                 </div>
+                {imagePreview && (
+                  <div className="border border-gray-300 w-full h-44 mb-2 rounded-sm">
+                    <img
+                      className="w-full h-44"
+                      src={imagePreview && imagePreview}
+                      alt="picture"
+                    />
+                  </div>
+                )}
                 <div>
                   <button
                     className="auth-input bg-blue-500 font-bold text-white/80 transition-all hover:opacity-90"

@@ -1,13 +1,15 @@
 /* eslint-disable react/prop-types */
 
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const SingleComment = ({ comment }) => {
+  const { user } = useSelector((state) => state.loginUser);
   return (
     <div className="flex items-center gap-3 pt-4">
       <img
-        className="max-w-6 w-24 h-24 border border-red-400 max-h-6 rounded-full"
-        src={comment.userImg}
+        className="max-w-6 w-24 h-24 border border-red-400 max-h-6 rounded-full "
+        src={user.profile || comment.userImg}
         alt="avatar2"
       />
       <div>
@@ -17,7 +19,9 @@ const SingleComment = ({ comment }) => {
               {comment.userName}:{" "}
             </span>
           </Link>
-          <span>{comment.commentTitle}</span>
+          <div>
+            <span className="overflow-x-hidden">{comment.commentTitle}</span>
+          </div>
         </div>
       </div>
     </div>

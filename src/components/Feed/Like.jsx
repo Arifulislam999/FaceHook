@@ -30,7 +30,7 @@ const Like = ({ Likes, id }) => {
       <button
         disabled={isLoading}
         onClick={() => handlerLike(id)}
-        className="flex-center gap-2 z-50 text-xs font-bold text-[#B8BBBF] hover:text-white lg:text-sm"
+        className="flex-center gap-2  text-xs font-bold text-[#B8BBBF] hover:text-white lg:text-sm"
       >
         <img
           src={alreadyLikeThisPost ? blueLike : LikeIcon}

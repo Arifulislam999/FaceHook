@@ -183,7 +183,7 @@ export const Profile = () => {
             </div>
 
             {/* <!-- profile image --> */}
-            <div className="relative mb-8 left-1  top-32 max-h-[180px] max-w-[180px] rounded-full lg:mb-11 lg:max-h-[218px] lg:max-w-[218px]">
+            <div className="relative mb-8   top-12 max-h-[180px] max-w-[180px] rounded-full lg:mb-11 lg:max-h-[218px] lg:top-32 lg:left-0.5 lg:max-w-[218px]">
               <img
                 className="max-w-full rounded-full w-40 h-40 border border-blue-500"
                 src={frontUser?.profile ? frontUser?.profile : avatar}
@@ -196,7 +196,7 @@ export const Profile = () => {
 
               {user?._id === frontUser?._id && (
                 <label
-                  className="flex-center cursor-pointer absolute  bottom-4 right-[5.3rem] h-7 w-7 rounded-full bg-black/80 hover:bg-black/80"
+                  className="flex-center cursor-pointer absolute bottom-4 right-12  lg:bottom-4 lg:right-[5.3rem] h-7 w-7 rounded-full bg-black/80 hover:bg-black/80"
                   htmlFor="Profilephoto"
                 >
                   {editProfile ? (
@@ -246,7 +246,7 @@ export const Profile = () => {
             <div className="mt-4 flex items-start gap-2 lg:mt-6">
               <div className="flex-1">
                 {!editMode ? (
-                  <div className="leading-[188%] text-justify capitalize text-gray-400 lg:text-lg  indent-5">
+                  <div className="leading-[188%] text-center capitalize text-gray-400 lg:text-lg  indent-5 ml-2">
                     {frontUser?.bio?.length === 0 || bio === undefined ? (
                       <h2 className="text-center">
                         Please Update Your Bio Information.
@@ -298,7 +298,11 @@ export const Profile = () => {
           </div>
           {/* <!-- end profile info --> */}
 
-          <h4 className="mt-2 text-xl lg:mt-4 lg:text-2xl">My Posts</h4>
+          <h4 className="mt-2 text-xl lg:mt-4 lg:text-2xl">
+            {user?._id === frontUser?._id
+              ? "My Posts"
+              : `${frontUser.firstName} ${frontUser.lastName} Posts`}
+          </h4>
 
           {/* <!-- post  --> */}
 

@@ -86,7 +86,7 @@ export const InputComment = ({ id }) => {
             )}
             {!inputText && text.length === 0 && (
               <img
-                className="w-7 absolute right-4 cursor-pointer top-1.5 opacity-70"
+                className="w-7 absolute right-4 cursor-pointer top-1 lg:top-1.5 opacity-70"
                 src={cross}
                 alt="send"
                 onClick={handlerCross}
@@ -98,6 +98,7 @@ export const InputComment = ({ id }) => {
               className="h-8 w-full border-[0.2px] rounded-full focus:border-blue-400  bg-lighterDark px-4 text-xs focus:outline-none sm:h-[38px]"
               name="input-post"
               id="post"
+              maxLength={40}
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="What's on your mind?"
