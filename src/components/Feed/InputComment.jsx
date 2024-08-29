@@ -12,13 +12,15 @@ import { useDebounce } from "../hooks/useDebounce";
 import { Link } from "react-router-dom";
 import { useCommentPostMutation } from "../../Redux/Features/Post/postAPI";
 import Toast from "../Toast/Toast";
+import { usePostNotificationMutation } from "../../Redux/Features/Notification/notificationAPI";
 
-export const InputComment = ({ id }) => {
+export const InputComment = ({ id, postCreatorId }) => {
   const dispatch = useDispatch();
   const { inputText, inputBoxShow } = useSelector((state) => state.mindStatus);
   const { user } = useSelector((state) => state.loginUser);
   const [commentPost, { data: responsePostComment, isError, error }] =
     useCommentPostMutation();
+  const [postNotification] = usePostNotificationMutation();
 
   const [text, setText] = useState("");
   const debounceSearch = useDebounce(text);
@@ -41,6 +43,9 @@ export const InputComment = ({ id }) => {
         const userName = user.firstName + " " + user?.lastName;
         const userImg = user?.profile;
         await commentPost({ id, text, userName, userImg });
+        await postNotification({
+          data: { postCreatorId: postCreatorId, postId: id, action: "Comment" },
+        });
       }
     } catch (error) {
       console.log("error comment submit");

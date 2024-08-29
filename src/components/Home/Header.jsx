@@ -1,12 +1,17 @@
 import logo from "../../assets/images/logo.svg";
-import notification from "../../assets/icons/notification.svg";
+import Cookies from "js-cookie";
+import notificationImg from "../../assets/icons/notification.svg";
 import home from "../../assets/icons/home.svg";
 import Logout from "../Logoptions/Logout";
 import { Link } from "react-router-dom";
-import NotificationToolTip from "../Notifications/NotificationToolTip";
 import { useSelector } from "react-redux";
+import NotificationToolTip from "../Notifications/NotificationToolTip";
 const Header = () => {
   const { user } = useSelector((state) => state.loginUser);
+  const { notification } = useSelector((state) => state.getNotification);
+  const handlerNotification = () => {
+    Cookies.set("Notification", notification?.length);
+  };
 
   return (
     <div>
@@ -28,11 +33,15 @@ const Header = () => {
               Home
             </Link>
             <Link to="/notifications">
-              <button className="icon-btn relative">
+              <button
+                className="icon-btn relative"
+                onClick={handlerNotification}
+              >
                 <NotificationToolTip />
-                <img src={notification} alt="Notification" />
+                <img src={notificationImg} alt="Notification" />
               </button>
             </Link>
+
             <Logout />
 
             <Link to={`/profile/${user?._id}`}>

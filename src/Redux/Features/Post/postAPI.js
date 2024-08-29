@@ -37,6 +37,24 @@ const postApi = apiSlice.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["like"],
+      // async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+      //   // like optimistic cache update start
+
+      //   const optimisticLikeUpdate = dispatch(
+      //     apiSlice.util.updateQueryData("getAllPost", undefined, (draft) => {
+      //       const post = draft?.data.find((p) => p._id == arg.id);
+      //       // post.likes.pop(arg.data);
+      //       post.likes.includes({});
+      //     })
+      //   );
+
+      //   try {
+      //     await queryFulfilled;
+      //   } catch (error) {
+      //     optimisticLikeUpdate.undo();
+      //   }
+      //   // like optimistic cache update end
+      // },
     }),
   }),
 });

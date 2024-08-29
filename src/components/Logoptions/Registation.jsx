@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import RegistationIcon from "../../assets/icons/registration.svg";
+// import RegistationIcon from "../../assets/icons/registration.svg";
+import signUpImg from "../../assets/images/Sign up-bro.png";
 import { useEffect, useState } from "react";
 import { useUserRegistationMutation } from "../../Redux/Features/AuthApi/authApi";
 import { useDispatch } from "react-redux";
@@ -41,6 +42,7 @@ const Registation = () => {
   useEffect(() => {
     if (responseSubmitData?.status === true) {
       Cookies.set("token", responseSubmitData?.token, { expires: 1 });
+      Cookies.set("Notification", 0);
       dispatch(loginStatusActive());
       dispatch(loginUser(responseSubmitData?.data));
       navigate("/");
@@ -87,14 +89,12 @@ const Registation = () => {
           <div>
             {/* <!-- src="./assets/images/auth_illustration.png" --> */}
             <img
-              className="mb-12 h-60"
-              src={RegistationIcon}
+              className="mb-12 h-96"
+              src={signUpImg}
               alt="auth_illustration"
             />
             <div>
-              <h1 className="mb-3 text-4xl font-bold lg:text-[40px]">
-                Facehook
-              </h1>
+              <h1 className="mb-3 text-4xl font-bold lg:text-[40px]">LinkSy</h1>
               <p className="max-w-[452px] text-gray-400/95 lg:text-lg">
                 Create a social media app with features like, showing the post,
                 post details, reactions, comments and profile.

@@ -243,13 +243,15 @@ export const Profile = () => {
             </div>
 
             {/* <!-- bio --> */}
-            <div className="mt-4 flex items-start gap-2 lg:mt-6">
+            <div className="mt-2 flex items-start gap-2 lg:mt-4">
               <div className="flex-1">
                 {!editMode ? (
                   <div className="leading-[188%] text-center capitalize text-gray-400 lg:text-lg  indent-5 ml-2">
                     {frontUser?.bio?.length === 0 || bio === undefined ? (
                       <h2 className="text-center">
-                        Please Update Your Bio Information.
+                        {user?._id === frontUser?._id
+                          ? "Please Click Button beside & Update Bio Information."
+                          : `${frontUser.firstName} ${frontUser.lastName} hasn't changed  bio information yet!`}
                       </h2>
                     ) : (
                       frontUser?.bio

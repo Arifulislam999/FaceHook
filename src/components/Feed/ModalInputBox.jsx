@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import send from "../../assets/icons/send.svg";
 import greensend from "../../assets/icons/greenSend.svg";
 import { useEffect, useRef, useState } from "react";
@@ -9,13 +10,15 @@ import {
 import { useDebounce } from "../hooks/useDebounce";
 import { useCommentPostMutation } from "../../Redux/Features/Post/postAPI";
 import Toast from "../Toast/Toast";
-const ModalInputBox = ({ id }) => {
+import { usePostNotificationMutation } from "../../Redux/Features/Notification/notificationAPI";
+const ModalInputBox = ({ id, postCreatorId }) => {
   const dispatch = useDispatch();
   const ref = useRef();
   const { inputText } = useSelector((state) => state.mindStatus);
   const { user } = useSelector((state) => state.loginUser);
   const [commentPost, { data: responsePostComment, isError, error }] =
     useCommentPostMutation();
+  const [postNotification] = usePostNotificationMutation();
 
   const [text, setText] = useState("");
   const debounceSearch = useDebounce(text);
@@ -33,16 +36,28 @@ const ModalInputBox = ({ id }) => {
   }, [dispatch, debounceSearch]);
 
   const handlerCommentsSubmit = async () => {
+    console.log(text.length);
     if (text.length > 0 && text !== "") {
       dispatch(commentShowInActive());
       setText("");
-    }
-    try {
-      const userName = user.firstName + " " + user?.lastName;
-      const userImg = user?.profile;
-      await commentPost({ id, text, userName, userImg });
-    } catch (error) {
-      console.log("error comment submit");
+
+      try {
+        const userName = user.firstName + " " + user?.lastName;
+        const userImg = user?.profile;
+        await commentPost({ id, text, userName, userImg });
+        await postNotification({
+          data: { postCreatorId: postCreatorId, postId: id, action: "Comment" },
+        });
+      } catch (error) {
+        console.log("error comment submit");
+      }
+    } else {
+      setTosatMessage("Please type your message!");
+      const timer = setTimeout(() => {
+        setTosatMessage(null);
+      }, 4000);
+
+      return () => clearTimeout(timer);
     }
   };
 

@@ -16,6 +16,7 @@ import EditModal from "../Modals/EditModal";
 import { timeDifference } from "../utils/timeDirrerence";
 import { useUserFollowerMutation } from "../../Redux/Features/userApi/userAPI";
 import Like from "./Like";
+import { usePostNotificationMutation } from "../../Redux/Features/Notification/notificationAPI";
 
 const FeedPost = ({ post }) => {
   const dispatch = useDispatch();
@@ -31,6 +32,8 @@ const FeedPost = ({ post }) => {
   const { editModal } = useSelector((state) => state.mindStatus);
   const loginUserId = user._id;
   const [userFollower, { isLoading }] = useUserFollowerMutation();
+  const [postNotification] = usePostNotificationMutation();
+
   const isExistsUserFollower = followers.some(
     (follower) => follower.followerUserId === loginUserId
   );
@@ -42,6 +45,11 @@ const FeedPost = ({ post }) => {
   const handlerFollower = async (userId) => {
     try {
       await userFollower({ data: userId });
+      if (!isExistsUserFollower) {
+        await postNotification({
+          data: { postCreatorId: userId, postId: _id, action: "Follow" },
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -68,7 +76,7 @@ const FeedPost = ({ post }) => {
                 </h6>
               </Link>
 
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-0.5 -ml-1">
                 <img src={TimeIcon} alt="time" />
                 <span className="text-sm text-gray-400 lg:text-base">
                   {timeDifference(createdAt)}
@@ -152,7 +160,7 @@ const FeedPost = ({ post }) => {
       {/* <!-- post actions --> */}
       <div className="flex items-center justify-between py-4 lg:px-10">
         {/* <!-- Like Button --> */}
-        <Like Likes={likes} id={_id} />
+        <Like Likes={likes} id={_id} userId={userId} />
 
         {/* <!-- Comment Button --> */}
         <CommentBox id={_id} comments={comments} />
@@ -166,7 +174,12 @@ const FeedPost = ({ post }) => {
       </div>
       {/* <!-- post actions  --> */}
 
-      <FeedComments post={post} id={_id} comments={comments} />
+      <FeedComments
+        post={post}
+        id={_id}
+        comments={comments}
+        postCreatorId={userId}
+      />
     </article>
   );
 };

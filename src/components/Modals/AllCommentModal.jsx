@@ -13,7 +13,7 @@ const AllCommentModal = () => {
   const { modalPost } = useSelector((state) => state.mindStatus);
   const { description, createdAt, comments, poster, creatorId, _id } =
     modalPost || {};
-  const { firstName, lastName, profile } = creatorId || {};
+  const { firstName, lastName, profile, _id: postCreatorId } = creatorId || {};
   const handlerClick = () => {
     dispatch(allCommentShowInActive());
   };
@@ -29,7 +29,7 @@ const AllCommentModal = () => {
       <div className="h-screen z-9999 flex  items-center justify-center ">
         <div
           onClick={(e) => e.stopPropagation()}
-          className="z-50 w-[80%] max-h-[30rem] bg-mediumDark p-4 border-2 overflow-x-hidden modalcss border-gray-500 rounded-md relative"
+          className="z-50 w-[80%] max-h-[32rem] 2xl:max-h-[40rem] bg-mediumDark p-4 border-2 overflow-x-hidden modalcss border-gray-500 rounded-md relative"
         >
           <div>
             <div className="relative ">
@@ -57,7 +57,7 @@ const AllCommentModal = () => {
               />
               <div>
                 <h6 className="text-lg lg:text-xl">
-                  {firstName} {lastName} Saha
+                  {firstName} {lastName}
                 </h6>
                 <div className="flex items-center gap-1.5">
                   <img src={TimeIcon} alt="time" />
@@ -74,15 +74,15 @@ const AllCommentModal = () => {
             {/* <!-- If Post has Image, Render this block --> */}
             <div className="flex items-center justify-center overflow-hidden">
               <img
-                className="w-2/3 h-80 rounded-md border mb-3 "
+                className="w-full lg:w-3/4 h-80 lg:h-96 rounded-md border mb-3 "
                 src={poster}
                 alt="poster"
               />
             </div>
-            <p className="mx-2 lg:mx-5 text-justify indent-5">{description}</p>
+            <p className=" lg:mx-5 text-justify indent-5">{description}</p>
           </div>
           <div className="my-3 ">
-            <ModalInputBox id={_id} />
+            <ModalInputBox id={_id} postCreatorId={postCreatorId} />
           </div>
           <div className="mt-4">
             <button className="text-gray-300 max-md:text-sm">

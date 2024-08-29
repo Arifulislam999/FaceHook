@@ -5,18 +5,25 @@ import blueLike from "../../assets/icons/blueLike.svg";
 import { usePostLikeMutation } from "../../Redux/Features/Post/postAPI";
 import { useSelector } from "react-redux";
 import Toast from "../Toast/Toast";
-const Like = ({ Likes, id }) => {
+import { usePostNotificationMutation } from "../../Redux/Features/Notification/notificationAPI";
+const Like = ({ Likes, id, userId }) => {
   const [toastMessage, setToastMessage] = useState(null);
-
+  const [postNotification] = usePostNotificationMutation();
   const { user } = useSelector((state) => state.loginUser);
 
   const [postLike, { isError, error, isLoading }] = usePostLikeMutation();
   const alreadyLikeThisPost = Likes.some(
     (like) => like.likeUserId === user?._id
   );
-  const handlerLike = (id) => {
+  const handlerLike = async (id, userId) => {
     try {
-      postLike({ data: id });
+      await postLike({ data: id });
+
+      if (!alreadyLikeThisPost) {
+        await postNotification({
+          data: { postCreatorId: userId, postId: id, action: "Like" },
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -29,7 +36,7 @@ const Like = ({ Likes, id }) => {
       {toastMessage && <Toast message={toastMessage} />}
       <button
         disabled={isLoading}
-        onClick={() => handlerLike(id)}
+        onClick={() => handlerLike(id, userId)}
         className="flex-center gap-2  text-xs font-bold text-[#B8BBBF] hover:text-white lg:text-sm"
       >
         <img

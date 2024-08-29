@@ -9,7 +9,7 @@ import {
 } from "../../Redux/Features/Post/PostSlice";
 import AllCommentModal from "../Modals/AllCommentModal";
 import { useEffect } from "react";
-const FeedComments = ({ id, comments, post }) => {
+const FeedComments = ({ id, comments, post, postCreatorId }) => {
   const { inputBoxShow, allComment } = useSelector((state) => state.mindStatus);
   const dispatch = useDispatch();
   const handlerComments = (post) => {
@@ -22,7 +22,7 @@ const FeedComments = ({ id, comments, post }) => {
   const startIndex = Math.max(comments.length - 3, 0);
   return (
     <div>
-      <InputComment id={id} />
+      <InputComment id={id} postCreatorId={postCreatorId} />
       <div
         className={`${
           inputBoxShow.boxStatus
@@ -49,8 +49,8 @@ const FeedComments = ({ id, comments, post }) => {
               .map((cmn, i) => <SingleComment key={i} comment={cmn} />)
           ) : (
             <div className="flex flex-col">
-              <h2 className="text-center text-sm lg:text-xl capitalize  text-gray-300 mt-2">
-                No one has posted yet, you are the first to post.
+              <h2 className="text-center text-sm lg:text-xl   text-gray-300 mt-2">
+                No one has commented yet, you are the first to comment.
               </h2>
               <div className="text-center">
                 <img

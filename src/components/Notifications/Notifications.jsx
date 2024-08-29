@@ -1,25 +1,27 @@
-import Poster from "../../assets/images/poster.png";
+import { useSelector } from "react-redux";
 import NotifacionOption from "./NotifacionOption";
 
 const Notifications = () => {
+  const { notification } = useSelector((state) => state.getNotification);
+
   return (
-    <>
-      <div className="mx-4 mt-3">
-        <NotifacionOption image={Poster} name="Ariful Islam" title="like" />
-        <NotifacionOption
-          image={Poster}
-          name="Hasan Mahamud Ashik"
-          title="comment"
-        />
-        <NotifacionOption image={Poster} name="Faruk Hasan" title="like" />
-        <NotifacionOption image={Poster} name="Abir Mahamud" title="like" />
-        <NotifacionOption
-          image={Poster}
-          name="Mizanur Rahaman"
-          title="comment"
-        />
+    <div className="max-w-[1020px] mx-auto">
+      <h2 className="mt-4 font-bold lg:text-xl mx-3">Notifications</h2>
+      <h2 className="mt-4 mx-3">New</h2>
+      <div className="mx-4 ">
+        {notification?.length === 0
+          ? "You Have No Notification Yet."
+          : notification?.map((noti) => (
+              <NotifacionOption
+                key={noti._id}
+                image={noti.reactUserImg}
+                name={noti.actionCreatorName}
+                title={noti.action}
+                time={noti.createdAt}
+              />
+            ))}
       </div>
-    </>
+    </div>
   );
 };
 

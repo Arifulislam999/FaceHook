@@ -6,6 +6,7 @@ import tokenReducer from "./Features/Token/TokenSlice";
 import loginReducer from "./Features/LogStatus/StatusSlice";
 import userReducer from "./Features/userApi/UserSlice";
 // import commentStatusReducer from "./Features/Comment/CommentSlice";
+import notificationReducer from "./Features/Notification/notificationSliceStatus";
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
@@ -14,6 +15,7 @@ export const store = configureStore({
     loginStatus: loginReducer,
     loginUser: userReducer,
     // commentStatus: commentStatusReducer,
+    getNotification: notificationReducer,
   },
 
   middleware: (getDefaultMiddlewares) =>

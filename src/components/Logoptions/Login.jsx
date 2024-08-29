@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import authPhoto from "../../assets/images/auth_illustration.png";
+// import authPhoto from "../../assets/images/auth_illustration.png";
+import loginPhoto from "../../assets/images/loginImage.png";
 import { useEffect, useState } from "react";
 import { useUserLoginMutation } from "../../Redux/Features/AuthApi/authApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginStatusActive } from "../../Redux/Features/LogStatus/StatusSlice";
 import { loginUser } from "../../Redux/Features/userApi/UserSlice";
 
@@ -20,6 +21,7 @@ const Login = () => {
     userLogin,
     { data: userLoginData, isError, isSuccess, error: backendError, isLoading },
   ] = useUserLoginMutation();
+  const { notification } = useSelector((state) => state.getNotification);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -40,13 +42,14 @@ const Login = () => {
   useEffect(() => {
     if (userLoginData?.token && userLoginData?.status) {
       Cookies.set("token", userLoginData?.token, { expires: 1 });
+      Cookies.set("Notification", notification?.length);
     }
     if (userLoginData?.status === true) {
       dispatch(loginStatusActive());
 
       navigate("/");
     }
-  }, [isSuccess, userLoginData, navigate, dispatch]);
+  }, [isSuccess, userLoginData, navigate, dispatch, notification]);
 
   useEffect(() => {
     if (userLoginData?.data) {
@@ -60,19 +63,17 @@ const Login = () => {
     }
   }, [isError, backendError]);
   return (
-    <main className="flex min-h-screen items-center justify-center bg-deepDark py-8">
+    <main className="flex min-h-screen items-center justify-center bg-deepDark">
       <div className="max-w-[1368px] flex-1">
         <div className="container grid items-center gap-8 lg:grid-cols-2">
           <div>
             <img
-              className="mb-12 max-w-full max-lg:hidden"
-              src={authPhoto}
+              className="mb-12 w-[500px]  max-w-full max-lg:hidden"
+              src={loginPhoto}
               alt="auth_illustration"
             />
             <div>
-              <h1 className="mb-3 text-4xl font-bold lg:text-[40px]">
-                Facehook
-              </h1>
+              <h1 className="mb-3 text-4xl font-bold lg:text-[40px]">LinkSy</h1>
               <p className="max-w-[452px] text-gray-600/95 lg:text-lg">
                 Create a social media app with features like, showing the post,
                 post details, reactions, comments and profile.
@@ -129,7 +130,7 @@ const Login = () => {
               )}
             </form>
             <div className="py-4 lg:py-6">
-              <p className="text-center text-xs text-gray-600/95 lg:text-sm">
+              <p className="text-center text-xs text-gray-600 lg:text-sm">
                 Don’t have account?
                 <Link
                   className="text-white transition-all hover:text-lwsGreen hover:underline"
