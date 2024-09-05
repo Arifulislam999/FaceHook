@@ -10,7 +10,7 @@ const Header = () => {
   const { user } = useSelector((state) => state.loginUser);
   const { notification } = useSelector((state) => state.getNotification);
   const handlerNotification = () => {
-    Cookies.set("Notification", notification?.length);
+    Cookies.set("Notification", notification?.length, { expires: 365 });
   };
 
   return (

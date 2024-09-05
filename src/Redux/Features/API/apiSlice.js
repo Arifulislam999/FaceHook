@@ -20,6 +20,9 @@ export const apiSlice = createApi({
     "comment-post",
     "followers",
     "like",
+    "edit",
+    "delete-post",
+    "comment-modal-post",
   ],
   endpoints: (builder) => ({}),
 });

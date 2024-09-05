@@ -9,7 +9,8 @@ const initialState = {
   inputText: false,
   editModal: false,
   allComment: false,
-  modalPost: null,
+  modalCommentId: null,
+  editPostId: null,
 };
 export const socialPost = createSlice({
   name: "PostSlice",
@@ -43,8 +44,11 @@ export const socialPost = createSlice({
     editModalInActive: (state) => {
       state.editModal = false;
     },
-    singleModalPost: (state, action) => {
-      state.modalPost = action.payload;
+    singleModalPostId: (state, action) => {
+      state.modalCommentId = action.payload;
+    },
+    getEditPostId: (state, action) => {
+      state.editPostId = action.payload;
     },
   },
 });
@@ -59,6 +63,7 @@ export const {
   editModalInActive,
   allCommentShowActive,
   allCommentShowInActive,
-  singleModalPost,
+  singleModalPostId,
+  getEditPostId,
 } = socialPost.actions;
 export default socialPost.reducer;

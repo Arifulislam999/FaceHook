@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-
+import { motion } from "framer-motion";
 // import RegistationIcon from "../../assets/icons/registration.svg";
 import signUpImg from "../../assets/images/Sign up-bro.png";
 import { useEffect, useState } from "react";
@@ -88,10 +88,19 @@ const Registation = () => {
           {/* <!-- illustration and title --> */}
           <div>
             {/* <!-- src="./assets/images/auth_illustration.png" --> */}
-            <img
-              className="mb-12 h-96"
+            <motion.img
               src={signUpImg}
               alt="auth_illustration"
+              className="w-[300px] sm:w-[400px] lg:w-[500px] max-w-full rounded-md shadow-lg"
+              animate={{
+                y: [0, -20, 0], // Moves the image up and down
+              }}
+              transition={{
+                duration: 2, // Duration of one complete cycle
+                repeat: Infinity, // Repeat the animation indefinitely
+                repeatType: "loop", // Ensures it loops smoothly
+                ease: "easeInOut", // Smooth ease in and out motion
+              }}
             />
             <div>
               <h1 className="mb-3 text-4xl font-bold lg:text-[40px]">LinkSy</h1>

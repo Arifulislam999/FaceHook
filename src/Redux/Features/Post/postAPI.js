@@ -20,6 +20,8 @@ const postApi = apiSlice.injectEndpoints({
         "followers",
         "like",
         "update-image",
+        "edit",
+        "delete-post",
       ],
     }),
     commentPost: builder.mutation({
@@ -28,7 +30,7 @@ const postApi = apiSlice.injectEndpoints({
         method: "POST",
         body: { id, text, userName, userImg },
       }),
-      invalidatesTags: ["comment-post"],
+      invalidatesTags: ["comment-post", "comment-modal-post"],
     }),
     postLike: builder.mutation({
       query: (data) => ({
@@ -56,6 +58,27 @@ const postApi = apiSlice.injectEndpoints({
       //   // like optimistic cache update end
       // },
     }),
+    getSinglePost: builder.query({
+      query: (id) => ({
+        url: `/api/post/single-post/${id}`,
+      }),
+      providesTags: ["comment-modal-post"],
+    }),
+    updatePost: builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `/api/post/update-post/${id}`,
+        method: "PUT",
+        body: formData,
+      }),
+      invalidatesTags: ["edit"],
+    }),
+    deletePost: builder.mutation({
+      query: (id) => ({
+        url: `/api/post/delete-post/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["delete-post"],
+    }),
   }),
 });
 export const {
@@ -63,4 +86,7 @@ export const {
   useGetAllPostQuery,
   useCommentPostMutation,
   usePostLikeMutation,
+  useGetSinglePostQuery,
+  useUpdatePostMutation,
+  useDeletePostMutation,
 } = postApi;

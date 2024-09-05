@@ -1,25 +1,20 @@
 /* eslint-disable react/prop-types */
 import TimeIcon from "../../assets/icons/time.svg";
-import TDots from "../../assets/icons/3dots.svg";
-import Edit from "../../assets/icons/edit.svg";
-import Delete from "../../assets/icons/delete.svg";
 import bellWhite from "../../assets/icons/bellWhite.svg";
 import bellBlue from "../../assets/icons/bellBlue.svg";
 import Share from "../../assets/icons/share.svg";
-import { useState } from "react";
 import FeedComments from "./FeedComments";
 import CommentBox from "./CommentBox";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { editModalActive } from "../../Redux/Features/Post/PostSlice";
-import EditModal from "../Modals/EditModal";
+import { useSelector } from "react-redux";
+
 import { timeDifference } from "../utils/timeDirrerence";
 import { useUserFollowerMutation } from "../../Redux/Features/userApi/userAPI";
 import Like from "./Like";
 import { usePostNotificationMutation } from "../../Redux/Features/Notification/notificationAPI";
+import EditPost from "./EditPost";
 
 const FeedPost = ({ post }) => {
-  const dispatch = useDispatch();
   const { poster, description, createdAt, comments, likes, _id } = post || {};
   const {
     firstName,
@@ -29,7 +24,7 @@ const FeedPost = ({ post }) => {
     followers,
   } = post?.creatorId || {};
   const { user } = useSelector((state) => state.loginUser);
-  const { editModal } = useSelector((state) => state.mindStatus);
+
   const loginUserId = user._id;
   const [userFollower, { isLoading }] = useUserFollowerMutation();
   const [postNotification] = usePostNotificationMutation();
@@ -37,11 +32,7 @@ const FeedPost = ({ post }) => {
   const isExistsUserFollower = followers.some(
     (follower) => follower.followerUserId === loginUserId
   );
-  const [dot, setDot] = useState(false);
-  const handlerEditPost = () => {
-    dispatch(editModalActive());
-    setDot(false);
-  };
+
   const handlerFollower = async (userId) => {
     try {
       await userFollower({ data: userId });
@@ -61,7 +52,7 @@ const FeedPost = ({ post }) => {
       <header className="flex items-center justify-between gap-4">
         {/* <!-- author info --> */}
         <div className="flex items-center gap-3">
-          <Link to={`/profile/${userId}`}>
+          <Link to={`/profile/${userId}?name=${firstName}${lastName}`}>
             <img
               className="max-w-10 border border-blue-500 w-44 h-44 max-h-10 rounded-full lg:max-h-[58px] lg:max-w-[58px]"
               src={profile}
@@ -70,7 +61,7 @@ const FeedPost = ({ post }) => {
           </Link>
           <div className="flex">
             <div>
-              <Link to={`/profile/${userId}`}>
+              <Link to={`/profile/${userId}?name=${firstName}${lastName}`}>
                 <h6 className="text-lg lg:text-xl">
                   {firstName} {lastName}{" "}
                 </h6>
@@ -111,32 +102,12 @@ const FeedPost = ({ post }) => {
         </div>
         {/* <!-- author info ends --> */}
         {/* Modal post Edit  */}
-        {editModal && <EditModal />}
-        {/* <!-- action dot --> */}
 
-        {userId === user?._id && (
-          <div className="relative z-50">
-            <button onClick={() => setDot((prev) => !prev)}>
-              <img src={TDots} alt="3dots of Action" />
-            </button>
-            {/* <!-- Action Menus Popup --> */}
-            {dot && (
-              <div className="action-modal-container">
-                <button
-                  className="action-menu-item hover:text-favGreen"
-                  onClick={handlerEditPost}
-                >
-                  <img src={Edit} alt="Edit" />
-                  Edit
-                </button>
-                <button className="action-menu-item hover:text-red-500">
-                  <img src={Delete} alt="Delete" />
-                  Delete
-                </button>
-              </div>
-            )}
-          </div>
-        )}
+        {/* <!-- action dot --> */}
+        {/* edit post  start */}
+        {userId === user._id && <EditPost userId={userId} post={post} />}
+
+        {/* edit post  end */}
 
         {/* <!-- action dot ends --> */}
       </header>

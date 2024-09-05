@@ -6,6 +6,8 @@ import { Profile } from "./components/Profile/Profile";
 import Notifications from "./components/Notifications/Notifications";
 import Header from "./components/Home/Header";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import ErrorPage from "./components/Error/ErrorPage";
+import ForgotPassword from "./components/Logoptions/ForgotPassword";
 
 function App() {
   return (
@@ -43,6 +45,8 @@ function App() {
             />
           </Route>
           <Route element={<Login />} path="/login" />
+          <Route element={<ForgotPassword />} path="/forget-password" />
+          <Route element={<ErrorPage />} path="/*" />
           <Route element={<Registation />} path="/registation" />
         </Routes>
       </Router>

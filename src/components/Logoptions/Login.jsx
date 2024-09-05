@@ -1,10 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-// import authPhoto from "../../assets/images/auth_illustration.png";
+import { motion } from "framer-motion";
 import loginPhoto from "../../assets/images/loginImage.png";
 import { useEffect, useState } from "react";
 import { useUserLoginMutation } from "../../Redux/Features/AuthApi/authApi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { loginStatusActive } from "../../Redux/Features/LogStatus/StatusSlice";
 import { loginUser } from "../../Redux/Features/userApi/UserSlice";
 
@@ -21,7 +21,6 @@ const Login = () => {
     userLogin,
     { data: userLoginData, isError, isSuccess, error: backendError, isLoading },
   ] = useUserLoginMutation();
-  const { notification } = useSelector((state) => state.getNotification);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -31,6 +30,7 @@ const Login = () => {
     }));
     setErr(null);
   };
+
   const handlerSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -39,17 +39,16 @@ const Login = () => {
       console.log(backendError);
     }
   };
+
   useEffect(() => {
     if (userLoginData?.token && userLoginData?.status) {
       Cookies.set("token", userLoginData?.token, { expires: 1 });
-      Cookies.set("Notification", notification?.length);
     }
     if (userLoginData?.status === true) {
       dispatch(loginStatusActive());
-
       navigate("/");
     }
-  }, [isSuccess, userLoginData, navigate, dispatch, notification]);
+  }, [isSuccess, userLoginData, navigate, dispatch]);
 
   useEffect(() => {
     if (userLoginData?.data) {
@@ -62,78 +61,105 @@ const Login = () => {
       setErr(backendError?.data?.message);
     }
   }, [isError, backendError]);
+
   return (
-    <main className="flex min-h-screen items-center justify-center bg-deepDark">
+    <main className="flex min-h-screen items-center justify-center bg-deepDark px-4">
       <div className="max-w-[1368px] flex-1">
-        <div className="container grid items-center gap-8 lg:grid-cols-2">
-          <div>
-            <img
-              className="mb-12 w-[500px]  max-w-full max-lg:hidden"
+        <div className="container mx-auto grid items-center gap-8 lg:grid-cols-2">
+          <div className="flex flex-col items-center lg:items-start">
+            {/* Motion Image */}
+            <motion.img
               src={loginPhoto}
               alt="auth_illustration"
+              className="w-[300px] sm:w-[400px] lg:w-[500px] max-w-full rounded-md shadow-lg mt-3"
+              animate={{
+                y: [0, -20, 0], // Moves the image up and down
+              }}
+              transition={{
+                duration: 2, // Duration of one complete cycle
+                repeat: Infinity, // Repeat the animation indefinitely
+                repeatType: "loop", // Ensures it loops smoothly
+                ease: "easeInOut", // Smooth ease in and out motion
+              }}
             />
-            <div>
-              <h1 className="mb-3 text-4xl font-bold lg:text-[40px]">LinkSy</h1>
-              <p className="max-w-[452px] text-gray-600/95 lg:text-lg">
-                Create a social media app with features like, showing the post,
-                post details, reactions, comments and profile.
+            <div className="mt-6 lg:mt-10 text-center lg:text-left">
+              <h1 className="mb-3 text-3xl font-bold lg:text-[40px]">LinkSy</h1>
+              <p className="max-w-[452px] text-gray-500/95 lg:text-lg">
+                Create a social media app with features like showing posts, post
+                details, reactions, comments, profile, and other activities.
               </p>
             </div>
           </div>
 
-          <div className="card">
+          <div className="card shadow-lg">
             <form
-              className="border-b border-[#3F3F3F] pb-10 lg:pb-[60px]"
+              className="border-b border-[#3F3F3F] pb-6"
               onSubmit={handlerSubmit}
             >
-              <h2 className="text-2xl text-center underline">Login </h2>
+              <h2 className="text-2xl text-center underline mb-4">Login</h2>
 
-              <div className="form-control">
-                <label className="auth-label" htmlFor="email">
+              <div className="form-control mb-4">
+                <label
+                  className="block text-gray-400 text-lg mb-2"
+                  htmlFor="email"
+                >
                   Email
                 </label>
                 <input
-                  className="auth-input"
+                  className="auth-input w-full p-3 rounded border border-gray-500 auth-input text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-300"
                   name="email"
                   type="email"
                   id="email"
                   value={user.email}
                   onChange={handleInputChange}
+                  placeholder="Enter your email"
                 />
               </div>
 
-              <div className="form-control">
-                <label className="auth-label" htmlFor="email">
+              <div className="form-control mb-4">
+                <label
+                  className="block text-gray-400 text-lg mb-2"
+                  htmlFor="password"
+                >
                   Password
                 </label>
                 <input
-                  className="auth-input"
+                  className="auth-input w-full p-3 rounded border border-gray-500 auth-input  text-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-300"
                   name="password"
                   type="password"
                   id="password"
                   value={user.password}
                   onChange={handleInputChange}
+                  placeholder="Enter your password"
                 />
               </div>
 
               <button
-                className="auth-input bg-favGreen font-bold text-deepDark transition-all hover:opacity-90"
+                className="w-full px-4 py-2 rounded bg-favGreen font-bold text-deepDark transition-all hover:opacity-90"
                 type="submit"
                 disabled={isLoading}
               >
-                {isLoading ? "Loging..." : "Login"}
+                {isLoading ? "Logging in..." : "Login"}
               </button>
+
+              <div className="text-center mt-4">
+                <span className="text-blue-400 cursor-pointer hover:opacity-70">
+                  <Link to="/forget-password">Forgot password?</Link>
+                </span>
+              </div>
+
               {err && (
-                <p className="opacity-70 text-center mt-2 bg-red-400/80 capitalize rounded-md">
+                <p className="text-center mt-2 bg-red-400/80 text-white py-2 rounded-md">
                   {err}
                 </p>
               )}
             </form>
-            <div className="py-4 lg:py-6">
-              <p className="text-center text-xs text-gray-600 lg:text-sm">
-                Don’t have account?
+
+            <div className="text-center mt-4">
+              <p className="text-sm text-gray-400">
+                Don’t have an account?{" "}
                 <Link
-                  className="text-white transition-all hover:text-lwsGreen hover:underline"
+                  className="text-white transition-all hover:text-favGreen hover:underline"
                   to="/registation"
                 >
                   Create New
