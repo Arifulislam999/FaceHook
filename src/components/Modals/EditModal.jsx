@@ -1,43 +1,96 @@
-import avatar from "../../assets/images/avatars/user1.jpeg";
 import world from "../../assets/icons/world.svg";
 import Close from "../../assets/icons/close.svg";
-import addPhoto from "../../assets/icons/addPhoto.svg";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editModalInActive } from "../../Redux/Features/Post/PostSlice";
-
+import {
+  useGetSinglePostQuery,
+  useUpdatePostMutation,
+} from "../../Redux/Features/Post/postAPI";
+import Loading from "../Loader/Loading";
+import Toast from "../Toast/Toast";
 const EditModal = () => {
   const dispatch = useDispatch();
-  const { editModal } = useSelector((state) => state.mindStatus);
+  const { editModal, editPostId: id } = useSelector(
+    (state) => state.mindStatus
+  );
+  const [singleP, setSingleP] = useState([]);
+
+  const [userImage, setUserImage] = useState(null);
+  const [imgPreview, setImagePreview] = useState(null);
+  const { data: singlePost, isSuccess, isLoading } = useGetSinglePostQuery(id);
+  const { poster, description, _id } = singleP || {};
+  const { firstName, lastName, profile } = singleP?.creatorId || {};
+  const [updatePost, { isLoading: existIsLoading }] = useUpdatePostMutation();
+  const [textP, setTextP] = useState(description);
 
   const ref = useRef(null);
   const [cross, setCross] = useState(editModal);
+  const [err, setErr] = useState(null);
+
   useEffect(() => {
     ref?.current?.focus();
     setCross(editModal);
   }, [cross, editModal]);
 
-  const handlerClick = () => {
+  const handlerClick = async (e) => {
+    e.preventDefault();
+    if (userImage?.size / 1024 > 1025) {
+      setErr("File size is too large. Maximum size is 1MB.");
+      const timer = setTimeout(() => {
+        setErr(null);
+      }, 4000);
+
+      return () => clearTimeout(timer);
+    } else if (textP.length < 1) {
+      setErr("Please fill the status box.");
+      const timer = setTimeout(() => {
+        setErr(null);
+      }, 4000);
+
+      return () => clearTimeout(timer);
+    } else {
+      const formData = new FormData();
+      formData.append("image", userImage);
+      formData.append("post", textP);
+      await updatePost({ id: _id, formData });
+    }
     dispatch(editModalInActive());
     setCross(editModal);
   };
+  const handlerClickClose = () => {
+    dispatch(editModalInActive());
+    setCross(editModal);
+  };
+  useEffect(() => {
+    if (isSuccess) {
+      setSingleP(singlePost?.data);
+      setTextP(singlePost?.data.description);
+      setImagePreview(null);
+    }
+  }, [isSuccess, singlePost]);
+
   return (
     <>
+      {err && <Toast message={err} />}
+
+      {isLoading && <Loading />}
+      {existIsLoading && <Loading />}
       {cross && (
-        <div
-          onClick={handlerClick}
-          className="z-50 w-full h-[100%] fixed top-0 bottom-0 bg-custom-dark left-0 right-0 "
+        <form
+          onSubmit={handlerClick}
+          className="z-50 w-full h-[100%] fixed top-0 bottom-0 bg-custom-dark left-0 right-0"
         >
           <div className="h-screen z-9999 flex items-center justify-center ">
             <div
               onClick={(e) => e.stopPropagation()}
-              className="z-50 w-[40%] min-h-72 bg-mediumDark p-4 border-2 border-gray-500 rounded-md"
+              className="z-50 w-[90%] md:w-[60%] lg:w-[40%] min-h-72 bg-mediumDark p-4 border-2 border-gray-500 rounded-md"
             >
               <div className="relative">
                 <h2 className="text-xl text-center pb-2">Edit a post</h2>
                 <div className="absolute -top-2 right-2">
                   <img
-                    onClick={handlerClick}
+                    onClick={handlerClickClose}
                     className="w-6 h-6 text-white cursor-pointer"
                     src={Close}
                     alt="close"
@@ -49,12 +102,14 @@ const EditModal = () => {
                 <div>
                   <img
                     className="max-w-8 w-36 h-36 border border-blue-500 max-h-8 rounded-full lg:max-h-[40px] lg:max-w-[40px]"
-                    src={avatar}
+                    src={profile}
                     alt="avatar"
                   />
                 </div>
                 <div className="pl-2 ">
-                  <p className="font-semibold -mt-1">Ariful Islam</p>
+                  <p className="font-semibold -mt-1">
+                    {firstName} {lastName}
+                  </p>
                   <div className="flex bg-gray-700 w-[5.3rem] rounded-md cursor-pointer">
                     <img
                       className="w-6 h-6 text-white "
@@ -73,37 +128,52 @@ const EditModal = () => {
                     className="h-16 w-full  rounded-md bg-lighterDark p-3 focus:outline-none sm:h-[7rem]"
                     name="post"
                     id="post"
+                    value={textP}
+                    onChange={(e) => setTextP(e.target.value)}
                     placeholder="What's on your mind, Arif?"
                     maxLength={400}
                   ></textarea>
                 </div>
                 <div className="my-3">
-                  <label
-                    className="btn-primary cursor-pointer !text-gray-100"
-                    htmlFor="photo"
-                  >
-                    <img src={addPhoto} alt="Add Photo" />
-                    Add Photo
-                  </label>
                   <input
                     type="file"
-                    name="photo"
+                    name="image"
+                    accept="image/*"
                     id="photo"
-                    className="hidden"
+                    className="block w-full text-sm text-gray-400 border rounded-lg cursor-pointer bg-gray-700 focus:outline-none  border-gray-600 placeholder-gray-400"
+                    onChange={(e) =>
+                      setUserImage(
+                        e.target.files[0],
+                        setImagePreview(URL.createObjectURL(e.target.files[0]))
+                      )
+                    }
                   />
                 </div>
+                {imgPreview ? (
+                  <div className="border border-gray-300 w-full h-44 mb-2 rounded-sm">
+                    <img
+                      className="w-full h-44"
+                      src={imgPreview}
+                      alt="picture"
+                    />
+                  </div>
+                ) : (
+                  <div className="border border-gray-300 w-full h-44 mb-2 rounded-sm">
+                    <img className="w-full h-44" src={poster} alt="picture" />
+                  </div>
+                )}
                 <div>
                   <button
                     className="auth-input bg-blue-500 font-bold text-white/80 transition-all hover:opacity-90"
-                    type="button"
+                    type="submit"
                   >
-                    Next
+                    {existIsLoading ? "Uploading..." : "Next"}
                   </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </form>
       )}
     </>
   );

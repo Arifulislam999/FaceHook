@@ -9,6 +9,7 @@ const SingleComment = ({ comment }) => {
   const handlerProfile = () => {
     dispatch(allCommentShowInActive());
   };
+
   return (
     <div className="flex items-center gap-3 pt-4">
       <img

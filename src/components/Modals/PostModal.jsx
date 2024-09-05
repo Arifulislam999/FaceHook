@@ -169,6 +169,7 @@ const PostModal = () => {
                 )}
                 <div>
                   <button
+                    disabled={isLoading}
                     className="auth-input bg-blue-500 font-bold text-white/80 transition-all hover:opacity-90"
                     type="button"
                     onClick={handlerPostSubmit}

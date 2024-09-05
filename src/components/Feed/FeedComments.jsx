@@ -5,20 +5,18 @@ import openBox from "../../assets/icons/openBox.svg";
 import SingleComment from "./SingleComment";
 import {
   allCommentShowActive,
-  singleModalPost,
+  singleModalPostId,
 } from "../../Redux/Features/Post/PostSlice";
 import AllCommentModal from "../Modals/AllCommentModal";
-import { useEffect } from "react";
+
 const FeedComments = ({ id, comments, post, postCreatorId }) => {
   const { inputBoxShow, allComment } = useSelector((state) => state.mindStatus);
   const dispatch = useDispatch();
-  const handlerComments = (post) => {
+  const handlerComments = (id) => {
     dispatch(allCommentShowActive());
-    dispatch(singleModalPost(post));
+    dispatch(singleModalPostId(id));
   };
-  useEffect(() => {
-    dispatch(singleModalPost(post));
-  }, [post, dispatch]);
+
   const startIndex = Math.max(comments.length - 3, 0);
   return (
     <div>
@@ -34,7 +32,7 @@ const FeedComments = ({ id, comments, post, postCreatorId }) => {
           <div>
             <button
               className="text-gray-300 max-md:text-sm cursor-pointer hover:text-gray-400 duration-100 transition-all hover:opacity-70"
-              onClick={() => handlerComments(post)}
+              onClick={() => handlerComments(post?._id)}
             >
               All Comment ▾
             </button>
