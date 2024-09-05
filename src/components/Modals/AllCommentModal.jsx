@@ -48,7 +48,7 @@ const AllCommentModal = () => {
         <div className="h-screen z-9999 flex  items-center justify-center ">
           <div
             onClick={(e) => e.stopPropagation()}
-            className="z-50 w-[80%] max-h-[32rem] 2xl:max-h-[40rem] bg-mediumDark p-4 border-2 overflow-x-hidden modalcss border-gray-500 rounded-md relative"
+            className="z-50 w-[90%] max-h-[32rem] 2xl:max-h-[40rem] bg-mediumDark p-4 border-2 overflow-x-hidden modalcss border-gray-500 rounded-md relative"
           >
             <div>
               <div className="relative ">
@@ -106,7 +106,7 @@ const AllCommentModal = () => {
               <button className="text-gray-300 max-md:text-sm">
                 Most relevant comment ▾
               </button>
-              <div className="space-y-4 divide-y divide-lighterDark pl-2 lg:pl-3">
+              <div className="space-y-2 divide-y divide-lighterDark pl-2 lg:pl-3">
                 {/* <!-- single comment --> */}
                 {sortedComment.length > 0 ? (
                   sortedComment?.map((cmn, i) => (

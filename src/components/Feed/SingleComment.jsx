@@ -11,7 +11,7 @@ const SingleComment = ({ comment }) => {
   };
 
   return (
-    <div className="flex items-center gap-3 pt-4">
+    <div className="flex items-center gap-3 pt-1">
       <img
         className="max-w-6 w-24 h-24 border border-red-400 max-h-6 rounded-full "
         src={comment.userImg}
@@ -19,16 +19,20 @@ const SingleComment = ({ comment }) => {
       />
       <div>
         <div className="flex gap-1 text-xs lg:text-sm">
-          <Link to={`/profile/${comment.commentUserId}`}>
-            <span
-              onClick={handlerProfile}
-              className="font-bold cursor-pointer hover:text-blue-300 duration-100 transition-all hover:opacity-70"
-            >
-              {comment.userName}:{" "}
-            </span>
-          </Link>
-          <div>
-            <span className="overflow-x-hidden">{comment.commentTitle}</span>
+          <div className="bg-deepDark px-4 py-2 rounded-md ">
+            <Link to={`/profile/${comment.commentUserId}`}>
+              <span
+                onClick={handlerProfile}
+                className="font-bold cursor-pointer hover:text-blue-300 duration-100 transition-all hover:opacity-70"
+              >
+                {comment.userName}{" "}
+              </span>
+            </Link>
+            <div>
+              <span className="overflow-x-hidden  ">
+                {comment.commentTitle}
+              </span>
+            </div>
           </div>
         </div>
       </div>
