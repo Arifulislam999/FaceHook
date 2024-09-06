@@ -48,7 +48,7 @@ const AllCommentModal = () => {
         <div className="h-screen z-9999 flex  items-center justify-center ">
           <div
             onClick={(e) => e.stopPropagation()}
-            className="z-50 w-[90%] max-h-[32rem] 2xl:max-h-[40rem] bg-mediumDark p-4 border-2 overflow-x-hidden modalcss border-gray-500 rounded-md relative"
+            className="z-50 w-[90%] lg:w-[65%] max-h-[32rem]  2xl:max-h-[40rem] bg-mediumDark p-4 border-2 overflow-x-hidden modalcss border-gray-500 rounded-md relative"
           >
             <div>
               <div className="relative ">
@@ -100,7 +100,11 @@ const AllCommentModal = () => {
               <p className=" lg:mx-5 text-justify indent-5">{description}</p>
             </div>
             <div className="my-3 ">
-              <ModalInputBox id={_id} postCreatorId={postCreatorId} />
+              <ModalInputBox
+                id={_id}
+                postCreatorId={postCreatorId}
+                loading={isLoading}
+              />
             </div>
             <div className="mt-4">
               <button className="text-gray-300 max-md:text-sm">

@@ -130,7 +130,7 @@ const EditModal = () => {
                     id="post"
                     value={textP}
                     onChange={(e) => setTextP(e.target.value)}
-                    placeholder="What's on your mind, Arif?"
+                    placeholder={`What's on your mind, ${firstName}?`}
                     maxLength={400}
                   ></textarea>
                 </div>

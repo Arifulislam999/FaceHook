@@ -11,7 +11,7 @@ import { useDebounce } from "../hooks/useDebounce";
 import { useCommentPostMutation } from "../../Redux/Features/Post/postAPI";
 import Toast from "../Toast/Toast";
 import { usePostNotificationMutation } from "../../Redux/Features/Notification/notificationAPI";
-const ModalInputBox = ({ id, postCreatorId }) => {
+const ModalInputBox = ({ id, postCreatorId, loading }) => {
   const dispatch = useDispatch();
   const ref = useRef();
   const { inputText } = useSelector((state) => state.mindStatus);
@@ -25,8 +25,8 @@ const ModalInputBox = ({ id, postCreatorId }) => {
   const [toastMessage, setTosatMessage] = useState(null);
 
   useEffect(() => {
-    ref.current.focus();
-  }, []);
+    if (loading === false) ref.current.focus();
+  }, [loading]);
   useEffect(() => {
     if (debounceSearch.length > 0) {
       dispatch(inputColorSend(true));

@@ -8,6 +8,7 @@ import Header from "./components/Home/Header";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import ErrorPage from "./components/Error/ErrorPage";
 import ForgotPassword from "./components/Logoptions/ForgotPassword";
+import ConfirmPassword from "./components/Logoptions/ConfirmPassword";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           </Route>
           <Route element={<Login />} path="/login" />
           <Route element={<ForgotPassword />} path="/forget-password" />
+          <Route element={<ConfirmPassword />} path="/confirm-password" />
           <Route element={<ErrorPage />} path="/*" />
           <Route element={<Registation />} path="/registation" />
         </Routes>

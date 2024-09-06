@@ -14,6 +14,7 @@ import Toast from "../Toast/Toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useGetSingleUserQuery } from "../../Redux/Features/AuthApi/authApi";
 import { loginUser } from "../../Redux/Features/userApi/UserSlice";
+import BlankPost from "./BlankPost";
 
 export const Profile = () => {
   const textareaRef = useRef(null);
@@ -309,7 +310,9 @@ export const Profile = () => {
           {/* <!-- post  --> */}
 
           {userPosts?.length === 0 ? (
-            <h2 className="text-center">Your Have No Post Yet.</h2>
+            <h2 className="text-center">
+              <BlankPost />
+            </h2>
           ) : (
             userPosts?.map((p, index) => <FeedPost key={index} post={p} />)
           )}

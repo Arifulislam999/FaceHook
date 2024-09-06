@@ -2,8 +2,24 @@ import { motion } from "framer-motion";
 import loginPhoto from "../../assets/images/loginImage.png";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.svg";
+import { useEffect, useState } from "react";
+import { useUserResetPasswordMutation } from "../../Redux/Features/userApi/userAPI";
 
 const ForgotPassword = () => {
+  const [email, setEmail] = useState("");
+  const [res, setRes] = useState(null);
+  const [userResetPassword, { data: backendResponse, isSuccess, isLoading }] =
+    useUserResetPasswordMutation();
+  const handlerSubmitEmail = async (e) => {
+    e.preventDefault();
+    console.log(email);
+    await userResetPassword({ data: email });
+  };
+  useEffect(() => {
+    if (isSuccess) {
+      setRes(backendResponse?.message);
+    }
+  }, [isSuccess, backendResponse]);
   return (
     <div>
       <nav className="sticky top-0 z-50 w-full border-b border-[#3F3F3F] bg-[#1E1F24] py-4">
@@ -31,7 +47,7 @@ const ForgotPassword = () => {
       </nav>
 
       <div className="container mx-auto flex flex-col lg:flex-row items-center lg:items-start mt-10 lg:mt-0">
-        <div className="lg:basis-1/2 px-6">
+        <div className="lg:basis-1/2 px-6 mt-4 lg:mt-8">
           <div className="text-center lg:text-left">
             <h2 className="text-2xl lg:text-4xl my-3 text-gray-300">
               Forgot Password?
@@ -41,7 +57,7 @@ const ForgotPassword = () => {
             </p>
           </div>
           <div className="w-full max-w-md mx-auto lg:mx-0">
-            <form>
+            <form onSubmit={handlerSubmitEmail}>
               <div className="mb-4">
                 <label className="block text-gray-400 text-lg" htmlFor="email">
                   Your Email Address <sup className="text-gray-200">*</sup>
@@ -55,14 +71,24 @@ const ForgotPassword = () => {
                   type="email"
                   id="email"
                   placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <button
+                disabled={isLoading}
                 className="w-full px-4 py-2 mt-4 rounded bg-favGreen font-bold text-deepDark transition-all hover:opacity-90"
                 type="submit"
               >
-                Send Verification Link
+                {isLoading ? "Processing..." : "Send Verification Link"}
               </button>
+              {res && (
+                <div className="text-center mt-2">
+                  <span className=" text-gray-600 py-0.5 mt-1 text-sm lg:text-lg capitalize bg-white px-3 rounded-sm shadow-xl">
+                    {res}
+                  </span>
+                </div>
+              )}
             </form>
           </div>
         </div>

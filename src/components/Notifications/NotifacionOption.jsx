@@ -44,7 +44,7 @@ const NotifacionOption = ({ image, name, title, time, reactUserId }) => {
         </div>
 
         {/* Notification Text */}
-        <div className="flex-1 pl-3">
+        <div className="flex-1 pl-1 lg:pl-3">
           <h2 className="text-sm sm:text-base md:text-lg lg:text-xl">
             <span className="font-bold">{name}</span> {title} {decision}, click
             and check their activities.

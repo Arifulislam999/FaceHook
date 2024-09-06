@@ -129,7 +129,7 @@ const FeedPost = ({ post }) => {
       {/* <!-- post body ends --> */}
 
       {/* <!-- post actions --> */}
-      <div className="flex items-center justify-between py-4 lg:px-10">
+      <div className="flex items-center justify-between py-4 lg:px-10 ">
         {/* <!-- Like Button --> */}
         <Like Likes={likes} id={_id} userId={userId} />
 
