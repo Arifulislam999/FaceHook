@@ -91,7 +91,7 @@ export const InputComment = ({ id, postCreatorId }) => {
             )}
             {!inputText && text.length === 0 && (
               <img
-                className="w-7 absolute right-4 cursor-pointer top-1 lg:top-1.5 opacity-70"
+                className="w-7 absolute lg:right-4 right-1.5 cursor-pointer  top-1 lg:top-1.5 opacity-70"
                 src={cross}
                 alt="send"
                 onClick={handlerCross}

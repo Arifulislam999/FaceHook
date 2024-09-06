@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import send from "../../assets/icons/send.svg";
 import greensend from "../../assets/icons/greenSend.svg";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   commentShowInActive,
@@ -11,9 +11,9 @@ import { useDebounce } from "../hooks/useDebounce";
 import { useCommentPostMutation } from "../../Redux/Features/Post/postAPI";
 import Toast from "../Toast/Toast";
 import { usePostNotificationMutation } from "../../Redux/Features/Notification/notificationAPI";
-const ModalInputBox = ({ id, postCreatorId, loading }) => {
+const ModalInputBox = ({ id, postCreatorId }) => {
   const dispatch = useDispatch();
-  const ref = useRef();
+
   const { inputText } = useSelector((state) => state.mindStatus);
   const { user } = useSelector((state) => state.loginUser);
   const [commentPost, { data: responsePostComment, isError, error }] =
@@ -24,9 +24,6 @@ const ModalInputBox = ({ id, postCreatorId, loading }) => {
   const debounceSearch = useDebounce(text);
   const [toastMessage, setTosatMessage] = useState(null);
 
-  useEffect(() => {
-    if (loading === false) ref.current.focus();
-  }, [loading]);
   useEffect(() => {
     if (debounceSearch.length > 0) {
       dispatch(inputColorSend(true));
@@ -87,14 +84,13 @@ const ModalInputBox = ({ id, postCreatorId, loading }) => {
               onClick={handlerCommentsSubmit}
             />
             <input
-              ref={ref}
               type="text"
               className="h-8 w-full border-[0.2px] rounded-full focus:border-blue-400  bg-lighterDark px-4 text-xs focus:outline-none sm:h-[38px]"
               name="input-post"
               id="post"
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="What's on your mind?"
+              placeholder={`What's on your mind?${user.firstName}...`}
             />
           </label>
         </div>

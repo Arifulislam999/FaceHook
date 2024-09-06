@@ -5,16 +5,21 @@ import openBox from "../../assets/icons/openBox.svg";
 import SingleComment from "./SingleComment";
 import {
   allCommentShowActive,
+  modalLoadingActive,
   singleModalPostId,
 } from "../../Redux/Features/Post/PostSlice";
 import AllCommentModal from "../Modals/AllCommentModal";
+import Shadaw from "../Loader/Shadaw";
 
 const FeedComments = ({ id, comments, post, postCreatorId }) => {
-  const { inputBoxShow, allComment } = useSelector((state) => state.mindStatus);
+  const { inputBoxShow, allComment, modalLoading } = useSelector(
+    (state) => state.mindStatus
+  );
   const dispatch = useDispatch();
   const handlerComments = (id) => {
     dispatch(allCommentShowActive());
     dispatch(singleModalPostId(id));
+    dispatch(modalLoadingActive());
   };
 
   const startIndex = Math.max(comments.length - 3, 0);
@@ -66,6 +71,7 @@ const FeedComments = ({ id, comments, post, postCreatorId }) => {
 
       {/* comments modal  */}
       {allComment && <AllCommentModal />}
+      {modalLoading && <Shadaw />}
     </div>
   );
 };

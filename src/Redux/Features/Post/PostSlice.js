@@ -11,6 +11,7 @@ const initialState = {
   allComment: false,
   modalCommentId: null,
   editPostId: null,
+  modalLoading: false,
 };
 export const socialPost = createSlice({
   name: "PostSlice",
@@ -50,6 +51,12 @@ export const socialPost = createSlice({
     getEditPostId: (state, action) => {
       state.editPostId = action.payload;
     },
+    modalLoadingActive: (state) => {
+      state.modalLoading = true;
+    },
+    modalLoadingInActive: (state) => {
+      state.modalLoading = false;
+    },
   },
 });
 
@@ -65,5 +72,7 @@ export const {
   allCommentShowInActive,
   singleModalPostId,
   getEditPostId,
+  modalLoadingActive,
+  modalLoadingInActive,
 } = socialPost.actions;
 export default socialPost.reducer;

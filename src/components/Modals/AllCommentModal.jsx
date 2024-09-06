@@ -3,7 +3,10 @@ import TimeIcon from "../../assets/icons/time.svg";
 import Close from "../../assets/icons/close.svg";
 import openBox from "../../assets/icons/openBox.svg";
 import { useEffect, useState } from "react";
-import { allCommentShowInActive } from "../../Redux/Features/Post/PostSlice";
+import {
+  allCommentShowInActive,
+  modalLoadingInActive,
+} from "../../Redux/Features/Post/PostSlice";
 import "./modalStyle.css";
 import FakeUser from "../../assets/images/fakeuser.png";
 import ModalInputBox from "../Feed/ModalInputBox";
@@ -15,7 +18,9 @@ import CommentLoader from "../Loader/CommentLoader";
 const AllCommentModal = () => {
   const dispatch = useDispatch();
   const [singlePost, setSPost] = useState([]);
-  const { modalCommentId } = useSelector((state) => state.mindStatus);
+  const { modalCommentId, modalLoading } = useSelector(
+    (state) => state.mindStatus
+  );
   const {
     data: singlePostData,
     isSuccess,
@@ -24,8 +29,9 @@ const AllCommentModal = () => {
   useEffect(() => {
     if (isSuccess) {
       setSPost(singlePostData?.data);
+      dispatch(modalLoadingInActive());
     }
-  }, [singlePostData, isSuccess]);
+  }, [singlePostData, isSuccess, dispatch]);
   const { description, createdAt, comments, poster, creatorId, _id } =
     singlePost || {};
   const { firstName, lastName, profile, _id: postCreatorId } = creatorId || {};
@@ -40,7 +46,7 @@ const AllCommentModal = () => {
 
   return (
     <>
-      {(isLoading || !isSuccess) && <CommentLoader />}
+      {(isLoading || modalLoading) && <CommentLoader />}
       <div
         onClick={handlerClick}
         className="z-50 w-full h-[100%] fixed top-0 bottom-0 bg-custom-dark left-0 right-0 "
@@ -100,11 +106,7 @@ const AllCommentModal = () => {
               <p className=" lg:mx-5 text-justify indent-5">{description}</p>
             </div>
             <div className="my-3 ">
-              <ModalInputBox
-                id={_id}
-                postCreatorId={postCreatorId}
-                loading={isLoading}
-              />
+              <ModalInputBox id={_id} postCreatorId={postCreatorId} />
             </div>
             <div className="mt-4">
               <button className="text-gray-300 max-md:text-sm">
