@@ -17,9 +17,9 @@ const FeedComments = ({ id, comments, post, postCreatorId }) => {
   );
   const dispatch = useDispatch();
   const handlerComments = (id) => {
+    dispatch(modalLoadingActive());
     dispatch(allCommentShowActive());
     dispatch(singleModalPostId(id));
-    dispatch(modalLoadingActive());
   };
 
   const startIndex = Math.max(comments.length - 3, 0);

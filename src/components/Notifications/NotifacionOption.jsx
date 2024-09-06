@@ -16,10 +16,10 @@ const NotifacionOption = ({ image, name, title, time, reactUserId }) => {
       "you to see what you're up to and what do you upload and what pictures and statuses do you give and also wants to connect with you to get regular updates";
     images = blueFollow;
   } else if (title === "Like") {
-    decision = "liked your photo";
+    decision = "your photo";
     images = blueLike;
   } else {
-    decision = "commented on your post. Check what they said.";
+    decision = "on your post. Check what they said.";
     images = commentPic;
   }
 
@@ -46,8 +46,8 @@ const NotifacionOption = ({ image, name, title, time, reactUserId }) => {
         {/* Notification Text */}
         <div className="flex-1 pl-1 lg:pl-3">
           <h2 className="text-sm sm:text-base md:text-lg lg:text-xl">
-            <span className="font-bold">{name}</span> {title} {decision}, click
-            and check their activities.
+            <span className="font-bold">{name}</span> {title}ed {decision},
+            click and check their activities.
           </h2>
           <div className="flex items-center gap-2 mt-1">
             <img className="w-3 sm:w-4 md:w-5" src={TimeIcon} alt="time" />
