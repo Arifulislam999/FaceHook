@@ -1,5 +1,6 @@
-import logo from "../../assets/images/logo.svg";
+import Logo from "../../assets/images/logoIcon.png";
 import Cookies from "js-cookie";
+import "./logoS.css";
 import notificationImg from "../../assets/icons/notification.svg";
 import home from "../../assets/icons/home.svg";
 import Logout from "../Logoptions/Logout";
@@ -18,16 +19,23 @@ const Header = () => {
       <nav className="sticky w-full top-0 z-50 border-b border-[#3F3F3F] bg-[#1E1F24] py-4">
         <div className="container flex flex-col items-center justify-between gap-6 sm:flex-row">
           {/* <!-- Logo --> */}
+
           <Link to="/">
-            <img
-              className="max-w-[100px] rounded-full lg:max-w-[130px]"
-              src={logo}
-              alt="logo"
-            />
+            <div className="flex">
+              <img
+                className="max-w-[100px] rounded-full w-12"
+                src={Logo}
+                alt="logo"
+              />
+              <span className="font-bold mt-3 ml-0.5 text-xl logoStyle">
+                LinkSy
+              </span>
+            </div>
           </Link>
+
           {/* <!-- nav links  --> */}
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 lg:space-x-4">
             <Link to="/" className="btn-primary">
               <img src={home} alt="Home" />
               Home

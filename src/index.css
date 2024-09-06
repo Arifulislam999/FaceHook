@@ -8,7 +8,9 @@
     @apply bg-deepDark font-inter text-gray-100;
   }
 }
-
+body {
+  font-family: "Raleway", sans-serif;
+}
 @layer components {
   .flex-center {
     @apply flex items-center justify-center;

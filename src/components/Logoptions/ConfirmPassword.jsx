@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
 import loginPhoto from "../../assets/images/loginImage.png";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import logo from "../../assets/images/logo.svg";
+import Logo from "../../assets/images/logoIcon.png";
+
 import { useEffect, useState } from "react";
 import Toast from "../Toast/Toast";
 import { useUserConfirmPasswordMutation } from "../../Redux/Features/userApi/userAPI";
+import Shadaw from "../Loader/Shadaw";
 
 const ConfirmPassword = () => {
   const navigate = useNavigate();
@@ -17,8 +19,10 @@ const ConfirmPassword = () => {
   const [p, setP] = useState("");
   const [cp, setCP] = useState("");
   const [err, setErr] = useState(null);
-  const [userConfirmPassword, { data: backendResponse, isSuccess, isLoading }] =
-    useUserConfirmPasswordMutation();
+  const [
+    userConfirmPassword,
+    { data: backendResponse, isSuccess, isLoading, isError, error },
+  ] = useUserConfirmPasswordMutation();
   const handlerSubmit = async (e) => {
     e.preventDefault();
     if (p !== cp) {
@@ -45,18 +49,33 @@ const ConfirmPassword = () => {
       }
     }
   }, [isSuccess, backendResponse, navigate]);
+  useEffect(() => {
+    if (isError) {
+      setErr(error?.data.message);
+      const timer = setTimeout(() => {
+        setErr(null);
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [isError, error]);
   return (
     <div>
       {err && <Toast message={err} />}
+      {isLoading && <Shadaw />}
       <nav className="sticky top-0 z-50 w-full border-b border-[#3F3F3F] bg-[#1E1F24] py-4">
         <div className="container mx-auto flex items-center justify-between px-6">
           <div>
             <Link to="/">
-              <img
-                className="max-w-[80px] md:max-w-[100px] lg:max-w-[130px] rounded-full"
-                src={logo}
-                alt="logo"
-              />
+              <div className="flex">
+                <img
+                  className="max-w-[100px] rounded-full w-12"
+                  src={Logo}
+                  alt="logo"
+                />
+                <span className="font-bold mt-3 ml-0.5 text-xl logoStyle">
+                  LinkSy
+                </span>
+              </div>
             </Link>
           </div>
           <div>

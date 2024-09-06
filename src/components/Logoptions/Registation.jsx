@@ -8,6 +8,7 @@ import { useUserRegistationMutation } from "../../Redux/Features/AuthApi/authApi
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../Redux/Features/userApi/UserSlice";
 import { loginStatusActive } from "../../Redux/Features/LogStatus/StatusSlice";
+import Shadaw from "../Loader/Shadaw";
 
 const Registation = () => {
   const dispatch = useDispatch();
@@ -82,161 +83,166 @@ const Registation = () => {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-deepDark py-8">
-      <div className="max-w-[1368px] flex-1">
-        <div className="container grid items-center gap-8 lg:grid-cols-2">
-          {/* <!-- illustration and title --> */}
-          <div>
-            {/* <!-- src="./assets/images/auth_illustration.png" --> */}
-            <motion.img
-              src={signUpImg}
-              alt="auth_illustration"
-              className="w-[300px] sm:w-[400px] lg:w-[500px] max-w-full rounded-md shadow-lg"
-              animate={{
-                y: [0, -20, 0], // Moves the image up and down
-              }}
-              transition={{
-                duration: 2, // Duration of one complete cycle
-                repeat: Infinity, // Repeat the animation indefinitely
-                repeatType: "loop", // Ensures it loops smoothly
-                ease: "easeInOut", // Smooth ease in and out motion
-              }}
-            />
+    <>
+      {isLoading && <Shadaw />}
+      <main className="flex min-h-screen items-center justify-center bg-deepDark py-8">
+        <div className="max-w-[1368px] flex-1">
+          <div className="container grid items-center gap-8 lg:grid-cols-2">
+            {/* <!-- illustration and title --> */}
             <div>
-              <h1 className="mb-3 text-4xl font-bold lg:text-[40px]">LinkSy</h1>
-              <p className="max-w-[452px] text-gray-400/95 lg:text-lg">
-                Create a social media app with features like, showing the post,
-                post details, reactions, comments and profile.
-              </p>
-            </div>
-          </div>
-          {/* <!-- illustration and title ends --> */}
-          {/* <!-- login form --> */}
-          <div className="card">
-            <h2 className="text-2xl text-center underline">Registation </h2>
-            <form
-              className="border-b border-[#3F3F3F] pb-10 lg:pb-[30px]"
-              onSubmit={handlerSubmit}
-            >
-              {/* <!-- name --> */}
-              <div className="form-control">
-                <label className="auth-label" htmlFor="firstName">
-                  First Name
-                </label>
-                <input
-                  className={`auth-input ${
-                    submit &&
-                    user.firstName.length === 0 &&
-                    "ring-[0.5px] ring-red-400"
-                  }`}
-                  name="firstName"
-                  type="text"
-                  id="firstName"
-                  value={user.firstName}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="form-control">
-                <label className="auth-label" htmlFor="lastName">
-                  Last Name
-                </label>
-                <input
-                  className={`auth-input ${
-                    submit &&
-                    user.lastName.length === 0 &&
-                    "ring-[0.5px] ring-red-400"
-                  }`}
-                  name="lastName"
-                  type="text"
-                  id="lastName"
-                  value={user.lastName}
-                  onChange={handleInputChange}
-                />
-              </div>
-              {/* <!-- email --> */}
-              <div className="form-control">
-                <label className="auth-label" htmlFor="email">
-                  Email
-                </label>
-                <input
-                  className={`auth-input ${
-                    submit &&
-                    user.email.length === 0 &&
-                    "ring-[0.5px] ring-red-400"
-                  }`}
-                  name="email"
-                  type="email"
-                  id="email"
-                  value={user.email}
-                  onChange={handleInputChange}
-                />
-              </div>
-              {/* <!-- password --> */}
-              <div className="form-control">
-                <label className="auth-label" htmlFor="password">
-                  Password
-                </label>
-                <input
-                  className={`auth-input ${
-                    submit &&
-                    user.password.length === 0 &&
-                    "ring-[0.5px] ring-red-400"
-                  }`}
-                  name="password"
-                  type="password"
-                  id="password"
-                  value={user.password}
-                  onChange={handleInputChange}
-                />
-              </div>
-              {/* <!-- confirm password --> */}
-              <div className="form-control">
-                <label className="auth-label" htmlFor="confirmPassword">
-                  Retype Password
-                </label>
-                <input
-                  className={`auth-input ${
-                    submit &&
-                    user.confirmPassword.length === 0 &&
-                    "ring-[0.5px] ring-red-400"
-                  }`}
-                  name="confirmPassword"
-                  type="password"
-                  id="confirmPassword"
-                  value={user.confirmPassword}
-                  onChange={handleInputChange}
-                />
-              </div>
-              {/* <!-- Submit --> */}
-              <button
-                disabled={isLoading}
-                className="auth-input bg-favGreen font-bold text-deepDark transition-all hover:opacity-90"
-                type="submit"
-              >
-                {!isLoading ? "Register" : "Loading..."}
-              </button>
-              {err && (
-                <p className="opacity-70 text-center mt-2 bg-red-400/80 capitalize rounded-md">
-                  {err}
+              {/* <!-- src="./assets/images/auth_illustration.png" --> */}
+              <motion.img
+                src={signUpImg}
+                alt="auth_illustration"
+                className="w-[300px] sm:w-[400px] lg:w-[500px] max-w-full rounded-md shadow-lg"
+                animate={{
+                  y: [0, -20, 0], // Moves the image up and down
+                }}
+                transition={{
+                  duration: 2, // Duration of one complete cycle
+                  repeat: Infinity, // Repeat the animation indefinitely
+                  repeatType: "loop", // Ensures it loops smoothly
+                  ease: "easeInOut", // Smooth ease in and out motion
+                }}
+              />
+              <div>
+                <h1 className="mb-6 text-3xl font-bold lg:text-[40px] logoStyle ">
+                  LinkSy
+                </h1>
+                <p className="max-w-[452px] text-gray-400/95 lg:text-lg">
+                  Create a social media app with features like, showing the
+                  post, post details, reactions, comments and profile.
                 </p>
-              )}
-            </form>
-            <div className="py-4 lg:py-4">
-              <p className="text-center text-xs text-gray-600/95 lg:text-sm">
-                Already have an account?
-                <Link
-                  className="hover:text-favGreen text-white transition-all hover:underline"
-                  to="/login"
-                >
-                  Login
-                </Link>
-              </p>
+              </div>
             </div>
+            {/* <!-- illustration and title ends --> */}
+            {/* <!-- login form --> */}
+            <div className="card">
+              <h2 className="text-2xl text-center underline">Registation </h2>
+              <form
+                className="border-b border-[#3F3F3F] pb-10 lg:pb-[30px]"
+                onSubmit={handlerSubmit}
+              >
+                {/* <!-- name --> */}
+                <div className="form-control">
+                  <label className="auth-label" htmlFor="firstName">
+                    First Name
+                  </label>
+                  <input
+                    className={`auth-input ${
+                      submit &&
+                      user.firstName.length === 0 &&
+                      "ring-[0.5px] ring-red-400"
+                    }`}
+                    name="firstName"
+                    type="text"
+                    id="firstName"
+                    value={user.firstName}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="form-control">
+                  <label className="auth-label" htmlFor="lastName">
+                    Last Name
+                  </label>
+                  <input
+                    className={`auth-input ${
+                      submit &&
+                      user.lastName.length === 0 &&
+                      "ring-[0.5px] ring-red-400"
+                    }`}
+                    name="lastName"
+                    type="text"
+                    id="lastName"
+                    value={user.lastName}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                {/* <!-- email --> */}
+                <div className="form-control">
+                  <label className="auth-label" htmlFor="email">
+                    Email
+                  </label>
+                  <input
+                    className={`auth-input ${
+                      submit &&
+                      user.email.length === 0 &&
+                      "ring-[0.5px] ring-red-400"
+                    }`}
+                    name="email"
+                    type="email"
+                    id="email"
+                    value={user.email}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                {/* <!-- password --> */}
+                <div className="form-control">
+                  <label className="auth-label" htmlFor="password">
+                    Password
+                  </label>
+                  <input
+                    className={`auth-input ${
+                      submit &&
+                      user.password.length === 0 &&
+                      "ring-[0.5px] ring-red-400"
+                    }`}
+                    name="password"
+                    type="password"
+                    id="password"
+                    value={user.password}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                {/* <!-- confirm password --> */}
+                <div className="form-control">
+                  <label className="auth-label" htmlFor="confirmPassword">
+                    Retype Password
+                  </label>
+                  <input
+                    className={`auth-input ${
+                      submit &&
+                      user.confirmPassword.length === 0 &&
+                      "ring-[0.5px] ring-red-400"
+                    }`}
+                    name="confirmPassword"
+                    type="password"
+                    id="confirmPassword"
+                    value={user.confirmPassword}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                {/* <!-- Submit --> */}
+                <button
+                  disabled={isLoading}
+                  className="auth-input bg-favGreen font-bold text-deepDark transition-all hover:opacity-90"
+                  type="submit"
+                >
+                  {!isLoading ? "Register" : "Loading..."}
+                </button>
+                {err && (
+                  <p className="opacity-70 text-center mt-2 bg-red-400/80 capitalize rounded-md">
+                    {err}
+                  </p>
+                )}
+              </form>
+              <div className="py-4 lg:py-4">
+                <p className="text-center text-xs text-gray-600/95 lg:text-sm">
+                  Already have an account?
+                  <Link
+                    className="hover:text-favGreen text-white transition-all hover:underline"
+                    to="/login"
+                  >
+                    Login
+                  </Link>
+                </p>
+              </div>
+            </div>
+            {/* <!-- login form ends --> */}
           </div>
-          {/* <!-- login form ends --> */}
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 };
 
