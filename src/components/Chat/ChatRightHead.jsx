@@ -2,6 +2,7 @@ import Me from "../../assets/images/fakeuser.png";
 import Star from "../../assets/icons/WhiteStar.svg";
 import ActiveDot from "./ActiveDot";
 import MessageInput from "./MessageInput";
+
 const ChatRightHead = () => {
   return (
     <div>
@@ -28,7 +29,7 @@ const ChatRightHead = () => {
       </div>
 
       {/* input  */}
-      <div className="fixed bottom-0 md:w-[659px] xxs:w-[320px] xs:w-[376px] mxs:w-[425px]">
+      <div className={`fixed bottom-0 md:w-[659px] w-full`}>
         <MessageInput />
       </div>
     </div>

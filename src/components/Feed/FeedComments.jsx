@@ -70,8 +70,8 @@ const FeedComments = ({ id, comments, post, postCreatorId }) => {
       {/* <!-- comments ends --> */}
 
       {/* comments modal  */}
-      {allComment && <AllCommentModal />}
       {modalLoading && <Shadaw />}
+      {allComment && <AllCommentModal />}
     </div>
   );
 };

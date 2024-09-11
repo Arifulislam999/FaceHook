@@ -26,6 +26,9 @@ body {
   .card {
     @apply rounded-md border border-[#3F3F3F] bg-mediumDark px-4 py-4 lg:px-7 lg:py-5;
   }
+  .card-box {
+    @apply rounded-md border border-[#3F3F3F] bg-mediumDark px-1 py-4 lg:px-7 lg:py-5;
+  }
   .form-control {
     @apply mb-2 space-y-2;
   }

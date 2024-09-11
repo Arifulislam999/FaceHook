@@ -25,7 +25,7 @@ const Feed = () => {
   }
   return (
     <main className="mx-auto max-w-[1020px] py-4">
-      <div className="container">
+      <div className="sm:container mx-2">
         <FeedStatus />
         <PostModal />
 

@@ -37,14 +37,14 @@ const Header = () => {
 
           {/* <!-- nav links  --> */}
 
-          <div className="flex items-center space-x-2 lg:space-x-4">
+          <div className="flex items-center space-x-3 lg:space-x-4">
             <Link to="/" className="btn-primary">
               <img src={home} alt="Home" />
               {pathname === "/" && "Home"}
             </Link>
             <Link to="/notifications">
               <button
-                className="btn-primary relative"
+                className="btn-primary relative "
                 onClick={handlerNotification}
               >
                 <NotificationToolTip />
@@ -61,7 +61,7 @@ const Header = () => {
 
             <Link to={`/profile/${user?._id}`}>
               <button className="flex-center sm:!ml-8 gap-2">
-                <span className="text-lg font-medium lg:text-xl">
+                <span className="hidden sm:block text-lg font-medium lg:text-xl">
                   {user?.firstName}
                 </span>
                 <img

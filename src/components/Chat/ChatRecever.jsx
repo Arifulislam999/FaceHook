@@ -16,7 +16,7 @@ const ChatReceiver = () => {
         <ActiveDot />
       </div>
       <div
-        className={`bg-gray-800 text-white rounded-md xxs:max-w-[210px] xs:max-w-[260px] mxs:max-w-[280px] sm:max-w-sm  px-3  ml-1 ${
+        className={`bg-gradient-to-r from-black via-gray-900 to-gray-800  text-white rounded-md xxs:max-w-[210px] xs:max-w-[260px] mxs:max-w-[280px] sm:max-w-sm  px-3  ml-1 ${
           windowWidth < 441 && "max-w-[260px]"
         } `}
       >

@@ -141,7 +141,7 @@ export const Profile = () => {
     <>
       <div>{toastMessage && <Toast message={toastMessage} />}</div>
       <main className="mx-auto max-w-[1020px] py-2">
-        <div className="container">
+        <div className="sm:container mx-2">
           {/* <!-- profile info --> */}
           <div className=" py-8 text-center">
             {/* Background DP  */}
@@ -247,7 +247,7 @@ export const Profile = () => {
             <div className="mt-2 flex items-start gap-2 lg:mt-4">
               <div className="flex-1">
                 {!editMode ? (
-                  <div className="leading-[188%] text-center capitalize text-gray-400 lg:text-lg  indent-5 ml-2">
+                  <div className="leading-[188%] text-justify capitalize text-gray-400 lg:text-lg  indent-5 ml-2">
                     {frontUser?.bio?.length === 0 || bio === undefined ? (
                       <h2 className="text-center">
                         {user?._id === frontUser?._id

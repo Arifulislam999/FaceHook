@@ -7,7 +7,7 @@ const ChatSender = () => {
   return (
     <div className="flex justify-end mt-2 ">
       <div
-        className={`bg-gray-900 text-white rounded-md xxs:max-w-[210px] xs:max-w-[260px] mxs:max-w-[280px] sm:max-w-sm  px-3 max-w-sm  ${
+        className={`bg-gradient-to-r from-black via-gray-950 to-gray-800  text-white rounded-md xxs:max-w-[210px] xs:max-w-[260px] mxs:max-w-[280px] sm:max-w-sm  px-3 max-w-sm  ${
           windowWidth < 441 && "max-w-[260px]"
         }`}
       >
