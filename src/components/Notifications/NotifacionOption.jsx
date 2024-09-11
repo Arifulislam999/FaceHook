@@ -22,7 +22,6 @@ const NotifacionOption = ({ image, name, title, time, reactUserId }) => {
     decision = "on your post. Check what they said.";
     images = commentPic;
   }
-
   return (
     <Link to={`/profile/${reactUserId}`}>
       <div className="flex gap-3 sm:gap-4 cursor-pointer hover:bg-mediumDark hover:rounded-md px-2 py-3 items-start">
@@ -46,8 +45,8 @@ const NotifacionOption = ({ image, name, title, time, reactUserId }) => {
         {/* Notification Text */}
         <div className="flex-1 pl-1 lg:pl-3">
           <h2 className="text-sm sm:text-base md:text-lg lg:text-xl">
-            <span className="font-bold">{name}</span> {title}ed {decision},
-            click and check their activities.
+            <span className="font-bold">{name}</span> {title} {decision}, click
+            and check {name}'s activities.
           </h2>
           <div className="flex items-center gap-2 mt-1">
             <img className="w-3 sm:w-4 md:w-5" src={TimeIcon} alt="time" />

@@ -6,7 +6,7 @@ import { usePostLikeMutation } from "../../Redux/Features/Post/postAPI";
 import { useSelector } from "react-redux";
 import Toast from "../Toast/Toast";
 import { usePostNotificationMutation } from "../../Redux/Features/Notification/notificationAPI";
-const Like = ({ Likes, id, userId }) => {
+const Like = ({ Likes, id, userId, loginUserId }) => {
   const [toastMessage, setToastMessage] = useState(null);
   const [postNotification] = usePostNotificationMutation();
   const { user } = useSelector((state) => state.loginUser);
@@ -17,7 +17,7 @@ const Like = ({ Likes, id, userId }) => {
   );
   const handlerLike = async (id, userId) => {
     try {
-      await postLike({ data: id });
+      await postLike({ data: { id, loginUserId } });
 
       if (!alreadyLikeThisPost) {
         await postNotification({

@@ -9,10 +9,11 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { timeDifference } from "../utils/timeDirrerence";
-import { useUserFollowerMutation } from "../../Redux/Features/userApi/userAPI";
 import Like from "./Like";
 import { usePostNotificationMutation } from "../../Redux/Features/Notification/notificationAPI";
 import EditPost from "./EditPost";
+import { useUserFollowerMutation } from "../../Redux/Features/Post/postAPI";
+import Shadaw from "../Loader/Shadaw";
 
 const FeedPost = ({ post }) => {
   const { poster, description, createdAt, comments, likes, _id } = post || {};
@@ -35,7 +36,9 @@ const FeedPost = ({ post }) => {
 
   const handlerFollower = async (userId) => {
     try {
-      await userFollower({ data: userId });
+      await userFollower({
+        data: { userId, follwerId: user._id, postId: _id },
+      });
       if (!isExistsUserFollower) {
         await postNotification({
           data: { postCreatorId: userId, postId: _id, action: "Follow" },
@@ -74,7 +77,7 @@ const FeedPost = ({ post }) => {
                 </span>
               </div>
             </div>
-
+            {isLoading && <Shadaw />}
             {user._id !== userId && (
               <div className="ml-1.5 mt-[5px]">
                 <button
@@ -131,7 +134,7 @@ const FeedPost = ({ post }) => {
       {/* <!-- post actions --> */}
       <div className="flex items-center justify-between py-4 lg:px-10 ">
         {/* <!-- Like Button --> */}
-        <Like Likes={likes} id={_id} userId={userId} />
+        <Like Likes={likes} id={_id} userId={userId} loginUserId={user?._id} />
 
         {/* <!-- Comment Button --> */}
         <CommentBox id={_id} comments={comments} />

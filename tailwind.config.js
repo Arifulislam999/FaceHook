@@ -19,9 +19,15 @@ export default {
       backgroundColor: {
         "custom-dark": "rgba(23, 24,28, 0.7)",
         mediumDark: "#27292F",
+        slowDark: "#3C3E45",
       },
       zIndex: {
         9999: "9999",
+      },
+      screens: {
+        xxs: "319px",
+        xs: "375px",
+        mxs: "425px",
       },
     },
   },

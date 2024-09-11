@@ -39,23 +39,60 @@ const postApi = apiSlice.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["like"],
-      // async onQueryStarted(arg, { queryFulfilled, dispatch }) {
-      //   // like optimistic cache update start
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        // like optimistic cache update start
 
-      //   const optimisticLikeUpdate = dispatch(
+        const optimisticLikeUpdate = dispatch(
+          apiSlice.util.updateQueryData("getAllPost", undefined, (draft) => {
+            const post = draft?.data.find((p) => p._id == arg.data.id);
+            const alreadyLike = post.likes.some(
+              (like) => like.likeUserId == arg.data.loginUserId
+            );
+            if (alreadyLike) {
+              post.likes.pop(arg.data.loginUserId);
+            } else {
+              post.likes.push(arg.data.loginUserId);
+            }
+          })
+        );
+
+        try {
+          await queryFulfilled;
+        } catch (error) {
+          optimisticLikeUpdate.undo();
+        }
+        // like optimistic cache update end
+      },
+    }),
+    userFollower: builder.mutation({
+      query: (data) => ({
+        url: "/api/user/followers",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["followers"],
+
+      /// on query started.
+      // async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+      //   const result = dispatch(
       //     apiSlice.util.updateQueryData("getAllPost", undefined, (draft) => {
-      //       const post = draft?.data.find((p) => p._id == arg.id);
-      //       // post.likes.pop(arg.data);
-      //       post.likes.includes({});
+      //       const Post = JSON.stringify(
+      //         draft.data.find((p) => p._id == arg.data.postId)
+      //       );
+      //       let exist = JSON.parse(Post).creatorId.followers.some(
+      //         (p) => p.followerUserId == arg.data.follwerId
+      //       );
+      //       isFollow(exist);
+      //       console.log(exist);
       //     })
       //   );
-
       //   try {
+
       //     await queryFulfilled;
       //   } catch (error) {
-      //     optimisticLikeUpdate.undo();
+      //     console.log(error);
+      //     result.undo();
       //   }
-      //   // like optimistic cache update end
       // },
     }),
     getSinglePost: builder.query({
@@ -86,6 +123,7 @@ export const {
   useGetAllPostQuery,
   useCommentPostMutation,
   usePostLikeMutation,
+  useUserFollowerMutation,
   useGetSinglePostQuery,
   useUpdatePostMutation,
   useDeletePostMutation,

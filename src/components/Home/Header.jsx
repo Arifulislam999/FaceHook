@@ -3,17 +3,19 @@ import Cookies from "js-cookie";
 import "./logoS.css";
 import notificationImg from "../../assets/icons/notification.svg";
 import home from "../../assets/icons/home.svg";
+import chat from "../../assets/icons/chat.svg";
 import Logout from "../Logoptions/Logout";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import NotificationToolTip from "../Notifications/NotificationToolTip";
 const Header = () => {
+  const pathname = window.location.pathname;
+  let subPath = pathname.slice(0, 5);
   const { user } = useSelector((state) => state.loginUser);
   const { notification } = useSelector((state) => state.getNotification);
   const handlerNotification = () => {
     Cookies.set("Notification", notification?.length, { expires: 365 });
   };
-
   return (
     <div>
       <nav className="sticky w-full top-0 z-50 border-b border-[#3F3F3F] bg-[#1E1F24] py-4">
@@ -38,22 +40,27 @@ const Header = () => {
           <div className="flex items-center space-x-2 lg:space-x-4">
             <Link to="/" className="btn-primary">
               <img src={home} alt="Home" />
-              Home
+              {pathname === "/" && "Home"}
             </Link>
             <Link to="/notifications">
               <button
-                className="icon-btn relative"
+                className="btn-primary relative"
                 onClick={handlerNotification}
               >
                 <NotificationToolTip />
                 <img src={notificationImg} alt="Notification" />
+
+                {pathname === "/notifications" && "Notification"}
               </button>
             </Link>
-
+            <Link to="/chat" className="btn-primary">
+              <img src={chat} alt="Home" className="w-6" />
+              {(pathname === "/chat" || subPath === "/chat") && "Chat"}
+            </Link>
             <Logout />
 
             <Link to={`/profile/${user?._id}`}>
-              <button className="flex-center !ml-8 gap-3">
+              <button className="flex-center sm:!ml-8 gap-2">
                 <span className="text-lg font-medium lg:text-xl">
                   {user?.firstName}
                 </span>

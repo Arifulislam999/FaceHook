@@ -10,7 +10,14 @@ import ErrorPage from "./components/Error/ErrorPage";
 import ForgotPassword from "./components/Logoptions/ForgotPassword";
 import ConfirmPassword from "./components/Logoptions/ConfirmPassword";
 
+import ChatPage from "./components/Chat/ChatPage";
+
+import MessageBody from "./components/Chat/MessageBody";
+import { useSelector } from "react-redux";
+import MessageBodyMobile from "./components/Chat/ChatBodyMobile";
+
 function App() {
+  const { windowWidth } = useSelector((state) => state.tokenStatus);
   return (
     <>
       <Router>
@@ -43,6 +50,24 @@ function App() {
                 </>
               }
               path="/notifications"
+            />
+            <Route
+              element={
+                <>
+                  <Header />
+                  <ChatPage />
+                </>
+              }
+              path="/chat"
+            />
+            <Route
+              element={
+                <>
+                  <Header />
+                  {windowWidth > 640 ? <MessageBody /> : <MessageBodyMobile />}
+                </>
+              }
+              path="/chat/:id"
             />
           </Route>
           <Route element={<Login />} path="/login" />

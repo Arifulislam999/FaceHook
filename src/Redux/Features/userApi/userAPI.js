@@ -18,14 +18,7 @@ const userApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["update-image"],
     }),
-    userFollower: builder.mutation({
-      query: (data) => ({
-        url: "/api/user/followers",
-        method: "PATCH",
-        body: data,
-      }),
-      invalidatesTags: ["followers"],
-    }),
+
     userResetPassword: builder.mutation({
       query: (data) => ({
         url: "/api/user/forget-password",
@@ -45,7 +38,6 @@ const userApi = apiSlice.injectEndpoints({
 export const {
   useUpdateBioMutation,
   useUploadImageMutation,
-  useUserFollowerMutation,
   useUserResetPasswordMutation,
   useUserConfirmPasswordMutation,
 } = userApi;

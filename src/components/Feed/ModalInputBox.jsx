@@ -33,7 +33,6 @@ const ModalInputBox = ({ id, postCreatorId }) => {
   }, [dispatch, debounceSearch]);
 
   const handlerCommentsSubmit = async () => {
-    console.log(text.length);
     if (text.length > 0 && text !== "") {
       dispatch(commentShowInActive());
       setText("");
