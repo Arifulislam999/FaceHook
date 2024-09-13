@@ -249,7 +249,7 @@ export const Profile = () => {
                 {!editMode ? (
                   <div className="leading-[188%] text-justify capitalize text-gray-400 lg:text-lg  indent-5 ml-2">
                     {frontUser?.bio?.length === 0 || bio === undefined ? (
-                      <h2 className="text-center">
+                      <h2 className="text-center mr-2">
                         {user?._id === frontUser?._id
                           ? "Please Click Button beside & Update Bio Information."
                           : `${frontUser.firstName} ${frontUser.lastName} hasn't changed  bio information yet!`}

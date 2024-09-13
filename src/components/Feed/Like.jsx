@@ -15,7 +15,9 @@ const Like = ({ Likes, id, userId, loginUserId }) => {
   const alreadyLikeThisPost = Likes.some(
     (like) => like.likeUserId === user?._id
   );
+  const [isLike, setIsLike] = useState(alreadyLikeThisPost);
   const handlerLike = async (id, userId) => {
+    setIsLike((prev) => !prev);
     try {
       await postLike({ data: { id, loginUserId } });
 
@@ -40,12 +42,14 @@ const Like = ({ Likes, id, userId, loginUserId }) => {
         className="flex-center gap-2  text-xs font-bold text-[#B8BBBF] hover:text-white lg:text-sm"
       >
         <img
-          src={alreadyLikeThisPost ? blueLike : LikeIcon}
+          src={alreadyLikeThisPost || isLike ? blueLike : LikeIcon}
           alt="Like"
           width={20}
           className="-mt-1"
         />
-        <span className={`${alreadyLikeThisPost && "text-blue-500"}`}>
+        <span
+          className={`${(alreadyLikeThisPost || isLike) && "text-blue-500"}`}
+        >
           Like({Likes.length || 0})
         </span>
       </button>

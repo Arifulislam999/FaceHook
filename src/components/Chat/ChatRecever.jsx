@@ -1,12 +1,20 @@
 import { useSelector } from "react-redux";
 import Me from "../../assets/images/fakeuser.png";
 import ActiveDot from "./ActiveDot";
+import { useEffect, useRef } from "react";
 
 const ChatReceiver = () => {
   const { windowWidth } = useSelector((state) => state.tokenStatus);
+  const messageRef = useRef();
+
+  useEffect(() => {
+    if (messageRef.current) {
+      messageRef.current.scrollIntoView();
+    }
+  }, []);
 
   return (
-    <div className="flex items-end z-10 pt-2 ml-3">
+    <div className="flex items-end z-10 pt-2 ml-3" ref={messageRef}>
       <img
         className="w-8  h-8 border border-r-indigo-300 rounded-full"
         src={Me}
@@ -21,10 +29,10 @@ const ChatReceiver = () => {
         } `}
       >
         <div className="flex justify-between">
-          <h1 className="font-bold">Ariful Islam</h1>
+          <h1 className="font-bold ">Ariful Islam</h1>
           <span className="text-xs text-gray-400 mt-1.5 ml-3">12:12 pm</span>
         </div>
-        <p className="pb-1">
+        <p className="pb-1 text-gray-400">
           As I am already working on that document... I am already working on
           that document.
         </p>
