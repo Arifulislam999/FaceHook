@@ -19,26 +19,6 @@ const MessageBody = () => {
         <ChatSender />
         <ChatReceiver />
         <ChatSender />
-        <ChatReceiver />
-        <ChatSender />
-        <ChatReceiver />
-        <ChatSender />
-        <ChatReceiver />
-        <ChatSender />
-
-        <ChatReceiver />
-        <ChatSender />
-        <ChatReceiver />
-        <ChatSender />
-        <ChatReceiver />
-        <ChatSender />
-        <ChatReceiver />
-        <ChatSender />
-        <ChatReceiver />
-        <ChatSender />
-        <ChatReceiver />
-        <ChatSender />
-        <ChatReceiver />
       </div>
       <div className="pt-14"></div>
     </div>

@@ -15,9 +15,16 @@ import ChatPage from "./components/Chat/ChatPage";
 import MessageBody from "./components/Chat/MessageBody";
 import { useSelector } from "react-redux";
 import MessageBodyMobile from "./components/Chat/ChatBodyMobile";
+import usePageHeight from "./components/hooks/usePageHeight";
+import FixedHeader from "./components/Home/FixedHeader";
 
 function App() {
   const { windowWidth } = useSelector((state) => state.tokenStatus);
+
+  // calculate height
+
+  const { scrollPosition } = usePageHeight();
+
   return (
     <>
       <Router>
@@ -26,6 +33,10 @@ function App() {
             <Route
               element={
                 <>
+                  {scrollPosition > 1000 && (
+                    <FixedHeader positionH={scrollPosition} />
+                  )}
+
                   <Header />
                   <Profile />
                 </>
@@ -35,6 +46,9 @@ function App() {
             <Route
               element={
                 <>
+                  {scrollPosition > 1000 && (
+                    <FixedHeader positionH={scrollPosition} />
+                  )}
                   <Header />
                   <Home />
                 </>
@@ -45,6 +59,9 @@ function App() {
             <Route
               element={
                 <>
+                  {scrollPosition > 1000 && (
+                    <FixedHeader positionH={scrollPosition} />
+                  )}
                   <Header />
                   <Notifications />
                 </>

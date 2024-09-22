@@ -70,7 +70,7 @@ const postApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: ["followers"],
+      invalidatesTags: ["followers", "chat-user"],
 
       /// on query started.
       // async onQueryStarted(arg, { queryFulfilled, dispatch }) {

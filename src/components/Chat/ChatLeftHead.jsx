@@ -6,24 +6,59 @@ import ChatUserLeft from "./ChatUserLeft";
 import { useSelector } from "react-redux";
 import FavouriteList from "./FavouriteList";
 import ChatAll from "./ChatAll";
+import { useGetAllFollowerChatListQuery } from "../../Redux/Features/Chat/ChatLeft/chatLeftAPI";
+import { useEffect, useState } from "react";
+import Shadaw from "../Loader/Shadaw";
+import { Link } from "react-router-dom";
 
 const ChatLeftHead = () => {
   const { chatActionValue } = useSelector((state) => state.chatLeft);
+  const { user } = useSelector((state) => state.loginUser);
+  const { firstName, lastName, profile, _id } = user || {};
+
+  const {
+    data: followerUserList,
+    isError,
+    error,
+    isSuccess,
+    isLoading,
+  } = useGetAllFollowerChatListQuery();
+  const [fUserList, setFUserList] = useState([]);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setFUserList(followerUserList?.data);
+    }
+  }, [isSuccess, followerUserList]);
+
+  useEffect(() => {
+    if (isError) {
+      console.log(error);
+    }
+  }, [isError, error]);
+
   return (
     <div className="bg-mediumDark">
       <div className="sticky top-0 ">
+        {isLoading && <Shadaw />}
         <div className="flex justify-between p-3 bg-mediumDark">
           <div className="flex sticky">
-            <img
-              className="w-12 border border-r-indigo-300 rounded-full"
-              src={Me}
-              alt="picture"
-            />
+            <Link to={`/profile/${_id}`}>
+              <img
+                className="w-12 h-12 border border-r-indigo-300 rounded-full"
+                src={profile || Me}
+                alt={firstName}
+              />
+            </Link>
             <div className="ml-2">
               <ActiveDot />
             </div>
             <div className="flex flex-col">
-              <span className="mt-1 text-lg ml-1 font-bold">Ariful Islam</span>
+              <Link to={`/profile/${_id}`}>
+                <span className="mt-1 text-lg ml-1 font-bold">
+                  {firstName} {lastName}
+                </span>
+              </Link>
               <span className="text-[10px] -mt-1 text-gray-400 -pt-3">
                 Active Now
               </span>
@@ -37,38 +72,20 @@ const ChatLeftHead = () => {
           <ChatLeftSearch />
         </div>
       </div>
+
+      {chatActionValue === "all" &&
+        fUserList?.map((fuser, i) => <ChatAll key={i} chatList={fuser} />)}
       {chatActionValue === "active" && (
         <div className="bg-mediumDark mx-3 flex-grow  ">
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
-          <ChatUserLeft />
+          {fUserList?.map((fuser, index) => (
+            <ChatUserLeft key={index} chatList={fuser} />
+          ))}
         </div>
       )}
-      {chatActionValue === "favourite" && <FavouriteList />}
-      {chatActionValue === "all" && <ChatAll />}
+      {chatActionValue === "favourite" &&
+        fUserList?.map((fuser, i) => (
+          <FavouriteList key={i} chatList={fuser} />
+        ))}
     </div>
   );
 };

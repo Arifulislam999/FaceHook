@@ -18,6 +18,7 @@ const PrivateRoute = () => {
     const handlerResize = () => {
       dispatch(getWindoSize(window.innerWidth));
     };
+
     window.addEventListener("resize", handlerResize);
     // Clean up event listener on unmount
     return () => window.removeEventListener("resize", handlerResize);

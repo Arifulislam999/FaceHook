@@ -25,7 +25,7 @@ const SingleComment = ({ comment }) => {
                 onClick={handlerProfile}
                 className="font-bold cursor-pointer hover:text-blue-300 duration-100 transition-all hover:opacity-70"
               >
-                {comment.userName}{" "}
+                {comment.userName}
               </span>
             </Link>
             <div>

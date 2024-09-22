@@ -15,6 +15,7 @@ const authApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["logout-chat"],
     }),
     userLoginStatus: builder.query({
       query: () => ({

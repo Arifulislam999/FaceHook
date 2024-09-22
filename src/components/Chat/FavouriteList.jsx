@@ -1,11 +1,10 @@
+/* eslint-disable react/prop-types */
 import ChatUserLeft from "./ChatUserLeft";
 
-const FavouriteList = () => {
+const FavouriteList = ({ chatList }) => {
   return (
     <div className="bg-mediumDark mx-3 flex-grow  ">
-      <ChatUserLeft />
-      <ChatUserLeft />
-      <ChatUserLeft />
+      <ChatUserLeft chatList={chatList} />
     </div>
   );
 };

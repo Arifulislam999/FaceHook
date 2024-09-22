@@ -3,7 +3,7 @@ import openPost from "../../assets/images/openPost.png";
 
 const BlankPost = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-deepDark text-center">
+    <div className="flex flex-col items-center justify-center h-96 bg-deepDark text-center">
       <motion.img
         src={openPost}
         alt="Open Post"

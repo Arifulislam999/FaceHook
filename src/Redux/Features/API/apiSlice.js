@@ -23,6 +23,8 @@ export const apiSlice = createApi({
     "edit",
     "delete-post",
     "comment-modal-post",
+    "chat-user",
+    "logout-chat",
   ],
   endpoints: (builder) => ({}),
 });

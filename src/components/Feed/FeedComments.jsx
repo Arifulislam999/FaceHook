@@ -44,7 +44,7 @@ const FeedComments = ({ id, comments, post, postCreatorId }) => {
           </div>
         )}
         {/* <!-- comments --> */}
-        <div className="space-y-4 divide-y divide-lighterDark pl-2 lg:pl-3">
+        <div className="space-y-2 divide-y divide-lighterDark pl-2 lg:pl-3">
           {/* <!-- single comment --> */}
           {comments.length > 0 ? (
             comments

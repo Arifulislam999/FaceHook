@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 const EmptyNotification = () => {
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-deepDark text-center">
+    <div className="flex flex-col items-center justify-center h-96 bg-deepDark text-center">
       <motion.svg
         className="w-40 h-40 text-gray-300"
         xmlns="http://www.w3.org/2000/svg"

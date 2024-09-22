@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { chatActionLeft } from "../../Redux/Features/Chat/ChatLeft/ChatLeftSlice";
 const ChatLeftSearch = () => {
   const dispatch = useDispatch();
-  const [action, setAction] = useState("active");
+  const [action, setAction] = useState("all");
   const { chatActionValue } = useSelector((state) => state.chatLeft);
 
   useEffect(() => {
@@ -28,6 +28,15 @@ const ChatLeftSearch = () => {
       <div className="uppercase pt-2 flex basis-full text-sm sm:basis-2/6  p-3 justify-between">
         <h2
           className={`font-bold px-2 cursor-pointer ${
+            chatActionValue === "all" && "text-blue-400"
+          }`}
+          onClick={() => setAction("all")}
+        >
+          All
+        </h2>
+
+        <h2
+          className={`font-bold px-2 cursor-pointer ${
             chatActionValue === "active" && "text-blue-400"
           }`}
           onClick={() => setAction("active")}
@@ -41,14 +50,6 @@ const ChatLeftSearch = () => {
           onClick={() => setAction("favourite")}
         >
           Favourite
-        </h2>
-        <h2
-          className={`font-bold px-2 cursor-pointer ${
-            chatActionValue === "all" && "text-blue-400"
-          }`}
-          onClick={() => setAction("all")}
-        >
-          All
         </h2>
       </div>
     </div>
