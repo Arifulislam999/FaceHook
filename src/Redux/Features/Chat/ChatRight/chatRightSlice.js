@@ -9,7 +9,12 @@ export const chatRightSlice = createSlice({
   initialState,
   reducers: {
     selectChatUser: (state, action) => {
-      state.chatUser.push(action.payload);
+      if (state.chatUser.length > 0) {
+        state.chatUser = [];
+        state.chatUser.push(action.payload);
+      } else {
+        state.chatUser.push(action.payload);
+      }
     },
   },
 });
