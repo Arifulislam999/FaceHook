@@ -1,0 +1,28 @@
+import { apiSlice } from "../../API/apiSlice";
+
+const chatRightApi = apiSlice.injectEndpoints({
+  endpoints: (builder) => ({
+    sendMessage: builder.mutation({
+      query: (data) => ({
+        url: `/api/message/send`,
+        method: "POST",
+        body: data,
+      }),
+    }),
+    getMessage: builder.query({
+      query: (id) => ({
+        url: `/api/message/get-message/${id}`,
+      }),
+    }),
+    getSingleUserForChat: builder.query({
+      query: (id) => ({
+        url: `/api/message/get-singleuser-for-chat/${id}`,
+      }),
+    }),
+  }),
+});
+export const {
+  useSendMessageMutation,
+  useGetMessageQuery,
+  useGetSingleUserForChatQuery,
+} = chatRightApi;

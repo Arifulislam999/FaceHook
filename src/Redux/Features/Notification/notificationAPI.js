@@ -6,6 +6,7 @@ const notificationApi = apiSlice.injectEndpoints({
       query: () => ({
         url: "/api/notification/get-notifications",
       }),
+      providesTags: ["decline-follow", "accept-follower"],
     }),
     postNotification: builder.mutation({
       query: (data) => ({

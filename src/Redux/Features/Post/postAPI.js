@@ -22,6 +22,8 @@ const postApi = apiSlice.injectEndpoints({
         "update-image",
         "edit",
         "delete-post",
+        "decline-follow",
+        "accept-follower",
       ],
     }),
     commentPost: builder.mutation({
@@ -71,29 +73,22 @@ const postApi = apiSlice.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["followers", "chat-user"],
-
-      /// on query started.
-      // async onQueryStarted(arg, { queryFulfilled, dispatch }) {
-      //   const result = dispatch(
-      //     apiSlice.util.updateQueryData("getAllPost", undefined, (draft) => {
-      //       const Post = JSON.stringify(
-      //         draft.data.find((p) => p._id == arg.data.postId)
-      //       );
-      //       let exist = JSON.parse(Post).creatorId.followers.some(
-      //         (p) => p.followerUserId == arg.data.follwerId
-      //       );
-      //       isFollow(exist);
-      //       console.log(exist);
-      //     })
-      //   );
-      //   try {
-
-      //     await queryFulfilled;
-      //   } catch (error) {
-      //     console.log(error);
-      //     result.undo();
-      //   }
-      // },
+    }),
+    userFollowDecline: builder.mutation({
+      query: (data) => ({
+        url: "/api/user/follower-decline",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["decline-follow"],
+    }),
+    userFollowAccept: builder.mutation({
+      query: (data) => ({
+        url: "/api/user/follow-accept",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["accept-follower"],
     }),
     getSinglePost: builder.query({
       query: (id) => ({
@@ -127,4 +122,6 @@ export const {
   useGetSinglePostQuery,
   useUpdatePostMutation,
   useDeletePostMutation,
+  useUserFollowDeclineMutation,
+  useUserFollowAcceptMutation,
 } = postApi;

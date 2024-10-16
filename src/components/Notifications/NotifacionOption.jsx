@@ -6,8 +6,17 @@ import blueFollow from "../../assets/icons/blueFollow.svg";
 import commentPic from "../../assets/icons/blueComment.svg";
 import blueLike from "../../assets/icons/blueLikeN.svg";
 import { Link } from "react-router-dom";
+import FollowAcceptButton from "./FollowAcceptButton";
 
-const NotifacionOption = ({ image, name, title, time, reactUserId }) => {
+const NotifacionOption = ({
+  image,
+  name,
+  title,
+  time,
+  reactUserId,
+  actionFollowStatus,
+  notificationId,
+}) => {
   let decision = null;
   let images = null;
 
@@ -24,7 +33,7 @@ const NotifacionOption = ({ image, name, title, time, reactUserId }) => {
   }
   return (
     <Link to={`/profile/${reactUserId}`}>
-      <div className="flex gap-3 sm:gap-4 cursor-pointer hover:bg-mediumDark hover:rounded-md px-2 py-3 items-start">
+      <div className="flex gap-3 sm:gap-4 z-20 cursor-pointer hover:bg-mediumDark hover:rounded-md px-2 py-3 items-start">
         {/* Profile Image */}
         <div className="relative">
           <img
@@ -48,6 +57,15 @@ const NotifacionOption = ({ image, name, title, time, reactUserId }) => {
             <span className="font-bold">{name}</span> {title} {decision}, click
             and check {name}'s activities.
           </h2>
+          <div>
+            {title === "Follow" && (
+              <FollowAcceptButton
+                actionFollowStatus={actionFollowStatus}
+                reactUserId={reactUserId}
+                notificationId={notificationId}
+              />
+            )}
+          </div>
           <div className="flex items-center gap-2 mt-1">
             <img className="w-3 sm:w-4 md:w-5" src={TimeIcon} alt="time" />
             <span className="text-xs text-gray-400 sm:text-sm">

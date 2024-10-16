@@ -1,4 +1,3 @@
-import world from "../../assets/icons/world.svg";
 import Close from "../../assets/icons/close.svg";
 import addPhoto from "../../assets/icons/addPhoto.svg";
 import Toast from "../Toast/Toast";
@@ -17,6 +16,7 @@ const PostModal = () => {
   const ref = useRef(null);
   const [cross, setCross] = useState(mindPostModalStatus);
   const [status, setStatus] = useState("");
+  const [isPublic, setIsPublic] = useState(true);
   const [poster, setPoster] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [err, setErr] = useState(null);
@@ -41,9 +41,10 @@ const PostModal = () => {
       const formData = new FormData();
       formData.append("image", poster);
       formData.append("post", status);
+      formData.append("isPublic", isPublic);
       await userPost(formData);
       setStatus(null);
-      setPoster(null);
+      setIsPublic(true);
     } else {
       setErr("Fill all input box.");
       const timer = setTimeout(() => {
@@ -113,13 +114,19 @@ const PostModal = () => {
                   <p className="font-semibold -mt-1">
                     {user?.firstName} {user?.lastName}
                   </p>
-                  <div className="flex bg-gray-700 w-[5.3rem] rounded-md cursor-pointer">
-                    <img
-                      className="w-6 h-6 text-white "
-                      src={world}
-                      alt="world"
-                    />
-                    <p>Public▾</p>
+                  <div className="flex bg-gray-700 w-[5.3rem] rounded-sm cursor-pointer">
+                    <select
+                      name="option"
+                      className="bg-gray-700 border-0 outline-none"
+                      onChange={(e) => setIsPublic(e.target.value)}
+                    >
+                      <option value="true">
+                        <p>Public</p>
+                      </option>
+                      <option value="false">
+                        <p>Private</p>
+                      </option>
+                    </select>
                   </div>
                 </div>
               </div>

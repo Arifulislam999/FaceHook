@@ -137,6 +137,7 @@ export const Profile = () => {
       console.log(error);
     }
   };
+
   return !isLoading ? (
     <>
       <div>{toastMessage && <Toast message={toastMessage} />}</div>
@@ -313,8 +314,12 @@ export const Profile = () => {
             <h2 className="text-center">
               <BlankPost />
             </h2>
-          ) : (
+          ) : searchId === user?._id ? (
             userPosts?.map((p, index) => <FeedPost key={index} post={p} />)
+          ) : (
+            userPosts?.map((p, index) =>
+              p?.isPublic === false ? null : <FeedPost key={index} post={p} />
+            )
           )}
         </div>
       </main>

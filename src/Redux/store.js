@@ -9,6 +9,7 @@ import userReducer from "./Features/userApi/UserSlice";
 import notificationReducer from "./Features/Notification/notificationSliceStatus";
 import followerReducer from "./Features/Follwers/FollowerSlice";
 import chatLeftReducer from "./Features/Chat/ChatLeft/ChatLeftSlice";
+import chatRightReducer from "./Features/Chat/ChatRight/chatRightSlice";
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
@@ -20,6 +21,7 @@ export const store = configureStore({
     getNotification: notificationReducer,
     followStatus: followerReducer,
     chatLeft: chatLeftReducer,
+    chatRight: chatRightReducer,
   },
 
   middleware: (getDefaultMiddlewares) =>

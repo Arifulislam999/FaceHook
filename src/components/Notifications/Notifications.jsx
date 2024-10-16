@@ -8,7 +8,8 @@ const Notifications = () => {
   return (
     <div className="max-w-[1020px] mx-auto">
       <h2 className="mt-4 font-bold lg:text-xl mx-3">Notifications</h2>
-      <h2 className="mt-4 mx-3">New</h2>
+      {notification?.length > 0 && <h2 className="mt-4 mx-3">New</h2>}
+
       <div className="mx-4 ">
         {notification?.length === 0 ? (
           <EmptyNotification />
@@ -21,6 +22,8 @@ const Notifications = () => {
               title={noti.action}
               time={noti.createdAt}
               reactUserId={noti.reactUserId}
+              actionFollowStatus={noti.actionFollowStatus}
+              notificationId={noti?._id}
             />
           ))
         )}

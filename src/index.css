@@ -68,3 +68,7 @@ body::-webkit-scrollbar-thumb {
   border-radius: 2px; /* roundness of the scroll thumb */
   border: 1px solid rgb(168, 83, 111); /* creates padding around scroll thumb */
 }
+::selection {
+  /* background-color: #20201e; Set your desired background color  */
+  color: #e44df8; /* Optionally set a contrasting text color */
+}

@@ -3,6 +3,7 @@
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { allCommentShowInActive } from "../../Redux/Features/Post/PostSlice";
+import { timeDifference } from "../utils/timeDirrerence";
 
 const SingleComment = ({ comment }) => {
   const dispatch = useDispatch();
@@ -18,9 +19,11 @@ const SingleComment = ({ comment }) => {
         alt="avatar2"
       />
       <div>
-        <div className="flex gap-1 text-xs lg:text-sm">
+        <div className="flex gap-1 flex-col text-xs lg:text-sm">
           <div className="bg-deepDark px-4 py-2 rounded-md ">
-            <Link to={`/profile/${comment.commentUserId}`}>
+            <Link
+              to={`/profile/${comment.commentUserId}?name=${comment.userName}`}
+            >
               <span
                 onClick={handlerProfile}
                 className="font-bold cursor-pointer hover:text-blue-300 duration-100 transition-all hover:opacity-70"
@@ -33,6 +36,11 @@ const SingleComment = ({ comment }) => {
                 {comment.commentTitle}
               </span>
             </div>
+          </div>
+          <div className="text-gray-500 -mt-2 text-end">
+            <span className="overflow-x-hidden text-sm ">
+              {timeDifference(comment?.time)}
+            </span>
           </div>
         </div>
       </div>

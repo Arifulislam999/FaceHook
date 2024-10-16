@@ -25,6 +25,8 @@ export const apiSlice = createApi({
     "comment-modal-post",
     "chat-user",
     "logout-chat",
+    "decline-follow",
+    "accept-follower",
   ],
   endpoints: (builder) => ({}),
 });

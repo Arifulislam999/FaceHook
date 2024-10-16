@@ -18,7 +18,7 @@ const ChatUserLeft = ({ chatList }) => {
               src={profile || Me}
               alt={firstName}
             />
-            <div className="ml-3">
+            <div className="ml-2">
               <ActiveDot />
             </div>
             <div>

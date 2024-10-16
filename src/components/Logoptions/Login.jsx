@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { loginStatusActive } from "../../Redux/Features/LogStatus/StatusSlice";
 import { loginUser } from "../../Redux/Features/userApi/UserSlice";
 import Shadaw from "../Loader/Shadaw";
+import { apiSlice } from "../../Redux/Features/API/apiSlice";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,9 @@ const Login = () => {
   const handlerSubmit = async (e) => {
     e.preventDefault();
     try {
+      dispatch(
+        apiSlice.util.invalidateTags(["followers", "chat-user", "logout-chat"])
+      );
       await userLogin({ data: user });
     } catch (error) {
       console.log(backendError);

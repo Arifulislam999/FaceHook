@@ -33,7 +33,7 @@ const ChatLeftHead = () => {
 
   useEffect(() => {
     if (isError) {
-      console.log(error);
+      console.log(error?.message);
     }
   }, [isError, error]);
 

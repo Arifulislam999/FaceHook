@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import TimeIcon from "../../assets/icons/time.svg";
 import bellWhite from "../../assets/icons/bellWhite.svg";
+import redBell from "../../assets/icons/redbell.svg";
 import bellBlue from "../../assets/icons/bellBlue.svg";
 import Share from "../../assets/icons/share.svg";
 import FeedComments from "./FeedComments";
@@ -33,7 +34,11 @@ const FeedPost = ({ post }) => {
   const isExistsUserFollower = followers.some(
     (follower) => follower.followerUserId === loginUserId
   );
-
+  const followerStatusCheck = followers.some(
+    (follower) =>
+      follower.followerUserId === loginUserId &&
+      follower.followStatus === "success"
+  );
   const handlerFollower = async (userId) => {
     try {
       await userFollower({
@@ -87,13 +92,23 @@ const FeedPost = ({ post }) => {
                 >
                   <img
                     width={15}
-                    src={isExistsUserFollower ? bellBlue : bellWhite}
+                    src={
+                      isExistsUserFollower
+                        ? followerStatusCheck
+                          ? bellBlue
+                          : redBell
+                        : bellWhite
+                    }
                     alt="bell"
                     className="mt-0.5"
                   />
                   <span className="text-sm ml-1">
                     {isExistsUserFollower ? (
-                      <p className="text-blue-400">following</p>
+                      followerStatusCheck ? (
+                        <p className="text-blue-400">following</p>
+                      ) : (
+                        <p className="text-red-400 -mt-0.5">pending</p>
+                      )
                     ) : (
                       "follow"
                     )}

@@ -39,6 +39,8 @@ const authApi = apiSlice.injectEndpoints({
         "like",
         "edit",
         "delete-post",
+        "decline-follow",
+        "accept-follower",
       ],
     }),
   }),
