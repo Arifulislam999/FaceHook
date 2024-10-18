@@ -25,7 +25,7 @@ const ChatUserLeft = ({ chatList }) => {
               <h2 className="text-lg  -mt-0">
                 {firstName} {lastName}
               </h2>
-              <p className=" text-[11px]">Hello! Arif.</p>
+              <p className=" text-[11px]">Hello! </p>
             </div>
           </div>
         </div>

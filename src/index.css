@@ -24,7 +24,7 @@ body {
     @apply flex-center rounded-md bg-lighterDark  p-1.5  font-medium  text-white hover:bg-deepDark;
   }
   .card {
-    @apply rounded-md border border-[#3F3F3F] bg-mediumDark px-4 py-4 lg:px-7 lg:py-5;
+    @apply rounded-md border border-[#3F3F3F] bg-mediumDark px-4 py-4 lg:px-7 lg:py-2;
   }
   .card-box {
     @apply rounded-md border border-[#3F3F3F] bg-mediumDark px-1 py-4 lg:px-7 lg:py-5;
@@ -70,5 +70,6 @@ body::-webkit-scrollbar-thumb {
 }
 ::selection {
   /* background-color: #20201e; Set your desired background color  */
-  color: #e44df8; /* Optionally set a contrasting text color */
+  color: #f12626; /* Optionally set a contrasting text color */
+  background-color: black;
 }

@@ -1,22 +1,23 @@
-// import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-// const initialState = {
-//   commentBox: {
-//     commentId: null,
-//     commentPlace: "",
-//   },
-// };
+const initialState = {
+  commentText: {
+    text: null,
+    isPending: false,
+    postId: null,
+  },
+};
 
-// export const commentSlice = createSlice({
-//   name: "commentApi",
-//   initialState,
-//   reducers: {
-//     commentBoxShow: (state, action) => {
-//       console.log(action.payload);
-//       state.commentBox.commentId = action.payload.id;
-//       state.commentBox.commentPlace = action.payload.place;
-//     },
-//   },
-// });
-// export const { commentBoxShow } = commentSlice.actions;
-// export default commentSlice.reducer;
+export const commentSlice = createSlice({
+  name: "commentApi",
+  initialState,
+  reducers: {
+    commentPendingOrSuccess: (state, action) => {
+      state.commentText.text = action.payload.text;
+      state.commentText.isPending = action.payload.action;
+      state.commentText.postId = action.payload.postId;
+    },
+  },
+});
+export const { commentPendingOrSuccess } = commentSlice.actions;
+export default commentSlice.reducer;

@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { useCommentPostMutation } from "../../Redux/Features/Post/postAPI";
 import Toast from "../Toast/Toast";
 import { usePostNotificationMutation } from "../../Redux/Features/Notification/notificationAPI";
+import { commentPendingOrSuccess } from "../../Redux/Features/Comment/CommentSlice";
 
 export const InputComment = ({ id, postCreatorId }) => {
   const dispatch = useDispatch();
@@ -39,13 +40,16 @@ export const InputComment = ({ id, postCreatorId }) => {
       if (text.length > 0 && text !== "") {
         dispatch(commentShowInActive());
         setText("");
-
         const userName = user.firstName + " " + user?.lastName;
         const userImg = user?.profile;
+        dispatch(commentPendingOrSuccess({ text, action: true, postId: id }));
         await commentPost({ id, text, userName, userImg });
         await postNotification({
           data: { postCreatorId: postCreatorId, postId: id, action: "Comment" },
         });
+        dispatch(
+          commentPendingOrSuccess({ text: null, action: false, postId: id })
+        );
       }
     } catch (error) {
       console.log("error comment submit");
