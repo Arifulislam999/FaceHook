@@ -26,7 +26,7 @@ const ConfirmPassword = () => {
   const handlerSubmit = async (e) => {
     e.preventDefault();
     if (p !== cp) {
-      setErr("Password doen't match.");
+      setErr("Password does't match.");
       const timer = setTimeout(() => {
         setErr(null);
       }, 4000);

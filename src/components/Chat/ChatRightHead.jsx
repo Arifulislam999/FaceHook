@@ -2,7 +2,7 @@ import Me from "../../assets/images/fakeuser.png";
 import Star from "../../assets/icons/WhiteStar.svg";
 import ActiveDot from "./ActiveDot";
 import MessageInput from "./MessageInput";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useGetSingleUserForChatQuery } from "../../Redux/Features/Chat/ChatRight/chatRightAPI";
 import Shadaw from "../Loader/Shadaw";
 import { useEffect, useState } from "react";
@@ -40,9 +40,13 @@ const ChatRightHead = () => {
             <ActiveDot />
           </div>
           <div className="flex flex-col ml-1 ">
-            <span className="mt-1 text-lg font-bold">
-              {cUser?.firstName} {cUser?.lastName}
-            </span>
+            <Link
+              to={`/profile/${chatUser?.data._id}?name=${chatUser?.data.firstName} ${chatUser?.data.lastName}`}
+            >
+              <span className="mt-1 text-lg font-bold">
+                {cUser?.firstName} {cUser?.lastName}
+              </span>
+            </Link>
             <span className="text-[10px] -mt-1 text-gray-400 -pt-3">
               Online
             </span>

@@ -18,7 +18,7 @@ const MessageBody = () => {
     data: responseMessage,
     isLoading,
     isSuccess,
-  } = useGetMessageQuery(id);
+  } = useGetMessageQuery(id, { pollingInterval: 500 });
   useEffect(() => {
     if (isSuccess) {
       setAllMessage(responseMessage?.message);

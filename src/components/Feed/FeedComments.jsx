@@ -36,7 +36,7 @@ const FeedComments = ({ id, comments, post, postCreatorId }) => {
         {comments.length > 0 && (
           <div>
             <button
-              className="text-gray-300 max-md:text-sm cursor-pointer hover:text-gray-400 duration-100 transition-all hover:opacity-70"
+              className="text-gray-300 max-md:text-sm cursor-pointer hover:text-gray-400 duration-100 transition-all hover:opacity-70 mb-1.5"
               onClick={() => handlerComments(post?._id)}
             >
               All Comment ▾
@@ -44,12 +44,14 @@ const FeedComments = ({ id, comments, post, postCreatorId }) => {
           </div>
         )}
         {/* <!-- comments --> */}
-        <div className="space-y-2 divide-y divide-lighterDark pl-2 lg:pl-3">
+        <div className="space-y-1 divide-y divide-lighterDark pl-2 lg:pl-3">
           {/* <!-- single comment --> */}
           {comments.length > 0 ? (
             comments
               ?.slice(startIndex)
-              .map((cmn, i) => <SingleComment key={i} comment={cmn} />)
+              .map((cmn, i) => (
+                <SingleComment key={i} comment={cmn} postId={id} />
+              ))
           ) : (
             <div className="flex flex-col">
               <h2 className="text-center text-sm lg:text-xl   text-gray-300 mt-2">

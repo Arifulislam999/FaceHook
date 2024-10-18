@@ -17,11 +17,14 @@ const NotificationToolTip = () => {
       dispatch(allNotification(data?.notification));
     }
   }, [data, dispatch, isSuccess]);
+
   return (
     data?.notification?.length - prevNotification > 0 && (
       <div className="absolute w-4 h-4 -mt-10 ml-5">
         <span className=" bg-white px-1 text-[10px] text-deepDark rounded-full border-2 border-red-500">
-          {data?.notification?.length - prevNotification}
+          {data?.notification?.length - prevNotification > 9
+            ? "9+"
+            : data?.notification?.length - prevNotification}
         </span>
       </div>
     )

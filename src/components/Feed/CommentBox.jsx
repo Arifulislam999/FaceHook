@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import Coments from "../../assets/icons/comment.svg";
 import { useDispatch, useSelector } from "react-redux";
 import {
