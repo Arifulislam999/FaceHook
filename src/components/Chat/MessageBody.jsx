@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useGetMessageQuery } from "../../Redux/Features/Chat/ChatRight/chatRightAPI";
 import Shadaw from "../Loader/Shadaw";
 import { useLocation } from "react-router-dom";
+import NoChatSelected from "./NoChatSelected";
 
 const MessageBody = () => {
   const { windowWidth } = useSelector((state) => state.tokenStatus);
@@ -32,8 +33,10 @@ const MessageBody = () => {
         <ChatRightHead />
       </div>
       <div className="bg-slowDark min-h-[80vh] xl:min-h-[90vh] pb-2">
-        {allMessage?.length === 0 ? (
-          <h2>No conversation yet</h2>
+        {allMessage?.length === 0 || !id ? (
+          <>
+            <NoChatSelected />
+          </>
         ) : (
           allMessage?.map((mBody, index) => {
             if (mBody.senderId === user._id) {

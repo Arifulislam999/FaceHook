@@ -10,6 +10,7 @@ import { useGetAllFollowerChatListQuery } from "../../Redux/Features/Chat/ChatLe
 import { useEffect, useState } from "react";
 import Shadaw from "../Loader/Shadaw";
 import { Link } from "react-router-dom";
+import NoFollowers from "./NoFollowers";
 
 const ChatLeftHead = () => {
   const { chatActionValue } = useSelector((state) => state.chatLeft);
@@ -72,6 +73,8 @@ const ChatLeftHead = () => {
           <ChatLeftSearch />
         </div>
       </div>
+
+      {fUserList?.length === 0 && <NoFollowers />}
 
       {chatActionValue === "all" &&
         fUserList?.map((fuser, i) => <ChatAll key={i} chatList={fuser} />)}
