@@ -6,7 +6,12 @@ const chatLeftApi = apiSlice.injectEndpoints({
       query: () => ({
         url: "/api/message/chat-list",
       }),
-      providesTags: ["chat-user", "logout-chat", "accept-follower"],
+      providesTags: [
+        "chat-user",
+        "logout-chat",
+        "accept-follower",
+        "c-message",
+      ],
     }),
   }),
 });

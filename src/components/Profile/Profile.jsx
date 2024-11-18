@@ -15,6 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useGetSingleUserQuery } from "../../Redux/Features/AuthApi/authApi";
 import { loginUser } from "../../Redux/Features/userApi/UserSlice";
 import BlankPost from "./BlankPost";
+import { useTitle } from "../hooks/useTitle";
 
 export const Profile = () => {
   const textareaRef = useRef(null);
@@ -137,6 +138,9 @@ export const Profile = () => {
       console.log(error);
     }
   };
+
+  // title hooks
+  useTitle();
 
   return !isLoading ? (
     <>

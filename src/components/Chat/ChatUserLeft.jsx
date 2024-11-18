@@ -3,13 +3,21 @@ import ActiveDot from "./ActiveDot";
 import Me from "../../assets/images/fakeuser.png";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { getTimeIn12HourFormat } from "../utils/time";
 const ChatUserLeft = ({ chatList }) => {
   const { windowWidth } = useSelector((state) => state.tokenStatus);
 
-  const { firstName, lastName, profile, _id } = chatList || {};
+  const { user, message } = chatList || {};
+  const { firstName, lastName, profile, _id } = user || {};
 
   return (
-    <Link to={`${windowWidth > 640 ? `/chat?id=${_id}` : `/chat/${_id}`}`}>
+    <Link
+      to={`${
+        windowWidth > 640
+          ? `/chat?id=${_id}&name=${firstName} ${lastName}`
+          : `/chat/${_id}`
+      }`}
+    >
       <div className="flex flex-grow  justify-between  my-1.5 rounded-sm  cursor-pointer  shadow-lg ">
         <div>
           <div className="flex">
@@ -25,12 +33,18 @@ const ChatUserLeft = ({ chatList }) => {
               <h2 className="text-lg  -mt-0">
                 {firstName} {lastName}
               </h2>
-              <p className=" text-[11px]">Hello! </p>
+              <p className=" text-[11px]">
+                {message[0].message.length > 35
+                  ? `${message[0].message.slice(0, 35)}....`
+                  : message[0].message}
+              </p>
             </div>
           </div>
         </div>
         <div className="ml-2 flex-shrink-0 mt-3">
-          <p className="text-[12px] text-gray-400">Now</p>
+          <p className="text-[12px] text-gray-400">
+            {getTimeIn12HourFormat(message[0].createdAt)}
+          </p>
         </div>
       </div>
     </Link>

@@ -22,7 +22,7 @@ const FixedHeader = ({ positionH }) => {
   return (
     <div>
       <nav
-        className={`fixed w-full z-50 border-b border-[#3F3F3F] bg-[#1E1F24] py-4 transition-all duration-300  ease-in-out ${
+        className={`fixed w-full z-9999 border-b border-[#3F3F3F] bg-[#1E1F24] py-4 transition-all duration-300  ease-in-out ${
           positionH > 1000 ? "top-0" : "top-10"
         }`}
       >
@@ -63,7 +63,9 @@ const FixedHeader = ({ positionH }) => {
             </Link>
             <Logout />
 
-            <Link to={`/profile/${user?._id}`}>
+            <Link
+              to={`/profile/${user?._id}?name=${user.firstName} ${user.lastName}`}
+            >
               <button className="flex-center sm:!ml-8 gap-2">
                 <span className="hidden sm:block text-lg font-medium lg:text-xl">
                   {user?.firstName}

@@ -7,6 +7,7 @@ import { useGetMessageQuery } from "../../Redux/Features/Chat/ChatRight/chatRigh
 import Shadaw from "../Loader/Shadaw";
 import { useLocation } from "react-router-dom";
 import NoChatSelected from "./NoChatSelected";
+import { useTitle } from "../hooks/useTitle";
 
 const MessageBody = () => {
   const { windowWidth } = useSelector((state) => state.tokenStatus);
@@ -19,12 +20,15 @@ const MessageBody = () => {
     data: responseMessage,
     isLoading,
     isSuccess,
-  } = useGetMessageQuery(id, { pollingInterval: 500 });
+  } = useGetMessageQuery(id);
   useEffect(() => {
     if (isSuccess) {
       setAllMessage(responseMessage?.message);
     }
   }, [responseMessage, isSuccess]);
+
+  // title hooks
+  useTitle();
 
   return (
     <div className={`${windowWidth < 640 && "hidden"} sm:block basis-2/3`}>

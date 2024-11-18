@@ -59,7 +59,9 @@ const Header = () => {
             </Link>
             <Logout />
 
-            <Link to={`/profile/${user?._id}`}>
+            <Link
+              to={`/profile/${user?._id}?name=${user.firstName} ${user.lastName}`}
+            >
               <button className="flex-center sm:!ml-8 gap-2">
                 <span className="hidden sm:block text-lg font-medium lg:text-xl">
                   {user?.firstName}

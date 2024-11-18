@@ -27,6 +27,7 @@ export const apiSlice = createApi({
     "logout-chat",
     "decline-follow",
     "accept-follower",
+    "c-message",
   ],
   endpoints: (builder) => ({}),
 });

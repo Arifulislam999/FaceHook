@@ -16,7 +16,6 @@ const ChatLeftHead = () => {
   const { chatActionValue } = useSelector((state) => state.chatLeft);
   const { user } = useSelector((state) => state.loginUser);
   const { firstName, lastName, profile, _id } = user || {};
-
   const {
     data: followerUserList,
     isError,
@@ -24,11 +23,21 @@ const ChatLeftHead = () => {
     isSuccess,
     isLoading,
   } = useGetAllFollowerChatListQuery();
-  const [fUserList, setFUserList] = useState([]);
+  const [chatUpdateUserList, setChatUpdateUserList] = useState([]);
 
   useEffect(() => {
     if (isSuccess) {
-      setFUserList(followerUserList?.data);
+      const updatedUserList = followerUserList?.lastmessage.map((user) => {
+        return {
+          user: user._doc,
+          message: user.messages,
+        };
+      });
+
+      // Set the state with the array of user objects
+      if (updatedUserList) {
+        setChatUpdateUserList(updatedUserList);
+      }
     }
   }, [isSuccess, followerUserList]);
 
@@ -55,7 +64,7 @@ const ChatLeftHead = () => {
               <ActiveDot />
             </div>
             <div className="flex flex-col">
-              <Link to={`/profile/${_id}`}>
+              <Link to={`/profile/${_id}?name=${firstName} ${lastName}`}>
                 <span className="mt-1 text-lg ml-1 font-bold">
                   {firstName} {lastName}
                 </span>
@@ -74,19 +83,21 @@ const ChatLeftHead = () => {
         </div>
       </div>
 
-      {fUserList?.length === 0 && <NoFollowers />}
+      {chatUpdateUserList?.length === 0 && <NoFollowers />}
 
       {chatActionValue === "all" &&
-        fUserList?.map((fuser, i) => <ChatAll key={i} chatList={fuser} />)}
+        chatUpdateUserList?.map((fuser, i) => (
+          <ChatAll key={i} chatList={fuser} />
+        ))}
       {chatActionValue === "active" && (
         <div className="bg-mediumDark mx-3 flex-grow  ">
-          {fUserList?.map((fuser, index) => (
+          {chatUpdateUserList?.map((fuser, index) => (
             <ChatUserLeft key={index} chatList={fuser} />
           ))}
         </div>
       )}
       {chatActionValue === "favourite" &&
-        fUserList?.map((fuser, i) => (
+        chatUpdateUserList?.map((fuser, i) => (
           <FavouriteList key={i} chatList={fuser} />
         ))}
     </div>
