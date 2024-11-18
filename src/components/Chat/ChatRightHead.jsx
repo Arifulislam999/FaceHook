@@ -6,7 +6,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { useGetSingleUserForChatQuery } from "../../Redux/Features/Chat/ChatRight/chatRightAPI";
 import Shadaw from "../Loader/Shadaw";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectChatUser } from "../../Redux/Features/Chat/ChatRight/chatRightSlice";
 import MessageInputRemove from "./MessageInputRemove";
 
@@ -16,9 +16,11 @@ const ChatRightHead = () => {
   const dispatch = useDispatch();
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get("id") || searchId;
-
   const [cUser, setCUser] = useState([]);
-  const { data: chatUser, isLoading } = useGetSingleUserForChatQuery(id);
+  const { user } = useSelector((state) => state.loginUser);
+  const { data: chatUser, isLoading } = useGetSingleUserForChatQuery(
+    id || user?._id
+  );
   useEffect(() => {
     if (chatUser?.message === "success") {
       setCUser(chatUser?.data);

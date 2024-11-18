@@ -20,7 +20,7 @@ const MessageBody = () => {
     data: responseMessage,
     isLoading,
     isSuccess,
-  } = useGetMessageQuery(id);
+  } = useGetMessageQuery(id || user?._id);
   useEffect(() => {
     if (isSuccess) {
       setAllMessage(responseMessage?.message);

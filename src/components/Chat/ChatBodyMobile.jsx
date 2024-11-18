@@ -11,7 +11,6 @@ const MessageBodyMobile = () => {
   const { id } = useParams();
   const { user } = useSelector((state) => state.loginUser);
   const { windowWidth } = useSelector((state) => state.tokenStatus);
-
   // message request
 
   const [allMessage, setAllMessage] = useState([]);
@@ -19,12 +18,13 @@ const MessageBodyMobile = () => {
     data: responseMessage,
     isLoading,
     isSuccess,
-  } = useGetMessageQuery(id, { pollingInterval: 500 });
+  } = useGetMessageQuery(id || user?._id);
   useEffect(() => {
     if (isSuccess) {
       setAllMessage(responseMessage?.message);
     }
   }, [responseMessage, isSuccess]);
+
   return (
     <div className={`${windowWidth > 640 && "hidden"} sm:block basis-2/3`}>
       {isLoading && <Shadaw />}
