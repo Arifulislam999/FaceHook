@@ -25,6 +25,6 @@ export const store = configureStore({
   },
 
   middleware: (getDefaultMiddlewares) =>
-    getDefaultMiddlewares().concat(apiSlice.middleware),
+    getDefaultMiddlewares({serializableCheck: process.env.NODE_ENV !== "production",}).concat(apiSlice.middleware),
   
 });
