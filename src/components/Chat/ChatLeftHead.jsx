@@ -24,10 +24,9 @@ const ChatLeftHead = () => {
     isLoading,
   } = useGetAllFollowerChatListQuery();
   const [chatUpdateUserList, setChatUpdateUserList] = useState([]);
-
   useEffect(() => {
     if (isSuccess) {
-      const updatedUserList = followerUserList?.lastmessage.map((user) => {
+      const updatedUserList = followerUserList?.lastmessage?.map((user) => {
         return {
           user: user._doc,
           message: user.messages,

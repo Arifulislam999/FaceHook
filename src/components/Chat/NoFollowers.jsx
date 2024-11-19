@@ -56,7 +56,7 @@ const NoFollowers = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={bounceTransition}
         >
-          You don't have any followers yet.
+          No one has accepted your follow.
         </motion.p>
 
         <motion.p
