@@ -18,7 +18,7 @@ const MessageBodyMobile = () => {
     data: responseMessage,
     isLoading,
     isSuccess,
-  } = useGetMessageQuery(id || user?._id);
+  } = useGetMessageQuery(id);
   useEffect(() => {
     if (isSuccess) {
       setAllMessage(responseMessage?.message);

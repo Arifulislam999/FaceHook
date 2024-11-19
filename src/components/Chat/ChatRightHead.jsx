@@ -15,9 +15,9 @@ const ChatRightHead = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const queryParams = new URLSearchParams(location.search);
+  const { user } = useSelector((state) => state.loginUser);
   const id = queryParams.get("id") || searchId;
   const [cUser, setCUser] = useState([]);
-  const { user } = useSelector((state) => state.loginUser);
   const { data: chatUser, isLoading } = useGetSingleUserForChatQuery(
     id || user?._id
   );
