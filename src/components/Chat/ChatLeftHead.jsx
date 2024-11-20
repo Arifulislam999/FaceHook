@@ -15,6 +15,7 @@ import NoFollowers from "./NoFollowers";
 const ChatLeftHead = () => {
   const { chatActionValue } = useSelector((state) => state.chatLeft);
   const { user } = useSelector((state) => state.loginUser);
+  let id = user?._id;
   const { firstName, lastName, profile, _id } = user || {};
   const {
     data: followerUserList,
@@ -22,7 +23,7 @@ const ChatLeftHead = () => {
     error,
     isSuccess,
     isLoading,
-  } = useGetAllFollowerChatListQuery();
+  } = useGetAllFollowerChatListQuery(id);
   const [chatUpdateUserList, setChatUpdateUserList] = useState([]);
   useEffect(() => {
     if (isSuccess) {
