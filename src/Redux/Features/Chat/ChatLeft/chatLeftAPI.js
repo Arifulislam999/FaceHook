@@ -3,8 +3,8 @@ import { apiSlice } from "../../API/apiSlice";
 const chatLeftApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllFollowerChatList: builder.query({
-      query: () => ({
-        url: "/api/message/chat-list",
+      query: (id) => ({
+        url: `/api/message/chat-list?id=${id}`,
       }),
       providesTags: [
         "chat-user",
