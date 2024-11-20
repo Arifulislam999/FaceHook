@@ -30,10 +30,16 @@ const ChatLeftHead = () => {
   useEffect(() => {
     if (isSuccess) {
       const updatedUserList = followerUserList?.lastmessage?.map((user) => {
-        return {
-          user: user._doc,
-          message: user.messages,
-        };
+        if (user?._doc) {
+          return {
+            user: user._doc,
+            message: user.messages,
+          };
+        } else {
+          return {
+            user,
+          };
+        }
       });
 
       // Set the state with the array of user objects
@@ -90,12 +96,12 @@ const ChatLeftHead = () => {
 
       {chatActionValue === "all" &&
         chatUpdateUserList
-          ?.filter((item) => regex.test(item.user.firstName))
+          ?.filter((item) => regex.test(item?.user?.firstName))
           ?.map((fuser, i) => <ChatAll key={i} chatList={fuser} />)}
       {chatActionValue === "active" && (
         <div className="bg-mediumDark mx-3 flex-grow  ">
           {chatUpdateUserList
-            ?.filter((item) => regex.test(item.user.firstName))
+            ?.filter((item) => regex.test(item?.user?.firstName))
             ?.map((fuser, index) => (
               <ChatUserLeft key={index} chatList={fuser} />
             ))}
@@ -103,7 +109,7 @@ const ChatLeftHead = () => {
       )}
       {chatActionValue === "favourite" &&
         chatUpdateUserList
-          ?.filter((item) => regex.test(item.user.firstName))
+          ?.filter((item) => regex.test(item?.user?.firstName))
           ?.map((fuser, i) => <FavouriteList key={i} chatList={fuser} />)}
     </div>
   );

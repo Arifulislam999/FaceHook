@@ -16,11 +16,12 @@ const MessageBody = () => {
   const queryParams = new URLSearchParams(location.search);
   const id = queryParams.get("id");
   const [allMessage, setAllMessage] = useState([]);
+  let existId = id ? true : false;
   const {
     data: responseMessage,
     isLoading,
     isSuccess,
-  } = useGetMessageQuery(id || user?._id);
+  } = useGetMessageQuery(id, { skip: !existId });
   useEffect(() => {
     if (isSuccess) {
       setAllMessage(responseMessage?.message);
