@@ -9,7 +9,6 @@ const ChatUserLeft = ({ chatList }) => {
 
   const { user, message } = chatList || {};
   const { firstName, lastName, profile, _id } = user || {};
-
   return (
     <Link
       to={`${
@@ -33,19 +32,26 @@ const ChatUserLeft = ({ chatList }) => {
               <h2 className="text-lg  -mt-0">
                 {firstName} {lastName}
               </h2>
-              <p className=" text-[11px]">
-                {message[0].message.length > 35
-                  ? `${message[0].message.slice(0, 35)}....`
-                  : message[0].message}
-              </p>
+
+              {message === undefined || message.length === 0 ? (
+                <p>No conversation yet...</p>
+              ) : (
+                <p className=" text-[11px]">
+                  {message[0]?.message.length > 35
+                    ? `${message[0]?.message?.slice(0, 35)}....`
+                    : message[0]?.message}
+                </p>
+              )}
             </div>
           </div>
         </div>
-        <div className="ml-2 flex-shrink-0 mt-3">
-          <p className="text-[12px] text-gray-400">
-            {getTimeIn12HourFormat(message[0].createdAt)}
-          </p>
-        </div>
+        {message && message.length > 0 && (
+          <div className="ml-2 flex-shrink-0 mt-3">
+            <p className="text-[12px] text-gray-400">
+              {getTimeIn12HourFormat(message[0].createdAt)}
+            </p>
+          </div>
+        )}
       </div>
     </Link>
   );
