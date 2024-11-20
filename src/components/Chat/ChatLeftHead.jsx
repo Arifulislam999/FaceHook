@@ -13,7 +13,9 @@ import { Link } from "react-router-dom";
 import NoFollowers from "./NoFollowers";
 
 const ChatLeftHead = () => {
-  const { chatActionValue } = useSelector((state) => state.chatLeft);
+  const { chatActionValue, searchText } = useSelector(
+    (state) => state.chatLeft
+  );
   const { user } = useSelector((state) => state.loginUser);
   let id = user?._id;
   const { firstName, lastName, profile, _id } = user || {};
@@ -46,6 +48,7 @@ const ChatLeftHead = () => {
       console.log(error?.message);
     }
   }, [isError, error]);
+  const regex = new RegExp(searchText, "i"); // i for case insensitive search
 
   return (
     <div className="bg-mediumDark">
@@ -86,20 +89,22 @@ const ChatLeftHead = () => {
       {chatUpdateUserList?.length === 0 && <NoFollowers />}
 
       {chatActionValue === "all" &&
-        chatUpdateUserList?.map((fuser, i) => (
-          <ChatAll key={i} chatList={fuser} />
-        ))}
+        chatUpdateUserList
+          ?.filter((item) => regex.test(item.user.firstName))
+          ?.map((fuser, i) => <ChatAll key={i} chatList={fuser} />)}
       {chatActionValue === "active" && (
         <div className="bg-mediumDark mx-3 flex-grow  ">
-          {chatUpdateUserList?.map((fuser, index) => (
-            <ChatUserLeft key={index} chatList={fuser} />
-          ))}
+          {chatUpdateUserList
+            ?.filter((item) => regex.test(item.user.firstName))
+            ?.map((fuser, index) => (
+              <ChatUserLeft key={index} chatList={fuser} />
+            ))}
         </div>
       )}
       {chatActionValue === "favourite" &&
-        chatUpdateUserList?.map((fuser, i) => (
-          <FavouriteList key={i} chatList={fuser} />
-        ))}
+        chatUpdateUserList
+          ?.filter((item) => regex.test(item.user.firstName))
+          ?.map((fuser, i) => <FavouriteList key={i} chatList={fuser} />)}
     </div>
   );
 };

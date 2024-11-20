@@ -1,5 +1,5 @@
 /* From Uiverse.io by bociKond */
-.loader {
+/* .loader {
   width: 44.8px;
   height: 44.8px;
   color: #445c5b;
@@ -37,7 +37,27 @@
     inset: 0;
     transform: rotate(90deg);
   }
+} */
+
+/* From Uiverse.io by Yaya12085 */
+.loader {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: #3f6494;
+  animation: 1.5s pulse infinite ease-in-out;
 }
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 #833224;
+  }
+
+  100% {
+    box-shadow: 0 0 0 14px #69ffa800;
+  }
+}
+
 /*  custom css */
 .middle-loader {
   height: 100vh;
