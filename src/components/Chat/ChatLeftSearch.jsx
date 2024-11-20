@@ -1,22 +1,32 @@
 import { useEffect, useState } from "react";
 import Plus from "../../assets/icons/plus.svg";
 import { useDispatch, useSelector } from "react-redux";
-import { chatActionLeft } from "../../Redux/Features/Chat/ChatLeft/ChatLeftSlice";
+import {
+  chatActionLeft,
+  userSearchText,
+} from "../../Redux/Features/Chat/ChatLeft/ChatLeftSlice";
+import { useDebounce } from "../hooks/useDebounce";
 const ChatLeftSearch = () => {
   const dispatch = useDispatch();
   const [action, setAction] = useState("all");
+  const [searchText, setSearchText] = useState("");
+  const debounceSearch = useDebounce(searchText);
   const { chatActionValue } = useSelector((state) => state.chatLeft);
-
   useEffect(() => {
     dispatch(chatActionLeft(action));
   }, [action, dispatch]);
+
+  useEffect(() => {
+    dispatch(userSearchText(debounceSearch));
+  }, [debounceSearch, dispatch]);
   return (
     <div className="shadow-xl">
       <div className="pt-2 flex basis-full sm:basis-2/6  p-3 justify-between">
         <div className="flex flex-grow items-center bg-gray-700 px-3 py-1.5 rounded-full shadow-lg ">
           <input
             type="text"
-            placeholder="Type a username"
+            placeholder="Type a FirstName..."
+            onChange={(e) => setSearchText(e.target.value)}
             className="flex-1 sticky top-4 bg-transparent border-none text-gray-300 text-base placeholder-gray-500 outline-none px-2"
           />
         </div>

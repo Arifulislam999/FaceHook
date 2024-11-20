@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   chatActionValue: "active",
+  searchText: "",
 };
 
 export const chatLeftSlice = createSlice({
@@ -11,7 +12,10 @@ export const chatLeftSlice = createSlice({
     chatActionLeft: (state, action) => {
       state.chatActionValue = action.payload;
     },
+    userSearchText: (state, action) => {
+      state.searchText = action.payload;
+    },
   },
 });
-export const { chatActionLeft } = chatLeftSlice.actions;
+export const { chatActionLeft, userSearchText } = chatLeftSlice.actions;
 export default chatLeftSlice.reducer;
