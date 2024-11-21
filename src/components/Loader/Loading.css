@@ -41,8 +41,8 @@
 
 /* From Uiverse.io by Yaya12085 */
 .loader {
-  height: 20px;
-  width: 20px;
+  height: 23px;
+  width: 23px;
   border-radius: 50%;
   background-color: #3f6494;
   animation: 1.5s pulse infinite ease-in-out;
@@ -52,9 +52,12 @@
   0% {
     box-shadow: 0 0 0 0 #833224;
   }
+  50% {
+    box-shadow: 0 0 0 30px #d8b8d100;
+  }
 
   100% {
-    box-shadow: 0 0 0 14px #69ffa800;
+    box-shadow: 0 0 0 44px #69ffa800;
   }
 }
 
