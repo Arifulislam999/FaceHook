@@ -8,6 +8,7 @@ import Shadaw from "../Loader/Shadaw";
 import { useLocation } from "react-router-dom";
 import NoChatSelected from "./NoChatSelected";
 import { useTitle } from "../hooks/useTitle";
+import NoChatYet from "./NoChatYet";
 
 const MessageBody = () => {
   const { windowWidth } = useSelector((state) => state.tokenStatus);
@@ -38,9 +39,13 @@ const MessageBody = () => {
         <ChatRightHead />
       </div>
       <div className="bg-slowDark min-h-[80vh] xl:min-h-[90vh] pb-2">
-        {allMessage?.length === 0 || !id ? (
+        {allMessage?.length === 0 && !id ? (
           <>
             <NoChatSelected />
+          </>
+        ) : allMessage?.length === 0 || !id ? (
+          <>
+            <NoChatYet />
           </>
         ) : (
           allMessage?.map((mBody, index) => {
