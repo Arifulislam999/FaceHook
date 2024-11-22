@@ -4,13 +4,20 @@ import Me from "../../assets/images/fakeuser.png";
 import ActiveDot from "./ActiveDot";
 import { useEffect, useRef } from "react";
 import { getTimeIn12HourFormat } from "../utils/time";
+import InActiveDot from "./InActiveDot";
+import { useLocation, useParams } from "react-router-dom";
 
 const ChatReceiver = ({ messages }) => {
+  const { id: searchId } = useParams();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get("id") || searchId;
   const { windowWidth } = useSelector((state) => state.tokenStatus);
   const { chatUser } = useSelector((state) => state.chatRight);
   // const { user } = useSelector((state) => state.loginUser);
   const { createdAt, message } = messages || {};
   const messageRef = useRef();
+  const { loginUserBySocket } = useSelector((state) => state.socketLoginUser);
 
   useEffect(() => {
     if (messageRef.current) {
@@ -26,7 +33,7 @@ const ChatReceiver = ({ messages }) => {
         alt="profile"
       />
       <div className="ml-2">
-        <ActiveDot />
+        {loginUserBySocket.includes(id) ? <ActiveDot /> : <InActiveDot />}
       </div>
       <div
         className={`bg-gradient-to-r from-black via-gray-900 to-gray-800  text-white rounded-md xxs:max-w-[210px] xs:max-w-[260px] mxs:max-w-[280px] sm:max-w-sm  px-3  ml-1 ${

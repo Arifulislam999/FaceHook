@@ -11,7 +11,7 @@ const ChatUserLeft = ({ chatList }) => {
   const { user, message } = chatList || {};
   const { firstName, lastName, profile, _id } = user || {};
 
-  console.log(loginUserBySocket);
+  // console.log(loginUserBySocket);
 
   return (
     <Link
