@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectChatUser } from "../../Redux/Features/Chat/ChatRight/chatRightSlice";
 import MessageInputRemove from "./MessageInputRemove";
+import InActiveDot from "./InActiveDot";
 
 const ChatRightHead = () => {
   const { id: searchId } = useParams();
@@ -18,6 +19,8 @@ const ChatRightHead = () => {
   const { user } = useSelector((state) => state.loginUser);
   const id = queryParams.get("id") || searchId;
   const [cUser, setCUser] = useState([]);
+  const { loginUserBySocket } = useSelector((state) => state.socketLoginUser);
+
   const { data: chatUser, isLoading } = useGetSingleUserForChatQuery(
     id || user?._id
   );
@@ -40,7 +43,7 @@ const ChatRightHead = () => {
               alt="picture"
             />
             <div className="ml-2">
-              <ActiveDot />
+              {loginUserBySocket.includes(id) ? <ActiveDot /> : <InActiveDot />}
             </div>
             <div className="flex flex-col ml-1 ">
               <Link
@@ -51,7 +54,11 @@ const ChatRightHead = () => {
                 </span>
               </Link>
               <span className="text-[10px] -mt-1 text-gray-400 -pt-3">
-                Online
+                {loginUserBySocket.includes(id) ? (
+                  <span className="text-sm">online</span>
+                ) : (
+                  <span className="text-sm">offline</span>
+                )}
               </span>
             </div>
           </div>

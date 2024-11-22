@@ -4,9 +4,10 @@ import Me from "../../assets/images/fakeuser.png";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getTimeIn12HourFormat } from "../utils/time";
+import InActiveDot from "./InActiveDot";
 const ChatUserLeft = ({ chatList }) => {
   const { windowWidth } = useSelector((state) => state.tokenStatus);
-
+  const { loginUserBySocket } = useSelector((state) => state.socketLoginUser);
   const { user, message } = chatList || {};
   const { firstName, lastName, profile, _id } = user || {};
   return (
@@ -26,7 +27,11 @@ const ChatUserLeft = ({ chatList }) => {
               alt={firstName}
             />
             <div className="ml-2">
-              <ActiveDot />
+              {loginUserBySocket.includes(_id) ? (
+                <ActiveDot />
+              ) : (
+                <InActiveDot />
+              )}
             </div>
             <div>
               <h2 className="text-lg  -mt-0">

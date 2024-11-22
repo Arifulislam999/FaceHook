@@ -10,6 +10,7 @@ import notificationReducer from "./Features/Notification/notificationSliceStatus
 import followerReducer from "./Features/Follwers/FollowerSlice";
 import chatLeftReducer from "./Features/Chat/ChatLeft/ChatLeftSlice";
 import chatRightReducer from "./Features/Chat/ChatRight/chatRightSlice";
+import socketReducer from "./Features/Socket/socketSlice";
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
@@ -22,9 +23,11 @@ export const store = configureStore({
     followStatus: followerReducer,
     chatLeft: chatLeftReducer,
     chatRight: chatRightReducer,
+    socketLoginUser: socketReducer,
   },
 
   middleware: (getDefaultMiddlewares) =>
-    getDefaultMiddlewares({serializableCheck: process.env.NODE_ENV !== "production",}).concat(apiSlice.middleware),
-  
+    getDefaultMiddlewares({
+      serializableCheck: import.meta.env.NODE_ENV !== "production",
+    }).concat(apiSlice.middleware),
 });
