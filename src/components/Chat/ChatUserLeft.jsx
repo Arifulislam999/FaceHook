@@ -10,6 +10,9 @@ const ChatUserLeft = ({ chatList }) => {
   const { loginUserBySocket } = useSelector((state) => state.socketLoginUser);
   const { user, message } = chatList || {};
   const { firstName, lastName, profile, _id } = user || {};
+
+  console.log(loginUserBySocket);
+
   return (
     <Link
       to={`${

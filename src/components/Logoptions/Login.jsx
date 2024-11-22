@@ -9,6 +9,7 @@ import { loginStatusActive } from "../../Redux/Features/LogStatus/StatusSlice";
 import { loginUser } from "../../Redux/Features/userApi/UserSlice";
 import Shadaw from "../Loader/Shadaw";
 import { apiSlice } from "../../Redux/Features/API/apiSlice";
+import socket from "../../socket-client/socket-client";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -50,6 +51,8 @@ const Login = () => {
       Cookies.set("token", userLoginData?.token, { expires: 1 });
     }
     if (userLoginData?.status === true) {
+      const userId = userLoginData?.data?._id; // Replace with the logged-in user's ID
+      socket.emit("user:join", userId);
       dispatch(loginStatusActive());
       navigate("/");
     }
