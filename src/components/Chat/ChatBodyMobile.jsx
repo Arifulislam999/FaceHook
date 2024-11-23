@@ -36,7 +36,7 @@ const MessageBodyMobile = () => {
           <h2>No conversation yet</h2>
         ) : (
           allMessage?.map((mBody, index) => {
-            if (mBody.senderId === user._id) {
+            if (mBody?.senderId === user._id) {
               return <ChatSender key={index} messages={mBody} />;
             } else {
               return <ChatReceiver key={index} messages={mBody} />;

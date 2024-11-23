@@ -11,11 +11,13 @@ import { useEffect, useState } from "react";
 import Shadaw from "../Loader/Shadaw";
 import { Link } from "react-router-dom";
 import NoFollowers from "./NoFollowers";
+import NoActiveUser from "./NoActiveUser";
 
 const ChatLeftHead = () => {
   const { chatActionValue, searchText } = useSelector(
     (state) => state.chatLeft
   );
+  const { loginUserBySocket } = useSelector((state) => state.socketLoginUser);
   const { user } = useSelector((state) => state.loginUser);
   let id = user?._id;
   const { firstName, lastName, profile, _id } = user || {};
@@ -27,6 +29,7 @@ const ChatLeftHead = () => {
     isLoading,
   } = useGetAllFollowerChatListQuery(id);
   const [chatUpdateUserList, setChatUpdateUserList] = useState([]);
+  const [activeUser, setActiveUser] = useState(false);
   useEffect(() => {
     if (isSuccess) {
       const updatedUserList = followerUserList?.lastmessage?.map((user) => {
@@ -55,6 +58,20 @@ const ChatLeftHead = () => {
     }
   }, [isError, error]);
   const regex = new RegExp(searchText, "i"); // i for case insensitive search
+
+  useEffect(() => {
+    if (chatUpdateUserList) {
+      chatUpdateUserList?.map((user) => {
+        if (
+          user?.user?._id != id &&
+          loginUserBySocket.includes(user?.user?._id)
+        ) {
+          return setActiveUser(true);
+        }
+      });
+    }
+    // console.log(loginUserBySocket, activeUser);
+  }, [loginUserBySocket, chatUpdateUserList, id, chatActionValue]);
 
   return (
     <div className="bg-mediumDark">
@@ -93,20 +110,28 @@ const ChatLeftHead = () => {
       </div>
 
       {chatUpdateUserList?.length === 0 && <NoFollowers />}
+      {(chatActionValue === "active" && activeUser === false) ||
+        (loginUserBySocket?.length == 1 && <NoActiveUser />)}
 
       {chatActionValue === "all" &&
         chatUpdateUserList
           ?.filter((item) => regex.test(item?.user?.firstName))
           ?.map((fuser, i) => <ChatAll key={i} chatList={fuser} />)}
+
       {chatActionValue === "active" && (
         <div className="bg-mediumDark mx-3 flex-grow  ">
           {chatUpdateUserList
             ?.filter((item) => regex.test(item?.user?.firstName))
-            ?.map((fuser, index) => (
-              <ChatUserLeft key={index} chatList={fuser} />
-            ))}
+            ?.map((fuser, index) =>
+              loginUserBySocket.includes(fuser?.user?._id) ? (
+                <div key={index}>
+                  <ChatUserLeft chatList={fuser} />
+                </div>
+              ) : null
+            )}
         </div>
       )}
+
       {chatActionValue === "favourite" &&
         chatUpdateUserList
           ?.filter((item) => regex.test(item?.user?.firstName))

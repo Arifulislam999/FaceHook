@@ -8,7 +8,6 @@ import { getTimeIn12HourFormat } from "../utils/time";
 const ChatSender = ({ messages }) => {
   const { windowWidth } = useSelector((state) => state.tokenStatus);
   const { user } = useSelector((state) => state.loginUser);
-
   const messageRef = useRef();
   const { createdAt, message } = messages || {};
   useEffect(() => {

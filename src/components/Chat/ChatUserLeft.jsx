@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getTimeIn12HourFormat } from "../utils/time";
 import InActiveDot from "./InActiveDot";
+import MessageLoader from "../Loader/MessagLoader";
 const ChatUserLeft = ({ chatList }) => {
   const { windowWidth } = useSelector((state) => state.tokenStatus);
   const { loginUserBySocket } = useSelector((state) => state.socketLoginUser);
@@ -42,7 +43,9 @@ const ChatUserLeft = ({ chatList }) => {
               </h2>
 
               {message === undefined || message.length === 0 ? (
-                <p>No conversation yet...</p>
+                <>
+                  <MessageLoader />
+                </>
               ) : (
                 <p className=" text-[11px]">
                   {message[0]?.message.length > 35
