@@ -70,8 +70,7 @@ const ChatLeftHead = () => {
         }
       });
     }
-    // console.log(loginUserBySocket, activeUser);
-  }, [loginUserBySocket, chatUpdateUserList, id, chatActionValue]);
+  }, [loginUserBySocket, chatUpdateUserList, id, chatActionValue, activeUser]);
 
   return (
     <div className="bg-mediumDark">
@@ -110,8 +109,7 @@ const ChatLeftHead = () => {
       </div>
 
       {chatUpdateUserList?.length === 0 && <NoFollowers />}
-      {(chatActionValue === "active" && activeUser === false) ||
-        (loginUserBySocket?.length == 1 && <NoActiveUser />)}
+      {chatActionValue === "active" && activeUser === false && <NoActiveUser />}
 
       {chatActionValue === "all" &&
         chatUpdateUserList
