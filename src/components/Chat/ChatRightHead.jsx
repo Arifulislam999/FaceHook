@@ -1,15 +1,21 @@
 import Me from "../../assets/images/fakeuser.png";
 import Star from "../../assets/icons/WhiteStar.svg";
+import blueStar from "../../assets/icons/blueStart.svg";
 import ActiveDot from "./ActiveDot";
 import MessageInput from "./MessageInput";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useGetSingleUserForChatQuery } from "../../Redux/Features/Chat/ChatRight/chatRightAPI";
+import Toast from "../Toast/Toast";
 import Shadaw from "../Loader/Shadaw";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectChatUser } from "../../Redux/Features/Chat/ChatRight/chatRightSlice";
 import MessageInputRemove from "./MessageInputRemove";
 import InActiveDot from "./InActiveDot";
+import {
+  useAddFavouriteMutation,
+  useGetFavouriteQuery,
+} from "../../Redux/Features/Favourite/favouriteapi";
 
 const ChatRightHead = () => {
   const { id: searchId } = useParams();
@@ -19,11 +25,19 @@ const ChatRightHead = () => {
   const { user } = useSelector((state) => state.loginUser);
   const id = queryParams.get("id") || searchId;
   const [cUser, setCUser] = useState([]);
+  const [toast, setToast] = useState("");
   const { loginUserBySocket } = useSelector((state) => state.socketLoginUser);
+
+  const [existUser, setExistUser] = useState(false);
 
   const { data: chatUser, isLoading } = useGetSingleUserForChatQuery(
     id || user?._id
   );
+
+  const [addFavourite, { data: responseData, error, isError }] =
+    useAddFavouriteMutation();
+  const { data: favouriteData } = useGetFavouriteQuery(id);
+
   useEffect(() => {
     if (chatUser?.message === "success") {
       setCUser(chatUser?.data);
@@ -31,11 +45,35 @@ const ChatRightHead = () => {
     }
   }, [chatUser, dispatch]);
 
+  useEffect(() => {
+    if (favouriteData?.message === "success") {
+      setExistUser(favouriteData?.status);
+    }
+  }, [favouriteData]);
+
+  useEffect(() => {
+    if (responseData?.message) {
+      setToast(responseData?.message);
+    } else if (isError) {
+      setToast(error?.message);
+    }
+    const timer = setTimeout(() => {
+      setToast("");
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [responseData, isError, error]);
+
+  const handlerUserAdd = async (id) => {
+    setExistUser((prev) => !prev);
+    await addFavourite({ data: id });
+  };
+
   return (
     <div>
       {id && (
         <div className="flex justify-between p-3  bg-gray-800 border-b border-[#3F3F9F] shadow-xl">
           {isLoading && <Shadaw />}
+          <>{toast && <Toast message={toast} />}</>
           <div className="flex sticky">
             <img
               className="w-12 h-12 border border-r-indigo-300 rounded-full"
@@ -63,7 +101,12 @@ const ChatRightHead = () => {
             </div>
           </div>
           <div className="mt-2">
-            <img className="w-6 h-6 cursor-pointer" src={Star} alt="bell" />
+            <img
+              className="w-6 h-6 cursor-pointer"
+              src={existUser ? blueStar : Star}
+              alt="bell"
+              onClick={() => handlerUserAdd(chatUser?.data._id)}
+            />
           </div>
         </div>
       )}
