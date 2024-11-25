@@ -12,6 +12,8 @@ import Shadaw from "../Loader/Shadaw";
 import { Link } from "react-router-dom";
 import NoFollowers from "./NoFollowers";
 import NoActiveUser from "./NoActiveUser";
+import { useGetFavouritesQuery } from "../../Redux/Features/Favourite/favouriteapi";
+import NoFavourite from "./NoFavourite";
 
 const ChatLeftHead = () => {
   const { chatActionValue, searchText } = useSelector(
@@ -28,6 +30,7 @@ const ChatLeftHead = () => {
     isSuccess,
     isLoading,
   } = useGetAllFollowerChatListQuery(id);
+  const { data: favouriteUser } = useGetFavouritesQuery();
   const [chatUpdateUserList, setChatUpdateUserList] = useState([]);
   const [activeUser, setActiveUser] = useState(false);
   useEffect(() => {
@@ -110,8 +113,7 @@ const ChatLeftHead = () => {
       </div>
 
       {chatUpdateUserList?.length === 0 && <NoFollowers />}
-      {(chatActionValue === "active" && activeUser === false) ||
-        (loginUserBySocket?.length == 1 && <NoActiveUser />)}
+      {chatActionValue === "active" && activeUser === false && <NoActiveUser />}
 
       {chatActionValue === "all" &&
         chatUpdateUserList
@@ -135,7 +137,14 @@ const ChatLeftHead = () => {
       {chatActionValue === "favourite" &&
         chatUpdateUserList
           ?.filter((item) => regex.test(item?.user?.firstName))
-          ?.map((fuser, i) => <FavouriteList key={i} chatList={fuser} />)}
+          ?.map((fuser, i) => {
+            if (favouriteUser?.data?.includes(fuser?.user._id)) {
+              return <FavouriteList key={i} chatList={fuser} />;
+            }
+          })}
+      {chatActionValue === "favourite" &&
+        favouriteUser?.status === false &&
+        favouriteUser?.data?.length === 0 && <NoFavourite />}
     </div>
   );
 };

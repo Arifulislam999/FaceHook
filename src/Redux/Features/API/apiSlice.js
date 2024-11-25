@@ -28,6 +28,7 @@ export const apiSlice = createApi({
     "decline-follow",
     "accept-follower",
     "c-message",
+    "addFavourite",
   ],
   endpoints: (builder) => ({}),
 });
