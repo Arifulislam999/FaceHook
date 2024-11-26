@@ -12,13 +12,14 @@ import Shadaw from "../Loader/Shadaw";
 import { Link } from "react-router-dom";
 import NoFollowers from "./NoFollowers";
 import NoActiveUser from "./NoActiveUser";
-import { useGetFavouritesQuery } from "../../Redux/Features/Favourite/favouriteapi";
+import { useGetFavouritesQuery } from "../../Redux/Features/Favourite/favouriteApi";
 import NoFavourite from "./NoFavourite";
 
 const ChatLeftHead = () => {
   const { chatActionValue, searchText } = useSelector(
     (state) => state.chatLeft
   );
+  const { data: favouriteUser } = useGetFavouritesQuery();
   const { loginUserBySocket } = useSelector((state) => state.socketLoginUser);
   const { user } = useSelector((state) => state.loginUser);
   let id = user?._id;
@@ -30,7 +31,7 @@ const ChatLeftHead = () => {
     isSuccess,
     isLoading,
   } = useGetAllFollowerChatListQuery(id);
-  const { data: favouriteUser } = useGetFavouritesQuery();
+
   const [chatUpdateUserList, setChatUpdateUserList] = useState([]);
   const [activeUser, setActiveUser] = useState(false);
   useEffect(() => {

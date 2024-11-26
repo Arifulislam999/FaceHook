@@ -15,7 +15,7 @@ import InActiveDot from "./InActiveDot";
 import {
   useAddFavouriteMutation,
   useGetFavouriteQuery,
-} from "../../Redux/Features/Favourite/favouriteapi";
+} from "../../Redux/Features/Favourite/favouriteApi.js";
 
 const ChatRightHead = () => {
   const { id: searchId } = useParams();
