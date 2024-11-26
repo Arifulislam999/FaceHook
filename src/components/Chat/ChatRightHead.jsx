@@ -12,10 +12,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectChatUser } from "../../Redux/Features/Chat/ChatRight/chatRightSlice";
 import MessageInputRemove from "./MessageInputRemove";
 import InActiveDot from "./InActiveDot";
+
 import {
   useAddFavouriteMutation,
   useGetFavouriteQuery,
-} from "../../Redux/Features/Favourite/favouriteapi";
+} from "../../Redux/Features/Favourite/favouriteApi.js";
 
 const ChatRightHead = () => {
   const { id: searchId } = useParams();
