@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectChatUser } from "../../Redux/Features/Chat/ChatRight/chatRightSlice";
 import MessageInputRemove from "./MessageInputRemove";
 import InActiveDot from "./InActiveDot";
+
 import {
   useAddFavouriteMutation,
   useGetFavouriteQuery,
@@ -36,7 +37,7 @@ const ChatRightHead = () => {
 
   const [addFavourite, { data: responseData, error, isError }] =
     useAddFavouriteMutation();
-  const { data: favouriteData } = useGetFavouriteQuery(id);
+  const { data: favouriteData } = useGetFavouriteQuery(id || user?._id);
 
   useEffect(() => {
     if (chatUser?.message === "success") {

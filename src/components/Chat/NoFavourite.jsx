@@ -10,7 +10,7 @@ const NoFavourite = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex flex-col justify-center items-center text-white">
+    <div className="min-h-[60vh] flex flex-col justify-center items-center text-white">
       {/* Animated Container */}
       <motion.div
         className="flex flex-col items-center text-gray-300"
