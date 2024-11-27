@@ -18,6 +18,7 @@ export default {
       },
       backgroundColor: {
         "custom-dark": "rgba(23, 24,28, 0.7)",
+        "deep-dark": "rgba(23, 24,28, 0.9)",
         mediumDark: "#27292F",
         slowDark: "#3C3E45",
       },
@@ -28,6 +29,7 @@ export default {
         xxs: "319px",
         xs: "375px",
         mxs: "425px",
+        x1440: "1420px",
       },
     },
   },
