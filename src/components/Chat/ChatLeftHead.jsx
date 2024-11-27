@@ -12,11 +12,9 @@ import Shadaw from "../Loader/Shadaw";
 import { Link } from "react-router-dom";
 import NoFollowers from "./NoFollowers";
 import NoActiveUser from "./NoActiveUser";
-<<<<<<< HEAD
+
 import { useGetFavouritesQuery } from "../../Redux/Features/Favourite/favouriteApi";
-=======
-import { useGetFavouritesQuery } from "../../Redux/Features/Favourite/favouriteApi.js";
->>>>>>> 1.8
+
 import NoFavourite from "./NoFavourite";
 
 const ChatLeftHead = () => {
