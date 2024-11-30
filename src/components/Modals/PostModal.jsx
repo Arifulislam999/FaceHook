@@ -30,8 +30,8 @@ const PostModal = () => {
       }, 4000);
 
       return () => clearTimeout(timer);
-    } else if (poster?.size / 1024 > 1025) {
-      setErr("File size is too large. Maximum size is 1MB.");
+    } else if (poster?.size / 1024 > 1025 * 5) {
+      setErr("File size is too large. Maximum size is 5MB.");
       const timer = setTimeout(() => {
         setErr(null);
       }, 4000);
@@ -120,12 +120,8 @@ const PostModal = () => {
                       className="bg-gray-700 border-0 outline-none"
                       onChange={(e) => setIsPublic(e.target.value)}
                     >
-                      <option value="true">
-                        <p>Public</p>
-                      </option>
-                      <option value="false">
-                        <p>Private</p>
-                      </option>
+                      <option value="true">Public</option>
+                      <option value="false">Private</option>
                     </select>
                   </div>
                 </div>

@@ -1,4 +1,3 @@
-import world from "../../assets/icons/world.svg";
 import Close from "../../assets/icons/close.svg";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +22,7 @@ const EditModal = () => {
   const { firstName, lastName, profile } = singleP?.creatorId || {};
   const [updatePost, { isLoading: existIsLoading }] = useUpdatePostMutation();
   const [textP, setTextP] = useState(description);
-
+  const [isPublic, setIsPublic] = useState(true);
   const ref = useRef(null);
   const [cross, setCross] = useState(editModal);
   const [err, setErr] = useState(null);
@@ -35,8 +34,8 @@ const EditModal = () => {
 
   const handlerClick = async (e) => {
     e.preventDefault();
-    if (userImage?.size / 1024 > 1025) {
-      setErr("File size is too large. Maximum size is 1MB.");
+    if (userImage?.size / 1024 > 1025 * 5) {
+      setErr("File size is too large. Maximum size is 5MB.");
       const timer = setTimeout(() => {
         setErr(null);
       }, 4000);
@@ -53,6 +52,7 @@ const EditModal = () => {
       const formData = new FormData();
       formData.append("image", userImage);
       formData.append("post", textP);
+      formData.append("isPublic", isPublic);
       await updatePost({ id: _id, formData });
     }
     dispatch(editModalInActive());
@@ -67,6 +67,7 @@ const EditModal = () => {
       setSingleP(singlePost?.data);
       setTextP(singlePost?.data.description);
       setImagePreview(null);
+      console.log(singlePost?.data?.isPublic);
     }
   }, [isSuccess, singlePost]);
 
@@ -111,12 +112,14 @@ const EditModal = () => {
                     {firstName} {lastName}
                   </p>
                   <div className="flex bg-gray-700 w-[5.3rem] rounded-md cursor-pointer">
-                    <img
-                      className="w-6 h-6 text-white "
-                      src={world}
-                      alt="world"
-                    />
-                    <p>Public▾</p>
+                    <select
+                      name="option"
+                      className="bg-gray-700 border-0 outline-none"
+                      onChange={(e) => setIsPublic(e.target.value)}
+                    >
+                      <option value="true">Public</option>
+                      <option value="false">Private</option>
+                    </select>
                   </div>
                 </div>
               </div>
