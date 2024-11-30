@@ -71,8 +71,8 @@ export const Profile = () => {
     setEditDp(false);
     if (frontDp) {
       setToastMessage(null);
-      if (frontDp.size / 1024 > 1025) {
-        setToastMessage("File size is too large. Maximum size is 1MB.");
+      if (frontDp.size / 1024 > 1025 * 5) {
+        setToastMessage("File size is too large. Maximum size is 5MB.");
         const timer = setTimeout(() => {
           setToastMessage(null);
         }, 4000);
@@ -93,8 +93,8 @@ export const Profile = () => {
     setEditProfile(false);
     if (frontProfile) {
       setToastMessage(null);
-      if (frontProfile.size / 1024 > 1025) {
-        setToastMessage("File size is too large. Maximum size is 1MB.");
+      if (frontProfile.size / 1024 > 1025 * 5) {
+        setToastMessage("File size is too large. Maximum size is 5MB.");
         const timer = setTimeout(() => {
           setToastMessage(null);
         }, 4000);

@@ -8,6 +8,7 @@ import Shadaw from "../Loader/Shadaw";
 import { useEffect, useRef, useState } from "react";
 import Loading from "../Loader/Loading";
 import UpArrow from "./UpArrow";
+import socket from "../../socket-client/socket-client";
 
 const MessageBodyMobile = () => {
   const { id } = useParams();
@@ -55,6 +56,31 @@ const MessageBodyMobile = () => {
       window.removeEventListener("resize", updateHeightAndPosition);
     };
   }, []);
+
+  // socket //
+
+  useEffect(() => {
+    // Register user to Socket.IO on login
+    if (user?._id) {
+      socket.emit("register", { userId: user?._id });
+    }
+    // Remove existing listener to avoid duplicates
+    socket.off("receive_message");
+
+    // listen the user on socket connect
+    socket.on("receive_message", (newMessage) => {
+      if (
+        (newMessage?.receiverId == id && newMessage?.senderId == user?._id) ||
+        (newMessage?.receiverId == user?._id && newMessage?.senderId == id)
+      ) {
+        setAllMessage((prevChat) => [...prevChat, newMessage]);
+      }
+    });
+    // Cleanup on component unmount
+    return () => {
+      socket.off("receive_message");
+    };
+  }, [user?._id, id]);
 
   useEffect(() => {
     if (divRef.current) {
