@@ -112,7 +112,9 @@ const ChatLeftHead = () => {
         </div>
       </div>
 
-      {chatUpdateUserList?.length === 0 && <NoFollowers />}
+      {chatUpdateUserList?.length === 0 && chatActionValue === "all" && (
+        <NoFollowers />
+      )}
       {chatActionValue === "active" && activeUser === false && <NoActiveUser />}
 
       {chatActionValue === "all" &&

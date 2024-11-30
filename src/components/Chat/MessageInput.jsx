@@ -4,6 +4,8 @@ import ImageIcon from "../../assets/icons/imageIcon.svg";
 import { useRef, useState } from "react";
 import { useSendMessageMutation } from "../../Redux/Features/Chat/ChatRight/chatRightAPI";
 import { useLocation, useParams } from "react-router-dom";
+import socket from "../../socket-client/socket-client";
+import { useSelector } from "react-redux";
 
 const MessageInput = () => {
   const inputRef = useRef(null);
@@ -11,6 +13,8 @@ const MessageInput = () => {
   const location = useLocation();
   const [text, setText] = useState("");
   const queryParams = new URLSearchParams(location.search);
+  const { user } = useSelector((state) => state.loginUser);
+
   const id = queryParams.get("id") || mobileId;
   const [sendMessage] = useSendMessageMutation();
   const handlerSubmit = async (e) => {
@@ -19,8 +23,13 @@ const MessageInput = () => {
     let Text = text;
     setText("");
     if (Text) {
-      await sendMessage({ data: { text: Text, id } });
+      await sendMessage({ data: { text: Text.trim(), id } });
     }
+    socket.emit("send_message", {
+      senderId: user?._id,
+      receiverId: id || {},
+      message: Text.trim(),
+    });
   };
   return (
     <div className="flex justify-between w-full max-w-[659px] mx-auto items-center p-2 md:p-3 sticky bottom-0 bg-gray-800 border-t border-[#3F3F9F] shadow-xl">
