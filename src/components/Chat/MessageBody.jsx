@@ -10,6 +10,7 @@ import NoChatSelected from "./NoChatSelected";
 import { useTitle } from "../hooks/useTitle";
 import NoChatYet from "./NoChatYet";
 import UpArrow from "./UpArrow";
+import socket from "../../socket-client/socket-client";
 
 const MessageBody = () => {
   const { windowWidth } = useSelector((state) => state.tokenStatus);
@@ -23,12 +24,38 @@ const MessageBody = () => {
     data: responseMessage,
     isLoading,
     isSuccess,
-  } = useGetMessageQuery(id, { skip: !existId });
+  } = useGetMessageQuery(id, {
+    skip: !existId,
+    refetchOnMountOrArgChange: true,
+  });
   useEffect(() => {
     if (isSuccess) {
       setAllMessage(responseMessage?.message);
     }
   }, [responseMessage, isSuccess]);
+
+  useEffect(() => {
+    // Register user to Socket.IO on login
+    if (user?._id) {
+      socket.emit("register", { userId: user?._id });
+    }
+    // Remove existing listener to avoid duplicates
+    socket.off("receive_message");
+
+    // listen the user on socket connect
+    socket.on("receive_message", (newMessage) => {
+      if (
+        (newMessage?.receiverId == id && newMessage?.senderId == user?._id) ||
+        (newMessage?.receiverId == user?._id && newMessage?.senderId == id)
+      ) {
+        setAllMessage((prevChat) => [...prevChat, newMessage]);
+      }
+    });
+    // Cleanup on component unmount
+    return () => {
+      socket.off("receive_message");
+    };
+  }, [user?._id, id]);
 
   // title hooks
   useTitle();

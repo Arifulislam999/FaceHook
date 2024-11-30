@@ -5,14 +5,45 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getTimeIn12HourFormat } from "../utils/time";
 import InActiveDot from "./InActiveDot";
-import MessageLoader from "../Loader/MessagLoader";
+import { useEffect, useState } from "react";
+import socket from "../../socket-client/socket-client";
+
 const ChatUserLeft = ({ chatList }) => {
   const { windowWidth } = useSelector((state) => state.tokenStatus);
   const { loginUserBySocket } = useSelector((state) => state.socketLoginUser);
   const { user, message } = chatList || {};
   const { firstName, lastName, profile, _id } = user || {};
+  const { user: loginUser } = useSelector((state) => state.loginUser);
+  const [recentMessage, setRecentMessage] = useState();
 
   // console.log(loginUserBySocket);
+  useEffect(() => {
+    // Register user to Socket.IO on login
+    if (loginUser?._id) {
+      socket.emit("register", { userId: loginUser?._id });
+    }
+    // Remove existing listener to avoid duplicates
+    socket.off("receive_message_left");
+
+    // listen the user on socket connect
+    socket.on("receive_message_left", (newMessage) => {
+      if (
+        (newMessage?.receiverId == user?._id &&
+          newMessage?.senderId == loginUser?._id) ||
+        (newMessage?.receiverId == loginUser?._id &&
+          newMessage?.senderId == user?._id)
+      ) {
+        // console.log(newMessage);
+        // message[0].message = newMessage.message;
+        // console.log(message[0]);
+        setRecentMessage(newMessage);
+      }
+    });
+    // Cleanup on component unmount
+    return () => {
+      socket.off("receive_message_left");
+    };
+  }, [loginUser?._id, message, user?._id]);
 
   return (
     <Link
@@ -44,8 +75,14 @@ const ChatUserLeft = ({ chatList }) => {
 
               {message === undefined || message.length === 0 ? (
                 <>
-                  <MessageLoader />
+                  <p className="opacity-50">No message yet.</p>
                 </>
+              ) : recentMessage?.message ? (
+                <p className=" text-[11px]">
+                  {recentMessage?.message.length > 35
+                    ? `${recentMessage?.message?.slice(0, 35)}....`
+                    : recentMessage?.message}
+                </p>
               ) : (
                 <p className=" text-[11px]">
                   {message[0]?.message.length > 35

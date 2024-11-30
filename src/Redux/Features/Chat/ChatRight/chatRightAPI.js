@@ -14,7 +14,6 @@ const chatRightApi = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `/api/message/get-message/${id}`,
       }),
-      providesTags: ["c-message"],
     }),
     getSingleUserForChat: builder.query({
       query: (id) => ({

@@ -46,6 +46,7 @@ const Registation = () => {
       Cookies.set("Notification", 0);
       dispatch(loginStatusActive());
       dispatch(loginUser(responseSubmitData?.data));
+
       navigate("/");
     }
   }, [responseSubmitData, dispatch, navigate]);
