@@ -12,10 +12,12 @@ const Like = ({ Likes, id, userId, loginUserId }) => {
   const { user } = useSelector((state) => state.loginUser);
 
   const [postLike, { isError, error, isLoading }] = usePostLikeMutation();
-  const alreadyLikeThisPost = Likes.some(
-    (like) => like.likeUserId === user?._id
+  const alreadyLikeThisPost = Likes?.some(
+    (like) => like?.likeUserId === user?._id
   );
+
   const [isLike, setIsLike] = useState(alreadyLikeThisPost);
+
   const handlerLike = async (id, userId) => {
     setIsLike((prev) => !prev);
 
@@ -49,7 +51,7 @@ const Like = ({ Likes, id, userId, loginUserId }) => {
           className="-mt-1"
         />
         <span className={`${isLike && "text-blue-500"}`}>
-          Like({Likes.length || 0})
+          Like({Likes?.length || 0})
         </span>
       </button>
     </>

@@ -11,7 +11,9 @@ const NotificationToolTip = () => {
 
   const { data, isSuccess } = useGetNotificationQuery(undefined, {
     pollingInterval: 30000,
+    refetchOnMountOrArgChange: true,
   });
+  // console.log(data);
   useEffect(() => {
     if (isSuccess) {
       dispatch(allNotification(data?.notification));

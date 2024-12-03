@@ -15,7 +15,7 @@ import InActiveDot from "./InActiveDot";
 
 import {
   useAddFavouriteMutation,
-  useGetFavouriteQuery,
+  useGetFavouritesQuery,
 } from "../../Redux/Features/Favourite/favouriteApi.js";
 
 const ChatRightHead = () => {
@@ -29,15 +29,13 @@ const ChatRightHead = () => {
   const [toast, setToast] = useState("");
   const { loginUserBySocket } = useSelector((state) => state.socketLoginUser);
 
-  const [existUser, setExistUser] = useState(false);
-
   const { data: chatUser, isLoading } = useGetSingleUserForChatQuery(
     id || user?._id
   );
+  const { data: favouriteUser } = useGetFavouritesQuery();
 
   const [addFavourite, { data: responseData, error, isError }] =
     useAddFavouriteMutation();
-  const { data: favouriteData } = useGetFavouriteQuery(id || user?._id);
 
   useEffect(() => {
     if (chatUser?.message === "success") {
@@ -45,12 +43,6 @@ const ChatRightHead = () => {
       dispatch(selectChatUser(chatUser?.data));
     }
   }, [chatUser, dispatch]);
-
-  useEffect(() => {
-    if (favouriteData?.message === "success") {
-      setExistUser(favouriteData?.status);
-    }
-  }, [favouriteData]);
 
   useEffect(() => {
     if (responseData?.message) {
@@ -65,7 +57,6 @@ const ChatRightHead = () => {
   }, [responseData, isError, error]);
 
   const handlerUserAdd = async (id) => {
-    setExistUser((prev) => !prev);
     await addFavourite({ data: id });
   };
 
@@ -104,7 +95,7 @@ const ChatRightHead = () => {
           <div className="mt-2">
             <img
               className="w-6 h-6 cursor-pointer"
-              src={existUser ? blueStar : Star}
+              src={favouriteUser?.data?.includes(id) ? blueStar : Star}
               alt="bell"
               onClick={() => handlerUserAdd(chatUser?.data._id)}
             />

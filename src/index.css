@@ -20,6 +20,9 @@ body {
   .btn-primary {
     @apply flex-center gap-1 rounded-md bg-lighterDark px-2 sm:px-5 py-2 sm:py-2.5 text-sm font-medium text-white hover:bg-deepDark lg:text-lg;
   }
+  .btn-primary-one {
+    @apply flex-center gap-1 text-sm mt-1 font-medium;
+  }
   .icon-btn {
     @apply flex-center rounded-md bg-lighterDark  p-1.5  font-medium  text-white hover:bg-deepDark;
   }

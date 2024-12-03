@@ -6,8 +6,8 @@ import { useSendMessageMutation } from "../../Redux/Features/Chat/ChatRight/chat
 import { useLocation, useParams } from "react-router-dom";
 import socket from "../../socket-client/socket-client";
 import { useSelector } from "react-redux";
-import EmojiPicker from "emoji-picker-react";
-
+import data from "@emoji-mart/data";
+import Picker from "@emoji-mart/react";
 const MessageInput = () => {
   const inputRef = useRef(null);
   const { id: mobileId } = useParams();
@@ -23,6 +23,7 @@ const MessageInput = () => {
     e.preventDefault();
     inputRef.current.focus();
     let Text = text;
+    setShowPicker(false);
     setText("");
     if (Text) {
       await sendMessage({ data: { text: Text.trim(), id } });
@@ -32,12 +33,12 @@ const MessageInput = () => {
       receiverId: id || {},
       message: Text.trim(),
     });
-    setShowPicker(false);
   };
 
-  const handleEmojiClick = (emojiObject) => {
-    setText((prevText) => prevText + emojiObject.emoji);
+  const handleEmojiClick = (emoji) => {
+    setText((prevText) => prevText + emoji.native);
   };
+
   return (
     <div className="flex justify-between w-full max-w-[659px] mx-auto items-center p-2 md:p-3 sticky bottom-0 bg-gray-800 border-t border-[#3F3F9F] shadow-xl">
       {/* Image Icon */}
@@ -53,10 +54,11 @@ const MessageInput = () => {
       {/* emoji picker  */}
       {showPicker && (
         <div className="absolute bottom-16">
-          <EmojiPicker
-            lazyLoadEmojis={false}
+          <Picker
             theme="dark"
-            onEmojiClick={handleEmojiClick}
+            perLine={7}
+            data={data}
+            onEmojiSelect={handleEmojiClick}
           />
         </div>
       )}

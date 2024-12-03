@@ -16,23 +16,33 @@ const NotifacionOption = ({
   reactUserId,
   actionFollowStatus,
   notificationId,
+  postId,
 }) => {
   let decision = null;
   let images = null;
+  let deside = "like";
 
   if (title === "Follow") {
     decision =
       "you to see what you're up to and what do you upload and what pictures and statuses do you give and also wants to connect with you to get regular updates";
     images = blueFollow;
+    deside = "follow";
   } else if (title === "Like") {
     decision = "your photo";
     images = blueLike;
   } else {
-    decision = "on your post. Check what they said.";
+    decision = "on your post. Check what say's about your uploaded post";
     images = commentPic;
   }
+
   return (
-    <Link to={`/profile/${reactUserId}`}>
+    <Link
+      to={
+        deside === "like"
+          ? `/post/${postId}?name=${name}`
+          : `/profile/${reactUserId}?name=${name}`
+      }
+    >
       <div className="flex gap-3 sm:gap-4 z-20 cursor-pointer hover:bg-mediumDark hover:rounded-md px-2 py-3 items-start">
         {/* Profile Image */}
         <div className="relative">
@@ -55,7 +65,8 @@ const NotifacionOption = ({
         <div className="flex-1 pl-1 lg:pl-3">
           <h2 className="text-sm sm:text-base md:text-lg lg:text-xl">
             <span className="font-bold">{name}</span> {title} {decision}, click
-            and check {name}'s activities.
+            and check {name}'s activities{" "}
+            {title !== "Follow" && "& your uploaded post."}
           </h2>
           <div>
             {title === "Follow" && (
