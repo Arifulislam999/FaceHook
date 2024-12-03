@@ -35,7 +35,7 @@ const Toast = ({ message }) => {
 
   return (
     visible && (
-      <div className="toast">
+      <div className="toast z-10001">
         <div className="toast-content">
           <p className="capitalize text-sm lg:text-[16px]">{message}</p>
         </div>

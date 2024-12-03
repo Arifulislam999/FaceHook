@@ -1,6 +1,8 @@
 import ActiveDot from "./ActiveDot";
 import Me from "../../assets/images/fakeuser.png";
 import Bell from "../../assets/icons/bellWhite.svg";
+import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 import ChatLeftSearch from "./ChatLeftSearch";
 import ChatUserLeft from "./ChatUserLeft";
 import { useSelector } from "react-redux";
@@ -9,13 +11,13 @@ import ChatAll from "./ChatAll";
 import { useGetAllFollowerChatListQuery } from "../../Redux/Features/Chat/ChatLeft/chatLeftAPI";
 import { useEffect, useState } from "react";
 import Shadaw from "../Loader/Shadaw";
-import { Link } from "react-router-dom";
 import NoFollowers from "./NoFollowers";
 import NoActiveUser from "./NoActiveUser";
 
 import { useGetFavouritesQuery } from "../../Redux/Features/Favourite/favouriteApi";
 
 import NoFavourite from "./NoFavourite";
+import NotificationToolTip from "../Notifications/NotificationToolTip.jsx";
 
 const ChatLeftHead = () => {
   const { chatActionValue, searchText } = useSelector(
@@ -24,6 +26,7 @@ const ChatLeftHead = () => {
   const { data: favouriteUser } = useGetFavouritesQuery();
   const { loginUserBySocket } = useSelector((state) => state.socketLoginUser);
   const { user } = useSelector((state) => state.loginUser);
+  const { notification } = useSelector((state) => state.getNotification);
   let id = user?._id;
   const { firstName, lastName, profile, _id } = user || {};
   const {
@@ -76,7 +79,15 @@ const ChatLeftHead = () => {
         }
       });
     }
+<<<<<<< HEAD
   }, [loginUserBySocket, chatUpdateUserList, id, chatActionValue, activeUser]);
+=======
+    // console.log(loginUserBySocket, activeUser);
+  }, [loginUserBySocket, chatUpdateUserList, id, chatActionValue]);
+  const handlerNotification = () => {
+    Cookies.set("Notification", notification?.length, { expires: 365 });
+  };
+>>>>>>> 1.8
 
   return (
     <div className="bg-mediumDark">
@@ -105,8 +116,21 @@ const ChatLeftHead = () => {
               </span>
             </div>
           </div>
-          <div className="mt-3">
-            <img className="w-6 h-6 cursor-pointer" src={Bell} alt="bell" />
+          <div className="mt-3 relative">
+            <Link to="/notifications">
+              <button
+                className="btn-primary-one relative"
+                onClick={handlerNotification}
+              >
+                <NotificationToolTip />
+
+                <img
+                  className="w-6 -mt-2  h-6 cursor-pointer"
+                  src={Bell}
+                  alt="bell"
+                />
+              </button>
+            </Link>
           </div>
         </div>
         <div className="bg-mediumDark  border-b border-[#3F3F3F]">

@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import MessageBodyMobile from "./components/Chat/ChatBodyMobile";
 import usePageHeight from "./components/hooks/usePageHeight";
 import FixedHeader from "./components/Home/FixedHeader";
+import SinglePost from "./components/Feed/SinglePost";
 
 function App() {
   const { windowWidth } = useSelector((state) => state.tokenStatus);
@@ -85,6 +86,18 @@ function App() {
                 </>
               }
               path="/chat/:id"
+            />
+            <Route
+              element={
+                <>
+                  {scrollPosition > 1000 && (
+                    <FixedHeader positionH={scrollPosition} />
+                  )}
+                  <Header />
+                  <SinglePost />
+                </>
+              }
+              path="/post/:id"
             />
           </Route>
           <Route element={<Login />} path="/login" />

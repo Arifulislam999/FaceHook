@@ -22,7 +22,7 @@ const FeedComments = ({ id, comments, post, postCreatorId }) => {
     dispatch(singleModalPostId(id));
   };
 
-  const startIndex = Math.max(comments.length - 3, 0);
+  const startIndex = Math.max(comments?.length - 3, 0);
   return (
     <div>
       <InputComment id={id} postCreatorId={postCreatorId} />
@@ -33,7 +33,7 @@ const FeedComments = ({ id, comments, post, postCreatorId }) => {
             : "  duration-300  -translate-y-7"
         }`}
       >
-        {comments.length > 0 && (
+        {comments?.length > 0 && (
           <div>
             <button
               className="text-gray-300 max-md:text-sm cursor-pointer hover:text-gray-400 duration-100 transition-all hover:opacity-70 mb-1.5"
@@ -46,7 +46,7 @@ const FeedComments = ({ id, comments, post, postCreatorId }) => {
         {/* <!-- comments --> */}
         <div className="space-y-1 divide-y divide-lighterDark pl-2 lg:pl-3">
           {/* <!-- single comment --> */}
-          {comments.length > 0 ? (
+          {comments?.length > 0 ? (
             comments
               ?.slice(startIndex)
               .map((cmn, i) => (

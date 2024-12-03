@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
-import openPost from "../../assets/images/openPost.png";
+// import openPost from "../../assets/images/openPost.png";
+import OpenPost from "../../assets/icons/openPost.svg";
 
 const BlankPost = () => {
   return (
     <div className="flex flex-col items-center justify-center h-96 bg-deepDark text-center">
       <motion.img
-        src={openPost}
+        src={OpenPost}
         alt="Open Post"
         className="w-40 h-40"
         animate={{ y: [0, -20, 0] }}

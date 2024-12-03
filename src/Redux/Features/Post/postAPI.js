@@ -94,7 +94,7 @@ const postApi = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `/api/post/single-post/${id}`,
       }),
-      providesTags: ["comment-modal-post"],
+      providesTags: ["comment-modal-post", "like"],
     }),
     updatePost: builder.mutation({
       query: ({ id, formData }) => ({

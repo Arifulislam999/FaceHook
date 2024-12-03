@@ -24,6 +24,7 @@ const Notifications = () => {
               reactUserId={noti.reactUserId}
               actionFollowStatus={noti.actionFollowStatus}
               notificationId={noti?._id}
+              postId={noti.postId}
             />
           ))
         )}

@@ -80,7 +80,7 @@ const EditModal = () => {
       {cross && (
         <form
           onSubmit={handlerClick}
-          className="z-50 w-full h-[100%] fixed top-0 bottom-0 bg-custom-dark left-0 right-0"
+          className="z-10000 w-full h-[100%] fixed top-0 bottom-0 bg-custom-dark left-0 right-0"
         >
           <div className="h-screen z-9999 flex items-center justify-center ">
             <div
