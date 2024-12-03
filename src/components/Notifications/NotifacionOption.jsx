@@ -31,7 +31,7 @@ const NotifacionOption = ({
     decision = "your photo";
     images = blueLike;
   } else {
-    decision = "on your post. Check what say's about your uploaded post";
+    decision = "on your post, Check what say's about your uploaded post";
     images = commentPic;
   }
 
