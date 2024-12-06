@@ -34,7 +34,6 @@ export const InputComment = ({ id, postCreatorId }) => {
       dispatch(inputColorSend(false));
     }
   }, [dispatch, debounceSearch]);
-
   const handlerCommentsSubmit = async () => {
     try {
       if (text.length > 0 && text !== "") {
@@ -43,10 +42,21 @@ export const InputComment = ({ id, postCreatorId }) => {
         const userName = user.firstName + " " + user?.lastName;
         const userImg = user?.profile;
         dispatch(commentPendingOrSuccess({ text, action: true, postId: id }));
-        await commentPost({ id, text, userName, userImg });
-        await postNotification({
-          data: { postCreatorId: postCreatorId, postId: id, action: "Comment" },
-        });
+
+        if (user?.isValidEmail === false) {
+          setTosatMessage("Check & Verify Your Email.");
+        }
+        if (user?.isValidEmail === true) {
+          await commentPost({ id, text, userName, userImg });
+          await postNotification({
+            data: {
+              postCreatorId: postCreatorId,
+              postId: id,
+              action: "Comment",
+            },
+          });
+        }
+
         dispatch(
           commentPendingOrSuccess({ text: null, action: false, postId: id })
         );
