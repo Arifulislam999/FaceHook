@@ -6,9 +6,9 @@ import { useParams } from "react-router-dom";
 import { useGetMessageQuery } from "../../Redux/Features/Chat/ChatRight/chatRightAPI";
 import Shadaw from "../Loader/Shadaw";
 import { useEffect, useRef, useState } from "react";
-import Loading from "../Loader/Loading";
 import UpArrow from "./UpArrow";
 import socket from "../../socket-client/socket-client";
+import NoChatYet from "./NoChatYet";
 
 const MessageBodyMobile = () => {
   const { id } = useParams();
@@ -105,7 +105,7 @@ const MessageBodyMobile = () => {
       <div className="bg-slowDark min-h-screen pb-2" ref={divRef}>
         {allMessage?.length === 0 ? (
           <>
-            <Loading />
+            <NoChatYet />
           </>
         ) : (
           allMessage?.map((mBody, index) => {

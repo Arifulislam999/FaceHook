@@ -79,8 +79,13 @@ const ChatLeftHead = () => {
         }
       });
     }
+<<<<<<< HEAD
   }, [loginUserBySocket, chatUpdateUserList, id, chatActionValue, activeUser]);
 
+=======
+    // console.log(loginUserBySocket, activeUser);
+  }, [loginUserBySocket, chatUpdateUserList, id, chatActionValue, activeUser]);
+>>>>>>> 1.8
   const handlerNotification = () => {
     Cookies.set("Notification", notification?.length, { expires: 365 });
   };

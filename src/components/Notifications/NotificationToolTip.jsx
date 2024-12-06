@@ -4,7 +4,6 @@ import Cookies from "js-cookie";
 import { useGetNotificationQuery } from "../../Redux/Features/Notification/notificationAPI";
 import { useDispatch } from "react-redux";
 import { allNotification } from "../../Redux/Features/Notification/notificationSliceStatus";
-
 const NotificationToolTip = () => {
   const dispatch = useDispatch();
   const prevNotification = Cookies.get("Notification");
